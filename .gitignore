@@ -27,4 +27,4 @@ release/
 vendor/
 
 coverage.out
-drone-git
+plugin-git
