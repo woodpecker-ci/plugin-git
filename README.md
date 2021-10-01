@@ -1,4 +1,4 @@
-# drone-git
+# plugin-git
 
 [![Build Status](http://cloud.drone.io/api/badges/drone-plugins/drone-git/status.svg)](http://cloud.drone.io/drone-plugins/drone-git)
 [![Gitter chat](https://badges.gitter.im/drone/drone.png)](https://gitter.im/drone/drone)
@@ -20,7 +20,7 @@ export GOARCH=amd64
 export CGO_ENABLED=0
 export GO111MODULE=on
 
-go build -v -a -tags netgo -o release/linux/amd64/drone-git
+go build -v -a -tags netgo -o release/linux/amd64/plugin-git
 ```
 
 ## Docker

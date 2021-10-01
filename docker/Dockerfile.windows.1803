@@ -12,5 +12,5 @@ RUN Invoke-WebRequest 'https://github.com/git-for-windows/git/releases/download/
   Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\' -Name Path -Value $env:PATH; `
   Remove-Item -Path git.zip
 
-ADD release/windows/amd64/drone-git.exe C:/bin/drone-git.exe
-ENTRYPOINT [ "C:\\bin\\drone-git.exe" ]
+ADD release/windows/amd64/plugin-git.exe C:/bin/plugin-git.exe
+ENTRYPOINT [ "C:\\bin\\plugin-git.exe" ]

@@ -7,5 +7,5 @@ LABEL maintainer="Drone.IO Community <drone-dev@googlegroups.com>" \
 
 RUN apk add --no-cache git openssh curl perl
 
-ADD release/linux/arm64/drone-git /bin/
-ENTRYPOINT ["/bin/drone-git"]
+ADD release/linux/arm64/plugin-git /bin/
+ENTRYPOINT ["/bin/plugin-git"]
