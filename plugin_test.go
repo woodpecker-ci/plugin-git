@@ -49,9 +49,9 @@ var commits = []struct {
 		event:  "pull_request",
 		branch: "master",
 		commit: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e",
-		ref:    "refs/pull/208/merge",
+		ref:    "refs/pull/6/merge",
 		file:   "README",
-		data:   "Goodbye World!\n",
+		data:   "Hello World!\n",
 	},
 	// branch
 	{
@@ -306,7 +306,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 // helper function that will setup a temporary workspace.
 // to which we can clone the repositroy
 func setup() string {
-	dir, _ := ioutil.TempDir("/tmp", "drone_git_test_")
+	dir, _ := ioutil.TempDir("/tmp", "plugin_git_test_")
 	os.Mkdir(dir, 0777)
 	return dir
 }
