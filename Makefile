@@ -37,7 +37,8 @@ vet:
 	@go vet $(GO_PACKAGES)
 
 test:
-	go test -race -cover ./...
+	go test -cover ./...
+# TODO: add '-race'
 
 build:
 	GOOS=linux   GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '${LDFLAGS}' -o release/linux/amd64/plugin-git
