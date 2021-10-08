@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	version = "unknown"
+	version = "0.0.0+0"
 )
 
 func main() {
