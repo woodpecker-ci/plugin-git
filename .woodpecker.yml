@@ -1,6 +1,6 @@
 clone:
   git:
-    image: plugins/git:next
+    image: woodpeckerci/plugin-git:next
 
 pipeline:
   lint:
