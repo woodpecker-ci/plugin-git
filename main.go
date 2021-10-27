@@ -6,7 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 var (
@@ -20,92 +20,93 @@ func main() {
 	app.Action = run
 	app.Version = version
 	app.Flags = []cli.Flag{
-		cli.StringFlag{
-			Name:   "remote",
-			Usage:  "git remote url",
-			EnvVar: "PLUGIN_REMOTE,DRONE_REMOTE_URL",
+		&cli.StringFlag{
+			Name:    "remote",
+			Usage:   "git remote url",
+			EnvVars: []string{"PLUGIN_REMOTE", "DRONE_REMOTE_URL"},
 		},
-		cli.StringFlag{
-			Name:   "path",
-			Usage:  "git clone path",
-			EnvVar: "PLUGIN_PATH,DRONE_WORKSPACE",
+		&cli.StringFlag{
+			Name:    "path",
+			Usage:   "git clone path",
+			EnvVars: []string{"PLUGIN_PATH", "DRONE_WORKSPACE"},
 		},
-		cli.StringFlag{
-			Name:   "sha",
-			Usage:  "git commit sha",
-			EnvVar: "PLUGIN_SHA,DRONE_COMMIT_SHA",
+		&cli.StringFlag{
+			Name:    "sha",
+			Usage:   "git commit sha",
+			EnvVars: []string{"PLUGIN_SHA", "DRONE_COMMIT_SHA"},
 		},
-		cli.StringFlag{
-			Name:   "ref",
-			Value:  "refs/heads/master",
-			Usage:  "git commit ref",
-			EnvVar: "PLUGIN_REF,DRONE_COMMIT_REF",
+		&cli.StringFlag{
+			Name:    "ref",
+			Value:   "refs/heads/master",
+			Usage:   "git commit ref",
+			EnvVars: []string{"PLUGIN_REF", "DRONE_COMMIT_REF"},
 		},
-		cli.StringFlag{
-			Name:   "event",
-			Value:  "push",
-			Usage:  "build event",
-			EnvVar: "DRONE_BUILD_EVENT",
+		&cli.StringFlag{
+			Name:    "event",
+			Value:   "push",
+			Usage:   "build event",
+			EnvVars: []string{"DRONE_BUILD_EVENT"},
 		},
-		cli.StringFlag{
-			Name:   "netrc.machine",
-			Usage:  "netrc machine",
-			EnvVar: "DRONE_NETRC_MACHINE",
+		&cli.StringFlag{
+			Name:    "netrc.machine",
+			Usage:   "netrc machine",
+			EnvVars: []string{"DRONE_NETRC_MACHINE"},
 		},
-		cli.StringFlag{
-			Name:   "netrc.username",
-			Usage:  "netrc username",
-			EnvVar: "DRONE_NETRC_USERNAME",
+		&cli.StringFlag{
+			Name:    "netrc.username",
+			Usage:   "netrc username",
+			EnvVars: []string{"DRONE_NETRC_USERNAME"},
 		},
-		cli.StringFlag{
-			Name:   "netrc.password",
-			Usage:  "netrc password",
-			EnvVar: "DRONE_NETRC_PASSWORD",
+		&cli.StringFlag{
+			Name:    "netrc.password",
+			Usage:   "netrc password",
+			EnvVars: []string{"DRONE_NETRC_PASSWORD"},
 		},
-		cli.IntFlag{
-			Name:   "depth",
-			Usage:  "clone depth",
-			EnvVar: "PLUGIN_DEPTH",
+		&cli.IntFlag{
+			Name:    "depth",
+			Usage:   "clone depth",
+			EnvVars: []string{"PLUGIN_DEPTH"},
 		},
-		cli.BoolTFlag{
-			Name:   "recursive",
-			Usage:  "clone submodules",
-			EnvVar: "PLUGIN_RECURSIVE",
+		&cli.BoolFlag{
+			Name:    "recursive",
+			Usage:   "clone submodules",
+			EnvVars: []string{"PLUGIN_RECURSIVE"},
+			Value:   true,
 		},
-		cli.BoolFlag{
-			Name:   "tags",
-			Usage:  "clone tags",
-			EnvVar: "PLUGIN_TAGS",
+		&cli.BoolFlag{
+			Name:    "tags",
+			Usage:   "clone tags",
+			EnvVars: []string{"PLUGIN_TAGS"},
 		},
-		cli.BoolFlag{
-			Name:   "skip-verify",
-			Usage:  "skip tls verification",
-			EnvVar: "PLUGIN_SKIP_VERIFY",
+		&cli.BoolFlag{
+			Name:    "skip-verify",
+			Usage:   "skip tls verification",
+			EnvVars: []string{"PLUGIN_SKIP_VERIFY"},
 		},
-		cli.BoolFlag{
-			Name:   "submodule-update-remote",
-			Usage:  "update remote submodules",
-			EnvVar: "PLUGIN_SUBMODULES_UPDATE_REMOTE,PLUGIN_SUBMODULE_UPDATE_REMOTE",
+		&cli.BoolFlag{
+			Name:    "submodule-update-remote",
+			Usage:   "update remote submodules",
+			EnvVars: []string{"PLUGIN_SUBMODULES_UPDATE_REMOTE", "PLUGIN_SUBMODULE_UPDATE_REMOTE"},
 		},
-		cli.GenericFlag{
-			Name:   "submodule-override",
-			Usage:  "json map of submodule overrides",
-			EnvVar: "PLUGIN_SUBMODULE_OVERRIDE",
-			Value:  &MapFlag{},
+		&cli.GenericFlag{
+			Name:    "submodule-override",
+			Usage:   "json map of submodule overrides",
+			EnvVars: []string{"PLUGIN_SUBMODULE_OVERRIDE"},
+			Value:   &MapFlag{},
 		},
-		cli.DurationFlag{
-			Name:   "backoff",
-			Usage:  "backoff duration",
-			EnvVar: "PLUGIN_BACKOFF",
-			Value:  5 * time.Second,
+		&cli.DurationFlag{
+			Name:    "backoff",
+			Usage:   "backoff duration",
+			EnvVars: []string{"PLUGIN_BACKOFF"},
+			Value:   5 * time.Second,
 		},
-		cli.IntFlag{
-			Name:   "backoff-attempts",
-			Usage:  "backoff attempts",
-			EnvVar: "PLUGIN_ATTEMPTS",
-			Value:  5,
+		&cli.IntFlag{
+			Name:    "backoff-attempts",
+			Usage:   "backoff attempts",
+			EnvVars: []string{"PLUGIN_ATTEMPTS"},
+			Value:   5,
 		},
-		cli.StringFlag{
+		&cli.StringFlag{
 			Name:  "env-file",
 			Usage: "source env file",
 		},
@@ -140,7 +141,7 @@ func run(c *cli.Context) error {
 		Config: Config{
 			Depth:           c.Int("depth"),
 			Tags:            c.Bool("tags"),
-			Recursive:       c.BoolT("recursive"),
+			Recursive:       c.Bool("recursive"),
 			SkipVerify:      c.Bool("skip-verify"),
 			SubmoduleRemote: c.Bool("submodule-update-remote"),
 			Submodules:      c.Generic("submodule-override").(*MapFlag).Get(),
