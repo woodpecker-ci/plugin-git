@@ -23,44 +23,44 @@ func main() {
 		&cli.StringFlag{
 			Name:    "remote",
 			Usage:   "git remote url",
-			EnvVars: []string{"PLUGIN_REMOTE", "DRONE_REMOTE_URL"},
+			EnvVars: []string{"PLUGIN_REMOTE", "CI_REMOTE_URL"},
 		},
 		&cli.StringFlag{
 			Name:    "path",
 			Usage:   "git clone path",
-			EnvVars: []string{"PLUGIN_PATH", "DRONE_WORKSPACE"},
+			EnvVars: []string{"PLUGIN_PATH", "CI_WORKSPACE"},
 		},
 		&cli.StringFlag{
 			Name:    "sha",
 			Usage:   "git commit sha",
-			EnvVars: []string{"PLUGIN_SHA", "DRONE_COMMIT_SHA"},
+			EnvVars: []string{"PLUGIN_SHA", "CI_COMMIT_SHA"},
 		},
 		&cli.StringFlag{
 			Name:    "ref",
 			Value:   "refs/heads/master",
 			Usage:   "git commit ref",
-			EnvVars: []string{"PLUGIN_REF", "DRONE_COMMIT_REF"},
+			EnvVars: []string{"PLUGIN_REF", "CI_COMMIT_REF"},
 		},
 		&cli.StringFlag{
 			Name:    "event",
 			Value:   "push",
 			Usage:   "build event",
-			EnvVars: []string{"DRONE_BUILD_EVENT"},
+			EnvVars: []string{"CI_BUILD_EVENT"},
 		},
 		&cli.StringFlag{
 			Name:    "netrc.machine",
 			Usage:   "netrc machine",
-			EnvVars: []string{"DRONE_NETRC_MACHINE"},
+			EnvVars: []string{"CI_NETRC_MACHINE"},
 		},
 		&cli.StringFlag{
 			Name:    "netrc.username",
 			Usage:   "netrc username",
-			EnvVars: []string{"DRONE_NETRC_USERNAME"},
+			EnvVars: []string{"CI_NETRC_USERNAME"},
 		},
 		&cli.StringFlag{
 			Name:    "netrc.password",
 			Usage:   "netrc password",
-			EnvVars: []string{"DRONE_NETRC_PASSWORD"},
+			EnvVars: []string{"CI_NETRC_PASSWORD"},
 		},
 		&cli.IntFlag{
 			Name:    "depth",
