@@ -16,35 +16,49 @@ pipeline:
     commands:
       - make test
 
-  build:
-    image: golang:1.16
-    commands:
-      - make build
-
   dryrun:
-    image: plugins/docker
-    dockerfile: docker/Dockerfile.linux.amd64
+    image: thegeeklab/drone-docker-buildx:latest
+    dockerfile: ./docker/Dockerfile.multiarch
+    privileged: true
     dry_run: true
-    repo: woodpeckerci/plugin-git
+    repo: jasonlearst/plugin-git
+    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
     tags: latest
+    secrets:
+      - source: docker_username
+        target: plugin_username
+      - source: docker_token
+        target: plugin_password
     when:
       event: pull_request
 
-  publish-next:
-    image: plugins/docker
-    dockerfile: docker/Dockerfile.linux.amd64
-    repo: woodpeckerci/plugin-git
+  build-next:
+    image: thegeeklab/drone-docker-buildx:latest
+    dockerfile: ./docker/Dockerfile.multiarch
+    privileged: true
+    repo: jasonlearst/plugin-git
+    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
     tags: next
-    secrets: [docker_username, docker_password]
+    secrets:
+      - source: docker_username
+        target: plugin_username
+      - source: docker_token
+        target: plugin_password
     when:
       branch: master
       event: push
 
-  publish-tag:
-    image: plugins/docker
-    dockerfile: docker/Dockerfile.linux.amd64
-    repo: woodpeckerci/plugin-git
+  build-tag:
+    image: thegeeklab/drone-docker-buildx:latest
+    dockerfile: ./docker/Dockerfile.multiarch
+    privileged: true
+    repo: jasonlearst/plugin-git
+    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
     tags: [latest, "${DRONE_TAG}"]
-    secrets: [docker_username, docker_password]
+    secrets:
+      - source: docker_username
+        target: plugin_username
+      - source: docker_token
+        target: plugin_password
     when:
       event: tag
