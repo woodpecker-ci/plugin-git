@@ -22,7 +22,7 @@ pipeline:
     privileged: true
     dry_run: true
     repo: woodpeckerci/plugin-git
-    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
+    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
     tags: latest
     secrets: [docker_username, docker_password]
     when:
@@ -33,7 +33,7 @@ pipeline:
     dockerfile: ./docker/Dockerfile.multiarch
     privileged: true
     repo: woodpeckerci/plugin-git
-    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
+    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
     tags: next
     secrets: [docker_username, docker_password]
     when:
@@ -45,7 +45,7 @@ pipeline:
     dockerfile: ./docker/Dockerfile.multiarch
     privileged: true
     repo: woodpeckerci/plugin-git
-    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
+    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
     tags: [latest, "${DRONE_TAG}"]
     secrets: [docker_username, docker_password]
     when:
