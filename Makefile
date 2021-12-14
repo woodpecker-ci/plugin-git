@@ -1,6 +1,9 @@
 GOFILES_NOVENDOR = $(shell find . -type f -name '*.go' -not -path "./vendor/*" -not -path "./.git/*")
 GO_PACKAGES ?= $(shell go list ./... | grep -v /vendor/)
 
+TARGETOS ?= linux
+TARGETARCH ?= amd64
+
 VERSION ?= next
 ifneq ($(DRONE_TAG),)
 	VERSION := $(DRONE_TAG:v%=%)
