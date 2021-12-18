@@ -34,7 +34,7 @@ pipeline:
     privileged: true
     secrets: [docker_username, docker_password]
     when:
-      branch: $CI_REPO_DEFAULT_BRANCH
+      branch: master
       event: push
 
   build-tag:
