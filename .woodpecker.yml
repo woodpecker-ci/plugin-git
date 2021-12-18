@@ -1,7 +1,3 @@
-clone:
-  git:
-    image: woodpeckerci/plugin-git:next
-
 pipeline:
   lint:
     group: test
@@ -16,7 +12,7 @@ pipeline:
     commands:
       - make test
 
-  dryrun:
+  build-dryrun:
     image: woodpeckerci/plugin-docker-buildx:latest
     settings:
       repo: woodpeckerci/plugin-git
@@ -25,7 +21,6 @@ pipeline:
       platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
       tags: latest
     privileged: true
-    secrets: [docker_username, docker_password]
     when:
       event: pull_request
 
@@ -39,7 +34,7 @@ pipeline:
     privileged: true
     secrets: [docker_username, docker_password]
     when:
-      branch: master
+      branch: "$CI_REPO_DEFAULT_BRANCH"
       event: push
 
   build-tag:
@@ -48,7 +43,7 @@ pipeline:
       repo: woodpeckerci/plugin-git
       dockerfile: ./docker/Dockerfile.multiarch
       platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
-      tags: [latest, "${DRONE_TAG}"]
+      tags: [latest, "$CI_TAG"]
     privileged: true
     secrets: [docker_username, docker_password]
     when:
