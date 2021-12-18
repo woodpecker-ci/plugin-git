@@ -1,5 +1,7 @@
 ## [v1.1.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.1.0) - 2021-12-18
 
+* FEATURES
+  * Add ppc64le support (#8)
 * BUGFIXES
   * Regognize "CI_*" EnvVars (#6)
 * ENHANCEMENTS
