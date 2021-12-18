@@ -17,7 +17,7 @@ pipeline:
       - make test
 
   dryrun:
-    image: thegeeklab/drone-docker-buildx:latest
+    image: woodpeckerci/plugin-docker-buildx:latest
     dockerfile: ./docker/Dockerfile.multiarch
     privileged: true
     dry_run: true
@@ -29,7 +29,7 @@ pipeline:
       event: pull_request
 
   build-next:
-    image: thegeeklab/drone-docker-buildx:latest
+    image: woodpeckerci/plugin-docker-buildx:latest
     dockerfile: ./docker/Dockerfile.multiarch
     privileged: true
     repo: woodpeckerci/plugin-git
@@ -41,7 +41,7 @@ pipeline:
       event: push
 
   build-tag:
-    image: thegeeklab/drone-docker-buildx:latest
+    image: woodpeckerci/plugin-docker-buildx:latest
     dockerfile: ./docker/Dockerfile.multiarch
     privileged: true
     repo: woodpeckerci/plugin-git
