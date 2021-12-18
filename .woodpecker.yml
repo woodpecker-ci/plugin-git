@@ -18,23 +18,25 @@ pipeline:
 
   dryrun:
     image: woodpeckerci/plugin-docker-buildx:latest
-    dockerfile: ./docker/Dockerfile.multiarch
+    settings:
+      repo: woodpeckerci/plugin-git
+      dockerfile: ./docker/Dockerfile.multiarch
+      dry_run: true
+      platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
+      tags: latest
     privileged: true
-    dry_run: true
-    repo: woodpeckerci/plugin-git
-    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
-    tags: latest
     secrets: [docker_username, docker_password]
     when:
       event: pull_request
 
   build-next:
     image: woodpeckerci/plugin-docker-buildx:latest
-    dockerfile: ./docker/Dockerfile.multiarch
+    settings:
+      repo: woodpeckerci/plugin-git
+      dockerfile: ./docker/Dockerfile.multiarch
+      platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
+      tags: next
     privileged: true
-    repo: woodpeckerci/plugin-git
-    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
-    tags: next
     secrets: [docker_username, docker_password]
     when:
       branch: master
@@ -42,11 +44,12 @@ pipeline:
 
   build-tag:
     image: woodpeckerci/plugin-docker-buildx:latest
-    dockerfile: ./docker/Dockerfile.multiarch
+    settings:
+      repo: woodpeckerci/plugin-git
+      dockerfile: ./docker/Dockerfile.multiarch
+      platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
+      tags: [latest, "${DRONE_TAG}"]
     privileged: true
-    repo: woodpeckerci/plugin-git
-    platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
-    tags: [latest, "${DRONE_TAG}"]
     secrets: [docker_username, docker_password]
     when:
       event: tag
