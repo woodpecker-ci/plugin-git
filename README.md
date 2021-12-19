@@ -53,7 +53,7 @@ Clone a commit:
 
 ```console
 docker run --rm \
-  -e CI_REMOTE_URL=https://github.com/garyburd/redigo.git \
+  -e CI_REPO_REMOTE=https://github.com/garyburd/redigo.git \
   -e CI_WORKSPACE=/go/src/github.com/garyburd/redigo \
   -e CI_BUILD_EVENT=push \
   -e CI_COMMIT_SHA=d8dbe4d94f15fe89232e0402c6e8a0ddf21af3ab \
@@ -65,7 +65,7 @@ Clone a pull request:
 
 ```console
 docker run --rm \
-  -e CI_REMOTE_URL=https://github.com/garyburd/redigo.git \
+  -e CI_REPO_REMOTE=https://github.com/garyburd/redigo.git \
   -e CI_WORKSPACE=/go/src/github.com/garyburd/redigo \
   -e CI_BUILD_EVENT=pull_request \
   -e CI_COMMIT_SHA=3b4642018d177bf5fecc5907e7f341a2b5c12b8a \
@@ -77,7 +77,7 @@ Clone a tag:
 
 ```console
 docker run --rm \
-  -e CI_REMOTE_URL=https://github.com/garyburd/redigo.git \
+  -e CI_REPO_REMOTE=https://github.com/garyburd/redigo.git \
   -e CI_WORKSPACE=/go/src/github.com/garyburd/redigo \
   -e CI_BUILD_EVENT=tag \
   -e CI_COMMIT_SHA=3b4642018d177bf5fecc5907e7f341a2b5c12b8a \
