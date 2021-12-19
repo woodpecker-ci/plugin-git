@@ -12,6 +12,11 @@ pipeline:
     commands:
       - make test
 
+  version:
+    image: golang:1.16
+    commands:
+      - make version
+
   build-dryrun:
     image: woodpeckerci/plugin-docker-buildx:latest
     settings:
