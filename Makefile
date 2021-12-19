@@ -4,14 +4,18 @@ GO_PACKAGES ?= $(shell go list ./... | grep -v /vendor/)
 TARGETOS ?= linux
 TARGETARCH ?= amd64
 
+# rm once https://github.com/woodpecker-ci/woodpecker/pull/624 got merged
+CI_COMMIT_TAG ?= $(CI_TAG)
+
 VERSION ?= next
-ifneq ($(CI_TAG),)
-	VERSION := $(CI_TAG:v%=%)
+ifneq ($(CI_COMMIT_TAG),)
+	VERSION := $(CI_COMMIT_TAG:v%=%)
 endif
 
 # append commit-sha to next version
 BUILD_VERSION := $(VERSION)
 ifeq ($(BUILD_VERSION),next)
+	CI_COMMIT_SHA ?= $(shell git rev-parse HEAD)
 	BUILD_VERSION := $(shell echo "next-$(shell echo ${CI_COMMIT_SHA} | head -c 8)")
 endif
 
@@ -48,4 +52,4 @@ build:
 
 .PHONY: version
 version:
-	@echo ${VERSION}
+	@echo ${BUILD_VERSION}
