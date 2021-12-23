@@ -1,3 +1,8 @@
+## [v1.1.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.1.1) - 2021-12-23
+
+* BUGFIXES
+  * Fix version info (#13)
+
 ## [v1.1.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.1.0) - 2021-12-18
 
 * FEATURES
