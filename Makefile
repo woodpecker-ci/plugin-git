@@ -5,14 +5,15 @@ TARGETOS ?= linux
 TARGETARCH ?= amd64
 
 VERSION ?= next
-ifneq ($(DRONE_TAG),)
-	VERSION := $(DRONE_TAG:v%=%)
+ifneq ($(CI_COMMIT_TAG),)
+	VERSION := $(CI_COMMIT_TAG:v%=%)
 endif
 
 # append commit-sha to next version
 BUILD_VERSION := $(VERSION)
 ifeq ($(BUILD_VERSION),next)
-	BUILD_VERSION := $(shell echo "next-$(shell echo ${DRONE_COMMIT_SHA} | head -c 8)")
+	CI_COMMIT_SHA ?= $(shell git rev-parse HEAD)
+	BUILD_VERSION := $(shell echo "next-$(shell echo ${CI_COMMIT_SHA} | head -c 8)")
 endif
 
 LDFLAGS := -s -w -extldflags "-static" -X main.version=${BUILD_VERSION}
@@ -48,4 +49,4 @@ build:
 
 .PHONY: version
 version:
-	@echo ${VERSION}
+	@echo ${BUILD_VERSION}

@@ -23,7 +23,7 @@ func main() {
 		&cli.StringFlag{
 			Name:    "remote",
 			Usage:   "git remote url",
-			EnvVars: []string{"PLUGIN_REMOTE", "CI_REMOTE_URL"},
+			EnvVars: []string{"PLUGIN_REMOTE", "CI_REPO_REMOTE", "CI_REMOTE_URL"},
 		},
 		&cli.StringFlag{
 			Name:    "path",
