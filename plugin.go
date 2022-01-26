@@ -36,6 +36,8 @@ func (p Plugin) Exec() error {
 
 	if p.Config.SkipVerify {
 		cmds = append(cmds, skipVerify())
+	} else if p.Config.CustomCert != "" {
+		cmds = append(cmds, setCustomCert(p.Config.CustomCert))
 	}
 
 	if isDirEmpty(filepath.Join(p.Build.Path, ".git")) {
@@ -196,6 +198,16 @@ func skipVerify() *exec.Cmd {
 		"--global",
 		"http.sslVerify",
 		"false",
+	)
+}
+
+func setCustomCert(path string) *exec.Cmd {
+	return exec.Command(
+		"git",
+		"config",
+		"--global",
+		"http.sslCAInfo",
+		path,
 	)
 }
 

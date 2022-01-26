@@ -83,6 +83,11 @@ func main() {
 			Usage:   "skip tls verification",
 			EnvVars: []string{"PLUGIN_SKIP_VERIFY"},
 		},
+		&cli.StringFlag{
+			Name:    "custom-cert",
+			Usage:   "path to custom cert",
+			EnvVars: []string{"PLUGIN_CUSTOM_SSL_PATH"},
+		},
 		&cli.BoolFlag{
 			Name:    "submodule-update-remote",
 			Usage:   "update remote submodules",
@@ -143,6 +148,7 @@ func run(c *cli.Context) error {
 			Tags:            c.Bool("tags"),
 			Recursive:       c.Bool("recursive"),
 			SkipVerify:      c.Bool("skip-verify"),
+			CustomCert:      c.String("custom-cert"),
 			SubmoduleRemote: c.Bool("submodule-update-remote"),
 			Submodules:      c.Generic("submodule-override").(*MapFlag).Get(),
 		},
