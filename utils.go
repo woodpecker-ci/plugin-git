@@ -42,7 +42,7 @@ func isTag(event, ref string) bool {
 
 // helper function to write a netrc file.
 func writeNetrc(machine, login, password string) error {
-	if machine == "" || login == "" {
+	if machine == "" || (login == "" && password == "") {
 		return nil
 	}
 	out := fmt.Sprintf(
