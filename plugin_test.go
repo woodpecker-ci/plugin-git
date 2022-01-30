@@ -260,6 +260,61 @@ func TestUpdateSubmodules(t *testing.T) {
 	}
 }
 
+func TestCustomCertUrl(t *testing.T) {
+	testdata := []struct {
+		exp []string
+	}{
+		{
+			[]string{
+				"git",
+				"config",
+				"--global",
+				"http.sslCAInfo",
+				"/tmp/customCert.pem",
+			},
+		},
+	}
+	for _, td := range testdata {
+		c := customCertHandler("http://example.com")
+		if len(c.Args) != len(td.exp) {
+			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+		}
+		for i := range c.Args {
+			if c.Args[i] != td.exp[i] {
+				t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+			}
+		}
+	}
+}
+
+func TestCustomCertFile(t *testing.T) {
+	testdata := []struct {
+		exp []string
+	}{
+		{
+			[]string{
+				"git",
+				"config",
+				"--global",
+				"http.sslCAInfo",
+				"/etc/ssl/my-cert.pem",
+			},
+		},
+	}
+
+	for _, td := range testdata {
+		c := customCertHandler("/etc/ssl/my-cert.pem")
+		if len(c.Args) != len(td.exp) {
+			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+		}
+		for i := range c.Args {
+			if c.Args[i] != td.exp[i] {
+				t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+			}
+		}
+	}
+}
+
 // TestUpdateSubmodules tests if the arguments to `git submodule update`
 // are constructed properly.
 func TestUpdateSubmodulesRemote(t *testing.T) {

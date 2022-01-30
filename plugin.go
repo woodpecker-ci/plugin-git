@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -37,7 +39,10 @@ func (p Plugin) Exec() error {
 	if p.Config.SkipVerify {
 		cmds = append(cmds, skipVerify())
 	} else if p.Config.CustomCert != "" {
-		cmds = append(cmds, setCustomCert(p.Config.CustomCert))
+		certCmd := customCertHandler(p.Config.CustomCert)
+		if certCmd != nil {
+			cmds = append(cmds, certCmd)
+		}
 	}
 
 	if isDirEmpty(filepath.Join(p.Build.Path, ".git")) {
@@ -54,8 +59,8 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, checkoutSha(p.Build.Commit))
 	}
 
-	for name, url := range p.Config.Submodules {
-		cmds = append(cmds, remapSubmodule(name, url))
+	for name, submoduleUrl := range p.Config.Submodules {
+		cmds = append(cmds, remapSubmodule(name, submoduleUrl))
 	}
 
 	if p.Config.Recursive {
@@ -81,6 +86,53 @@ func (p Plugin) Exec() error {
 	}
 
 	return nil
+}
+func customCertHandler(certPath string) *exec.Cmd {
+	if IsUrl(certPath) {
+		if downloadCert(certPath) {
+			return setCustomCert("/tmp/customCert.pem")
+		} else {
+			fmt.Printf("Failed to download custom ssl cert. Ignoring...\n")
+			return nil
+		}
+	}
+	return setCustomCert(certPath)
+}
+func IsUrl(str string) bool {
+	u, err := url.Parse(str)
+	return err == nil && u.Scheme != "" && u.Host != ""
+}
+func downloadCert(url string) (retStatus bool) {
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Printf("Failed to download %s\n", err)
+		return false
+	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			retStatus = false
+		}
+	}(resp.Body)
+
+	out, err := os.Create("/tmp/customCert.pem")
+	if err != nil {
+		fmt.Printf("Failed to create file /tmp/customCert.pem\n")
+		return false
+	}
+	defer func(out *os.File) {
+		err := out.Close()
+		if err != nil {
+			retStatus = false
+		}
+	}(out)
+
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		fmt.Printf("Failed to copy cert to /tmp/customCert.pem\n")
+		return false
+	}
+	return true
 }
 
 // shouldRetry returns true if the command should be re-executed. Currently
