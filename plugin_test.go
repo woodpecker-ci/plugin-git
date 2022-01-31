@@ -270,7 +270,7 @@ func TestCustomCertUrl(t *testing.T) {
 				"config",
 				"--global",
 				"http.sslCAInfo",
-				"/tmp/customCert.pem",
+				customCertTmpPath,
 			},
 		},
 	}

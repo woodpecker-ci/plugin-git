@@ -21,6 +21,8 @@ type Plugin struct {
 	Backoff Backoff
 }
 
+const customCertTmpPath = "/tmp/customCert.pem"
+
 func (p Plugin) Exec() error {
 	if p.Build.Path != "" {
 		err := os.MkdirAll(p.Build.Path, 0777)
@@ -90,7 +92,7 @@ func (p Plugin) Exec() error {
 func customCertHandler(certPath string) *exec.Cmd {
 	if IsUrl(certPath) {
 		if downloadCert(certPath) {
-			return setCustomCert("/tmp/customCert.pem")
+			return setCustomCert(customCertTmpPath)
 		} else {
 			fmt.Printf("Failed to download custom ssl cert. Ignoring...\n")
 			return nil
@@ -115,9 +117,9 @@ func downloadCert(url string) (retStatus bool) {
 		}
 	}(resp.Body)
 
-	out, err := os.Create("/tmp/customCert.pem")
+	out, err := os.Create(customCertTmpPath)
 	if err != nil {
-		fmt.Printf("Failed to create file /tmp/customCert.pem\n")
+		fmt.Printf("Failed to create file %s\n", customCertTmpPath)
 		return false
 	}
 	defer func(out *os.File) {
@@ -129,7 +131,7 @@ func downloadCert(url string) (retStatus bool) {
 
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
-		fmt.Printf("Failed to copy cert to /tmp/customCert.pem\n")
+		fmt.Printf("Failed to copy cert to %s\n", customCertTmpPath)
 		return false
 	}
 	return true
