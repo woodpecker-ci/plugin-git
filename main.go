@@ -86,7 +86,7 @@ func main() {
 		&cli.StringFlag{
 			Name:    "custom-cert",
 			Usage:   "path or url to custom cert",
-			EnvVars: []string{"PLUGIN_CUSTOM_SSL_PATH"},
+			EnvVars: []string{"PLUGIN_CUSTOM_SSL_PATH", "PLUGIN_CUSTOM_SSL_URL"},
 		},
 		&cli.BoolFlag{
 			Name:    "submodule-update-remote",
