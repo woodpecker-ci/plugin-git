@@ -9,9 +9,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var (
-	version = "0.0.0+0"
-)
+var version = "0.0.0+0"
 
 func main() {
 	app := cli.NewApp()
@@ -85,8 +83,8 @@ func main() {
 		},
 		&cli.StringFlag{
 			Name:    "custom-cert",
-			Usage:   "path to custom cert",
-			EnvVars: []string{"PLUGIN_CUSTOM_SSL_PATH"},
+			Usage:   "path or url to custom cert",
+			EnvVars: []string{"PLUGIN_CUSTOM_SSL_PATH", "PLUGIN_CUSTOM_SSL_URL"},
 		},
 		&cli.BoolFlag{
 			Name:    "submodule-update-remote",
@@ -120,7 +118,6 @@ func main() {
 	if err := app.Run(os.Args); err != nil {
 		logrus.Fatal(err)
 	}
-
 }
 
 func run(c *cli.Context) error {
