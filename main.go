@@ -85,7 +85,7 @@ func main() {
 		},
 		&cli.StringFlag{
 			Name:    "custom-cert",
-			Usage:   "path to custom cert",
+			Usage:   "path or url to custom cert",
 			EnvVars: []string{"PLUGIN_CUSTOM_SSL_PATH"},
 		},
 		&cli.BoolFlag{
