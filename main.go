@@ -9,9 +9,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var (
-	version = "0.0.0+0"
-)
+var version = "0.0.0+0"
 
 func main() {
 	app := cli.NewApp()
@@ -120,7 +118,6 @@ func main() {
 	if err := app.Run(os.Args); err != nil {
 		logrus.Fatal(err)
 	}
-
 }
 
 func run(c *cli.Context) error {

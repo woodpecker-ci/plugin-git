@@ -23,7 +23,7 @@ type Plugin struct {
 
 func (p Plugin) Exec() error {
 	if p.Build.Path != "" {
-		err := os.MkdirAll(p.Build.Path, 0777)
+		err := os.MkdirAll(p.Build.Path, 0o777)
 		if err != nil {
 			return err
 		}
@@ -87,6 +87,7 @@ func (p Plugin) Exec() error {
 
 	return nil
 }
+
 func customCertHandler(certPath string) *exec.Cmd {
 	if IsUrl(certPath) {
 		if downloadCert(certPath) {
@@ -98,10 +99,12 @@ func customCertHandler(certPath string) *exec.Cmd {
 	}
 	return setCustomCert(certPath)
 }
+
 func IsUrl(str string) bool {
 	u, err := url.Parse(str)
 	return err == nil && u.Scheme != "" && u.Host != ""
 }
+
 func downloadCert(url string) (retStatus bool) {
 	resp, err := http.Get(url)
 	if err != nil {

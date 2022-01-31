@@ -92,7 +92,6 @@ var commits = []struct {
 // TestClone tests the ability to clone a specific commit into
 // a fresh, empty directory every time.
 func TestClone(t *testing.T) {
-
 	for _, c := range commits {
 		dir := setup()
 		defer teardown(dir)
@@ -362,7 +361,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 // to which we can clone the repositroy
 func setup() string {
 	dir, _ := ioutil.TempDir("/tmp", "plugin_git_test_")
-	os.Mkdir(dir, 0777)
+	os.Mkdir(dir, 0o777)
 	return dir
 }
 
