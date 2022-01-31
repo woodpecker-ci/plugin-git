@@ -92,7 +92,6 @@ var commits = []struct {
 // TestClone tests the ability to clone a specific commit into
 // a fresh, empty directory every time.
 func TestClone(t *testing.T) {
-
 	for _, c := range commits {
 		dir := setup()
 		defer teardown(dir)
@@ -260,6 +259,61 @@ func TestUpdateSubmodules(t *testing.T) {
 	}
 }
 
+func TestCustomCertUrl(t *testing.T) {
+	testdata := []struct {
+		exp []string
+	}{
+		{
+			[]string{
+				"git",
+				"config",
+				"--global",
+				"http.sslCAInfo",
+				customCertTmpPath,
+			},
+		},
+	}
+	for _, td := range testdata {
+		c := customCertHandler("http://example.com")
+		if len(c.Args) != len(td.exp) {
+			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+		}
+		for i := range c.Args {
+			if c.Args[i] != td.exp[i] {
+				t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+			}
+		}
+	}
+}
+
+func TestCustomCertFile(t *testing.T) {
+	testdata := []struct {
+		exp []string
+	}{
+		{
+			[]string{
+				"git",
+				"config",
+				"--global",
+				"http.sslCAInfo",
+				"/etc/ssl/my-cert.pem",
+			},
+		},
+	}
+
+	for _, td := range testdata {
+		c := customCertHandler("/etc/ssl/my-cert.pem")
+		if len(c.Args) != len(td.exp) {
+			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+		}
+		for i := range c.Args {
+			if c.Args[i] != td.exp[i] {
+				t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+			}
+		}
+	}
+}
+
 // TestUpdateSubmodules tests if the arguments to `git submodule update`
 // are constructed properly.
 func TestUpdateSubmodulesRemote(t *testing.T) {
@@ -307,7 +361,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 // to which we can clone the repositroy
 func setup() string {
 	dir, _ := ioutil.TempDir("/tmp", "plugin_git_test_")
-	os.Mkdir(dir, 0777)
+	os.Mkdir(dir, 0o777)
 	return dir
 }
 
