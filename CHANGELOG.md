@@ -1,3 +1,8 @@
+## [v1.1.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.1.2) - 2022-01-30
+
+* BUGFIXES
+  * Fix empty login/password in netrc (#20)
+
 ## [v1.1.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.1.1) - 2021-12-23
 
 * BUGFIXES
