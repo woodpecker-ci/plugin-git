@@ -28,12 +28,12 @@ clone:
 ```
 
 
-## Options
+## Settings
 
-| Option Name | Default | Description |
-| ----------- | ------: | ----------- |
-| `depth`     |  *none* | If specified, uses git's `--depth` option to create a shallow clone with a limited number of commits. |
-| `lfs`       |  `true` | Set this to `false` to disable retrieval of LFS files. |
+| Settings Name | Default | Description |
+| ------------- | ------: | ----------- |
+| `depth`       |  *none* | If specified, uses git's `--depth` option to create a shallow clone with a limited number of commits. |
+| `lfs`         |  `true` | Set this to `false` to disable retrieval of LFS files. |
 
 
 [pipelineClone]: https://woodpecker-ci.org/docs/usage/pipeline-syntax#clone
