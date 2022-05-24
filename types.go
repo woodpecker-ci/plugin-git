@@ -32,6 +32,7 @@ type (
 		Submodules      map[string]string
 		SubmoduleRemote bool
 		CustomCert      string
+		Lfs             bool
 	}
 
 	Backoff struct {
