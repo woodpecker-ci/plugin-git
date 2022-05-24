@@ -54,10 +54,10 @@ func (p Plugin) Exec() error {
 
 	switch {
 	case isPullRequest(p.Build.Event) || isTag(p.Build.Event, p.Build.Ref):
-		cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth))
+		cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, !p.Config.Lfs))
 		cmds = append(cmds, checkoutHead())
 	default:
-		cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth))
+		cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, !p.Config.Lfs))
 		cmds = append(cmds, checkoutSha(p.Build.Commit))
 	}
 
@@ -211,7 +211,7 @@ func checkoutSha(commit string) *exec.Cmd {
 
 // fetch retuns git command that fetches from origin. If tags is true
 // then tags will be fetched.
-func fetch(ref string, tags bool, depth int) *exec.Cmd {
+func fetch(ref string, tags bool, depth int, skipLfs bool) *exec.Cmd {
 	tags_option := "--no-tags"
 	if tags {
 		tags_option = "--tags"
@@ -226,6 +226,12 @@ func fetch(ref string, tags bool, depth int) *exec.Cmd {
 	}
 	cmd.Args = append(cmd.Args, "origin")
 	cmd.Args = append(cmd.Args, fmt.Sprintf("+%s:", ref))
+	if skipLfs {
+		// The GIT_LFS_SKIP_SMUDGE env var prevents git-lfs from retrieving any
+		// LFS files.
+		cmd.Env = append(cmd.Env, "GIT_LFS_SKIP_SMUDGE=1")
+	}
+
 	return cmd
 }
 

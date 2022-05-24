@@ -109,6 +109,12 @@ func main() {
 			EnvVars: []string{"PLUGIN_ATTEMPTS"},
 			Value:   5,
 		},
+		&cli.BoolFlag{
+			Name:    "lfs",
+			Usage:   "whether to retrieve LFS content if available",
+			EnvVars: []string{"PLUGIN_LFS"},
+			Value:   true,
+		},
 		&cli.StringFlag{
 			Name:  "env-file",
 			Usage: "source env file",
@@ -148,6 +154,7 @@ func run(c *cli.Context) error {
 			CustomCert:      c.String("custom-cert"),
 			SubmoduleRemote: c.Bool("submodule-update-remote"),
 			Submodules:      c.Generic("submodule-override").(*MapFlag).Get(),
+			Lfs:             c.Bool("lfs"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),
