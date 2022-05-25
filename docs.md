@@ -10,7 +10,8 @@ Its purpose is to clone your Git repository.
 ## Features
 
 - Git LFS support is enabled by default.
-
+- Fetch tags when needed.
+- Ajust submodules.
 
 ## Overriding Settings
 
@@ -27,14 +28,20 @@ clone:
     lfs: false
 ```
 
-
 ## Settings
 
-| Settings Name | Default | Description |
-| ------------- | ------: | ----------- |
-| `depth`       |  *none* | If specified, uses git's `--depth` option to create a shallow clone with a limited number of commits. |
-| `lfs`         |  `true` | Set this to `false` to disable retrieval of LFS files. |
-
+| Settings Name             | Default | Description
+| --------------------------| ------- | --------------------------------------------
+| `depth`                   | *none*  | If specified, uses git's `--depth` option to create a shallow clone with a limited number of commits
+| `lfs`                     | `true`  | Set this to `false` to disable retrieval of LFS files
+| `recursive`               | `false` | Clones submodules recursively
+| `skip_verify`             | `false` | Skips the SSL verification
+| `tags`                    | `false` | Fetches tags when set to true
+| `submodule_overrides`     | *none*  | Override submodule urls
+| `submodule_update_remote` | `false` | Pass the --remote flag to git submodule update
+| `custom_ssl_path`         | *none*  | Set path to custom cert
+| `custom_ssl_url`          | *none*  | Set url to custom cert
+| `backoff`                 | `5sec`  | Change backoff duration
+| `attempts`                | `5`     | Change backoff attempts
 
 [pipelineClone]: https://woodpecker-ci.org/docs/usage/pipeline-syntax#clone
-
