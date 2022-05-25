@@ -1,7 +1,7 @@
 ---
 name: Git Plugin
 icon: https://woodpecker-ci.org/img/logo.svg
-description: This plugin clones a Git repository.
+description: This is the default plugin for the clone step.
 ---
 
 This plugin is automatically introduced into your pipeline as the first step.
