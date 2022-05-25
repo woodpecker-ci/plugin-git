@@ -21,7 +21,8 @@
   </a>
 </p>
 
-Woodpecker/Drone plugin to clone `git` repositories. For the usage information and a listing of the available options please take a look at [the docs](http://plugins.drone.io/drone-plugins/drone-git).
+Woodpecker plugin to clone `git` repositories. For the usage information and a listing of the available options please take a look at [the docs](https://woodpecker-ci.org/plugins/plugin-git).
+The docs are also available in [`docs.md` in this repository](docs.md).
 
 ## Build
 
