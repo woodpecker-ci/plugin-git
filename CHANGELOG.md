@@ -1,3 +1,15 @@
+# Changelog
+
+## [v1.2.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.2.0) - 2022-05-25
+
+* FEATURES
+  * Add git-lfs (#21)
+  * Custom ssl certs for git (#19)
+* ENHANCEMENTS
+  * Add an `lfs` setting which lets you disable Git LFS (#24)
+* DOCUMENTATION
+  * Add docs page (#23)
+
 ## [v1.1.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.1.2) - 2022-01-30
 
 * BUGFIXES
