@@ -23,9 +23,9 @@ this documentation page only describes this plugin.
 clone:
   git:
     image: woodpeckerci/plugin-git
-  settings:
-    depth: 50
-    lfs: false
+    settings:
+      depth: 50
+      lfs: false
 ```
 
 ## Settings
