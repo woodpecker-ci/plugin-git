@@ -74,7 +74,7 @@ func main() {
 		&cli.BoolFlag{
 			Name:    "tags",
 			Usage:   "clone tags",
-			EnvVars: []string{"PLUGIN_TAGS"},
+			EnvVars: []string{"PLUGIN_TAGS", "CI_COMMIT_TAG"},
 		},
 		&cli.BoolFlag{
 			Name:    "skip-verify",
