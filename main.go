@@ -119,6 +119,11 @@ func main() {
 			Name:  "env-file",
 			Usage: "source env file",
 		},
+		&cli.StringFlag{
+			Name:    "branch",
+			Usage:   "Change branch name",
+			EnvVars: []string{"PLUGIN_BRANCH", "CI_COMMIT_BRANCH"},
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -155,6 +160,7 @@ func run(c *cli.Context) error {
 			SubmoduleRemote: c.Bool("submodule-update-remote"),
 			Submodules:      c.Generic("submodule-override").(*MapFlag).Get(),
 			Lfs:             c.Bool("lfs"),
+			Branch:          c.String("branch"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),

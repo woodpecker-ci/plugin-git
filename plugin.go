@@ -48,7 +48,7 @@ func (p Plugin) Exec() error {
 	}
 
 	if isDirEmpty(filepath.Join(p.Build.Path, ".git")) {
-		cmds = append(cmds, initGit())
+		cmds = append(cmds, initGit(p.Config.Branch))
 		cmds = append(cmds, remote(p.Repo.Clone))
 	}
 
@@ -170,11 +170,11 @@ func retryExec(cmd *exec.Cmd, backoff time.Duration, retries int) (err error) {
 }
 
 // Creates an empty git repository.
-func initGit() *exec.Cmd {
-	return exec.Command(
-		"git",
-		"init",
-	)
+func initGit(branch string) *exec.Cmd {
+	if branch == "" {
+		return exec.Command("git", "init")
+	}
+	return exec.Command("git", "init", "-b", branch)
 }
 
 // Sets the remote origin for the repository.
