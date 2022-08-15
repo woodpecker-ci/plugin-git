@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.3.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.3.0) - 2022-08-15
+
+* FEATURES
+  * Add option to Change branch name for checkout (#28)
+
 ## [v1.2.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.2.0) - 2022-05-25
 
 * FEATURES
