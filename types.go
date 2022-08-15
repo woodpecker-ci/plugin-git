@@ -33,6 +33,7 @@ type (
 		SubmoduleRemote bool
 		CustomCert      string
 		Lfs             bool
+		Branch          string
 	}
 
 	Backoff struct {
