@@ -36,7 +36,7 @@ clone:
 | `lfs`                     | `true`            | Set this to `false` to disable retrieval of LFS files
 | `recursive`               | `false`           | Clones submodules recursively
 | `skip_verify`             | `false`           | Skips the SSL verification
-| `tags`                    | `false` (exept on tag event) | Fetches tags when set to true, default is falseif event is not tag else true
+| `tags`                    | `false` (except on tag event) | Fetches tags when set to true, default is false if event is not tag else true
 | `submodule_overrides`     | *none*            | Override submodule urls
 | `submodule_update_remote` | `false`           | Pass the --remote flag to git submodule update
 | `custom_ssl_path`         | *none*            | Set path to custom cert

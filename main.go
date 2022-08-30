@@ -73,7 +73,7 @@ func main() {
 		},
 		&cli.BoolFlag{
 			Name:    "tags",
-			Usage:   "clone tags, if not explicit set and event it tag it's default is true else false",
+			Usage:   "clone tags, if not explicitly set and event is tag its default is true else false",
 			EnvVars: []string{"PLUGIN_TAGS"},
 		},
 		&cli.BoolFlag{
