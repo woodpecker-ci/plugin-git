@@ -23,7 +23,7 @@ pipeline:
       repo: woodpeckerci/plugin-git
       dockerfile: ./docker/Dockerfile.multiarch
       dry_run: true
-      platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
+      platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/riscv64,linux/s390x
       tags: latest
     when:
       event: pull_request
@@ -33,7 +33,7 @@ pipeline:
     settings:
       repo: woodpeckerci/plugin-git
       dockerfile: ./docker/Dockerfile.multiarch
-      platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
+      platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/riscv64,linux/s390x
       tags: next
     secrets: [docker_username, docker_password]
     when:
@@ -45,7 +45,7 @@ pipeline:
     settings:
       repo: woodpeckerci/plugin-git
       dockerfile: ./docker/Dockerfile.multiarch
-      platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
+      platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/riscv64,linux/s390x
       tags: [latest, "${CI_COMMIT_TAG}"]
     secrets: [docker_username, docker_password]
     when:
