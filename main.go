@@ -73,7 +73,7 @@ func main() {
 		},
 		&cli.BoolFlag{
 			Name:    "tags",
-			Usage:   "clone tags",
+			Usage:   "clone tags, if not explicit set and event it tag it's default is true else false",
 			EnvVars: []string{"PLUGIN_TAGS"},
 		},
 		&cli.BoolFlag{
@@ -136,13 +136,22 @@ func run(c *cli.Context) error {
 		_ = godotenv.Load(c.String("env-file"))
 	}
 
+	event := c.String("event")
+
+	tags := c.Bool("tags")
+	if event == "tag" && !c.IsSet("tags") {
+		// tags clone not explicit set but pipeline is triggered by a tag
+		// auto set tags cloning to true
+		tags = true
+	}
+
 	plugin := Plugin{
 		Repo: Repo{
 			Clone: c.String("remote"),
 		},
 		Build: Build{
 			Commit: c.String("sha"),
-			Event:  c.String("event"),
+			Event:  event,
 			Path:   c.String("path"),
 			Ref:    c.String("ref"),
 		},
@@ -153,7 +162,7 @@ func run(c *cli.Context) error {
 		},
 		Config: Config{
 			Depth:           c.Int("depth"),
-			Tags:            c.Bool("tags"),
+			Tags:            tags,
 			Recursive:       c.Bool("recursive"),
 			SkipVerify:      c.Bool("skip-verify"),
 			CustomCert:      c.String("custom-cert"),
