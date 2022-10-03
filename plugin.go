@@ -23,6 +23,8 @@ type Plugin struct {
 
 const customCertTmpPath = "/tmp/customCert.pem"
 
+var defaultEnvVars = []string{"GIT_TERMINAL_PROMPT=0"}
+
 func (p Plugin) Exec() error {
 	if p.Build.Path != "" {
 		err := os.MkdirAll(p.Build.Path, 0o777)
@@ -169,6 +171,11 @@ func retryExec(cmd *exec.Cmd, backoff time.Duration, retries int) (err error) {
 	return
 }
 
+func appendEnv(cmd *exec.Cmd, env ...string) *exec.Cmd {
+	cmd.Env = append(cmd.Env, env...)
+	return cmd
+}
+
 // Creates an empty git repository.
 func initGit(branch string) *exec.Cmd {
 	if branch == "" {
@@ -179,34 +186,34 @@ func initGit(branch string) *exec.Cmd {
 
 // Sets the remote origin for the repository.
 func remote(remote string) *exec.Cmd {
-	return exec.Command(
+	return appendEnv(exec.Command(
 		"git",
 		"remote",
 		"add",
 		"origin",
 		remote,
-	)
+	), defaultEnvVars...)
 }
 
 // Checkout executes a git checkout command.
 func checkoutHead() *exec.Cmd {
-	return exec.Command(
+	return appendEnv(exec.Command(
 		"git",
 		"checkout",
 		"-qf",
 		"FETCH_HEAD",
-	)
+	), defaultEnvVars...)
 }
 
 // Checkout executes a git checkout command.
 func checkoutSha(commit string) *exec.Cmd {
-	return exec.Command(
+	return appendEnv(exec.Command(
 		"git",
 		"reset",
 		"--hard",
 		"-q",
 		commit,
-	)
+	), defaultEnvVars...)
 }
 
 // fetch retuns git command that fetches from origin. If tags is true
@@ -229,10 +236,10 @@ func fetch(ref string, tags bool, depth int, skipLfs bool) *exec.Cmd {
 	if skipLfs {
 		// The GIT_LFS_SKIP_SMUDGE env var prevents git-lfs from retrieving any
 		// LFS files.
-		cmd.Env = append(cmd.Env, "GIT_LFS_SKIP_SMUDGE=1")
+		cmd = appendEnv(cmd, "GIT_LFS_SKIP_SMUDGE=1")
 	}
 
-	return cmd
+	return appendEnv(cmd, defaultEnvVars...)
 }
 
 // updateSubmodules recursively initializes and updates submodules.
@@ -249,40 +256,40 @@ func updateSubmodules(remote bool) *exec.Cmd {
 		cmd.Args = append(cmd.Args, "--remote")
 	}
 
-	return cmd
+	return appendEnv(cmd, defaultEnvVars...)
 }
 
 // skipVerify returns a git command that, when executed configures git to skip
 // ssl verification. This should may be used with self-signed certificates.
 func skipVerify() *exec.Cmd {
-	return exec.Command(
+	return appendEnv(exec.Command(
 		"git",
 		"config",
 		"--global",
 		"http.sslVerify",
 		"false",
-	)
+	), defaultEnvVars...)
 }
 
 func setCustomCert(path string) *exec.Cmd {
-	return exec.Command(
+	return appendEnv(exec.Command(
 		"git",
 		"config",
 		"--global",
 		"http.sslCAInfo",
 		path,
-	)
+	), defaultEnvVars...)
 }
 
 // remapSubmodule returns a git command that, when executed configures git to
 // remap submodule urls.
 func remapSubmodule(name, url string) *exec.Cmd {
 	name = fmt.Sprintf("submodule.%s.url", name)
-	return exec.Command(
+	return appendEnv(exec.Command(
 		"git",
 		"config",
 		"--global",
 		name,
 		url,
-	)
+	), defaultEnvVars...)
 }
