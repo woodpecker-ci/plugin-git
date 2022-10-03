@@ -41,8 +41,7 @@ vet:
 	@go vet $(GO_PACKAGES)
 
 test:
-	go test -cover ./...
-# TODO: add '-race'
+	GIT_TERMINAL_PROMPT=0 go test -race -cover ./...
 
 build:
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags '${LDFLAGS}' -o release/plugin-git
