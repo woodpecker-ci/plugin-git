@@ -41,7 +41,8 @@ vet:
 	@go vet $(GO_PACKAGES)
 
 test:
-	go test -race -cover ./...
+	go test -cover ./...
+	# we can not use "-race" as test trigger write to os.stdout
 
 build:
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags '${LDFLAGS}' -o release/plugin-git
