@@ -42,7 +42,7 @@ vet:
 
 test:
 	go test -cover ./...
-# TODO: add '-race'
+	# we can not use "-race" as test trigger write to os.stdout
 
 build:
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags '${LDFLAGS}' -o release/plugin-git

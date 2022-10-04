@@ -77,12 +77,12 @@ var commits = []struct {
 	},
 	// submodules
 	{
-		path:      "msteinert/drone-git-test-submodule",
-		clone:     "https://github.com/msteinert/drone-git-test-submodule.git",
+		path:      "test-assets/woodpecker-git-test-submodule",
+		clone:     "https://github.com/test-assets/woodpecker-git-test-submodule.git",
 		event:     "push",
-		branch:    "master",
-		commit:    "072ae3ddb6883c8db653f8d4432b07c035b93753",
-		ref:       "refs/heads/master",
+		branch:    "main",
+		commit:    "cc020eb6aaa601c13ca7b0d5db9d1ca694e7a003",
+		ref:       "refs/heads/main",
 		file:      "Hello-World/README",
 		data:      "Hello World!\n",
 		recursive: true,
