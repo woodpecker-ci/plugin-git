@@ -2,6 +2,18 @@ variables:
   - &golang 'golang:1.18'
 
 pipeline:
+  version:
+    group: prepare
+    image: *golang
+    commands:
+      - make version
+
+  vendor:
+    group: prepare
+    image: *golang
+    commands:
+      - make vendor
+
   lint:
     group: test
     image: *golang
@@ -14,18 +26,6 @@ pipeline:
     image: *golang
     commands:
       - make test
-
-  version:
-    group: prepare
-    image: *golang
-    commands:
-      - make version
-
-  vendor:
-    group: prepare
-    image: *golang
-    commands:
-      - make vendor
 
   build-dryrun:
     image: woodpeckerci/plugin-docker-buildx:latest
