@@ -64,6 +64,7 @@ release-binaries:
 release-tarball:
 	mkdir -p release
 	tar -cvzf release/plugin-git-src-$(BUILD_VERSION).tar.gz \
+	  vendor/ \
 	  *.go \
 	  go.??? \
 	  LICENSE \

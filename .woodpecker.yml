@@ -16,9 +16,16 @@ pipeline:
       - make test
 
   version:
+    group: prepare
     image: *golang
     commands:
       - make version
+
+  vendor:
+    group: prepare
+    image: *golang
+    commands:
+      - make vendor
 
   build-dryrun:
     image: woodpeckerci/plugin-docker-buildx:latest
