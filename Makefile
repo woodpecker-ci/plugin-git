@@ -20,6 +20,7 @@ LDFLAGS := -s -w -extldflags "-static" -X main.version=${BUILD_VERSION}
 
 all: build
 
+.PHONY: vendor
 vendor:
 	go mod tidy
 	go mod vendor
@@ -50,3 +51,28 @@ build:
 .PHONY: version
 version:
 	@echo ${BUILD_VERSION}
+
+release-binaries:
+	GOOS=linux   GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '${LDFLAGS}' -o release/linux-amd64_plugin-git
+	GOOS=linux   GOARCH=arm64 CGO_ENABLED=0 go build -ldflags '${LDFLAGS}' -o release/linux-arm64_plugin-git
+	GOOS=linux   GOARCH=arm   CGO_ENABLED=0 go build -ldflags '${LDFLAGS}' -o release/linux-arm_plugin-git
+	GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '${LDFLAGS}' -o release/windows-amd64_plugin-git.exe
+	GOOS=windows GOARCH=arm64 CGO_ENABLED=0 go build -ldflags '${LDFLAGS}' -o release/windows-arm64_plugin-git.exe
+	GOOS=darwin  GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '${LDFLAGS}' -o release/darwin-amd64_plugin-git
+	GOOS=darwin  GOARCH=arm64 CGO_ENABLED=0 go build -ldflags '${LDFLAGS}' -o release/darwin-arm64_plugin-git
+
+release-tarball:
+	mkdir -p release
+	tar -cvzf release/plugin-git-src-$(BUILD_VERSION).tar.gz \
+	  *.go \
+	  go.??? \
+	  LICENSE \
+	  Makefile
+
+release-checksums:
+	# generate shas for tar files
+	(cd release/; sha256sum *plugin-git* > checksums.txt)
+
+.PHONY: release
+release: release-binaries release-tarball
+	$(MAKE) release-checksums
