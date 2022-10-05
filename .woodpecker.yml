@@ -1,19 +1,22 @@
+variables:
+  - &golang 'golang:1.18'
+
 pipeline:
   lint:
     group: test
-    image: golang:1.16
+    image: *golang
     commands:
       - make vet
       - make formatcheck
 
   test:
     group: test
-    image: golang:1.16
+    image: *golang
     commands:
       - make test
 
   version:
-    image: golang:1.16
+    image: *golang
     commands:
       - make version
 
@@ -28,7 +31,7 @@ pipeline:
     when:
       event: pull_request
 
-  build-next:
+  release-next:
     image: woodpeckerci/plugin-docker-buildx:latest
     settings:
       repo: woodpeckerci/plugin-git
@@ -40,7 +43,7 @@ pipeline:
       branch: ${CI_REPO_DEFAULT_BRANCH}
       event: push
 
-  build-tag:
+  release-tag:
     image: woodpeckerci/plugin-docker-buildx:latest
     settings:
       repo: woodpeckerci/plugin-git
@@ -50,3 +53,28 @@ pipeline:
     secrets: [docker_username, docker_password]
     when:
       event: tag
+
+  build-binarys:
+    image: *golang
+    commands:
+      - make release
+#    when:
+#      event: tag
+
+  release-binarys-dryrun:
+    image: *golang
+    commands:
+    - ls -la release/*
+    - cat release/checksums.txt
+
+#  release-binarys:
+#    image: plugins/github-release
+#    secrets:
+#      - source: github_token
+#        target: github_release_api_key
+#    settings:
+#      files:
+#        - release/*
+#      title: ${CI_COMMIT_TAG##v}
+#    when:
+#      event: tag
