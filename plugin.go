@@ -54,12 +54,15 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, remote(p.Repo.Clone))
 	}
 
+	// fetch ref in any case
+	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, !p.Config.Lfs))
+
 	switch {
-	case isPullRequest(p.Build.Event) || isTag(p.Build.Event, p.Build.Ref):
-		cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, !p.Config.Lfs))
+	case isPullRequest(p.Build.Event) || isTag(p.Build.Event, p.Build.Ref) || p.Build.Commit == "":
+		// checkout by fetched ref
 		cmds = append(cmds, checkoutHead())
 	default:
-		cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, !p.Config.Lfs))
+		// checkout by commit sha
 		cmds = append(cmds, checkoutSha(p.Build.Commit))
 	}
 
