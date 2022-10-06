@@ -1,5 +1,21 @@
 # Changelog
 
+## [v1.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.5.0) - 2022-10-06
+
+* ENHANCEMENTS
+  * Release binarys (#37)
+  * Use ref to checkout if no commit sha is set (#36)
+  * Fix tests (#35)
+* MISC
+  * Update urfave/cli to v2.17.1 (#38)
+  * Use built-in log instead of logrus (#34)
+
+## [v1.4.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.4.0) - 2022-08-30
+
+* ENHANCEMENTS
+  * Auto enable tags clone if it's ci event is 'tag' (#30)
+  * Support more architectures (#29)
+
 ## [v1.3.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.3.0) - 2022-08-15
 
 * FEATURES
