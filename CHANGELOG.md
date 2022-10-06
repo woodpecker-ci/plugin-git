@@ -7,6 +7,7 @@
   * Use ref to checkout if no commit sha is set (#36)
   * Fix tests (#35)
 * MISC
+  * Update urfave/cli to v2.17.1 (#38)
   * Use built-in log instead of logrus (#34)
 
 ## [v1.4.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.4.0) - 2022-08-30
