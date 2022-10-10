@@ -98,7 +98,7 @@ var commits = []struct {
 		file: "README",
 		data: "Hello World!\n\nsomething is changed!\n",
 	},
-	// checkout with lfs
+	// chekout with lfs skip
 	{
 		path:     "test-assets/woodpecker-git-test-lfs",
 		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
@@ -106,10 +106,9 @@ var commits = []struct {
 		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
 		ref:      "refs/heads/main",
 		file:     "4M.bin",
-		dataSize: 4194304,
-		lfs:      true,
+		dataSize: 132,
 	},
-	// chekout with lfs skip
+	// checkout with lfs
 	{
 		path:     "test-assets/woodpecker-git-test-lfs",
 		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
