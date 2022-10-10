@@ -89,7 +89,7 @@ var commits = []struct {
 		data:      "Hello World!\n",
 		recursive: true,
 	},
-	// chekout with ref only
+	// checkout with ref only
 	{
 		path:  "octocat/Hello-World",
 		clone: "https://github.com/octocat/Hello-World.git",
@@ -99,7 +99,7 @@ var commits = []struct {
 		file: "README",
 		data: "Hello World!\n\nsomething is changed!\n",
 	},
-	// chekout with lfs
+	// checkout with lfs
 	{
 		path:     "test-assets/woodpecker-git-test-lfs",
 		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",

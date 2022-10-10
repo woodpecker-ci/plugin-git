@@ -78,8 +78,9 @@ func (p Plugin) Exec() error {
 	}
 
 	if p.Config.Lfs {
-		cmds = append(cmds, fetchLFS())
-		cmds = append(cmds, checkoutLFS())
+		cmds = append(cmds,
+			fetchLFS(),
+			checkoutLFS())
 	}
 
 	for _, cmd := range cmds {
