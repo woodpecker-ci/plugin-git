@@ -18,7 +18,9 @@ var commits = []struct {
 	ref       string
 	file      string
 	data      string
+	dataSize  int64
 	recursive bool
+	lfs       bool
 }{
 	// first commit
 	{
@@ -97,6 +99,27 @@ var commits = []struct {
 		file: "README",
 		data: "Hello World!\n\nsomething is changed!\n",
 	},
+	// chekout with lfs
+	{
+		path:     "test-assets/woodpecker-git-test-lfs",
+		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
+		event:    "push",
+		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
+		ref:      "refs/heads/main",
+		file:     "4M.bin",
+		dataSize: 4194304,
+		lfs:      true,
+	},
+	// chekout with lfs skip
+	{
+		path:     "test-assets/woodpecker-git-test-lfs",
+		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
+		event:    "push",
+		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
+		ref:      "refs/heads/main",
+		file:     "4M.bin",
+		dataSize: 132,
+	},
 }
 
 // TestClone tests the ability to clone a specific commit into
@@ -118,6 +141,7 @@ func TestClone(t *testing.T) {
 			},
 			Config: Config{
 				Recursive: c.recursive,
+				Lfs:       c.lfs,
 			},
 		}
 
@@ -125,10 +149,20 @@ func TestClone(t *testing.T) {
 			t.Errorf("Expected successful clone. Got error. %s.", err)
 		}
 
-		data := readFile(plugin.Build.Path, c.file)
-		if data != c.data {
-			t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
+		if c.data != "" {
+			data := readFile(plugin.Build.Path, c.file)
+			if data != c.data {
+				t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
+			}
 		}
+
+		if c.dataSize != 0 {
+			size := getFileSize(plugin.Build.Path, c.file)
+			if size != c.dataSize {
+				t.Errorf("Expected %s size to be [%d]. Got [%d].", c.file, c.dataSize, size)
+			}
+		}
+
 	}
 }
 
@@ -385,4 +419,10 @@ func readFile(dir, file string) string {
 	filename := filepath.Join(dir, file)
 	data, _ := ioutil.ReadFile(filename)
 	return string(data)
+}
+
+func getFileSize(dir, file string) int64 {
+	filename := filepath.Join(dir, file)
+	fi, _ := os.Stat(filename)
+	return fi.Size()
 }
