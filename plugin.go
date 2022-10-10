@@ -78,6 +78,7 @@ func (p Plugin) Exec() error {
 	}
 
 	if p.Config.Lfs {
+		cmds = append(cmds, fetchLFS())
 		cmds = append(cmds, checkoutLFS())
 	}
 
@@ -223,6 +224,13 @@ func checkoutSha(commit string) *exec.Cmd {
 		"--hard",
 		"-q",
 		commit,
+	), defaultEnvVars...)
+}
+
+func fetchLFS() *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git", "lfs",
+		"fetch",
 	), defaultEnvVars...)
 }
 
