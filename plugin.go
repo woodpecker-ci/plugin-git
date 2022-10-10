@@ -23,7 +23,10 @@ type Plugin struct {
 
 const customCertTmpPath = "/tmp/customCert.pem"
 
-var defaultEnvVars = []string{"GIT_TERMINAL_PROMPT=0"}
+var defaultEnvVars = []string{
+	"GIT_TERMINAL_PROMPT=0", // dont wait for user imput
+	"GIT_LFS_SKIP_SMUDGE=1", // prevents git-lfs from retrieving any LFS files
+}
 
 func (p Plugin) Exec() error {
 	if p.Build.Path != "" {
@@ -55,15 +58,15 @@ func (p Plugin) Exec() error {
 	}
 
 	// fetch ref in any case
-	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, p.Config.Lfs))
+	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth))
 
 	switch {
 	case isPullRequest(p.Build.Event) || isTag(p.Build.Event, p.Build.Ref) || p.Build.Commit == "":
 		// checkout by fetched ref
-		cmds = append(cmds, checkoutHead(p.Config.Lfs))
+		cmds = append(cmds, checkoutHead())
 	default:
 		// checkout by commit sha
-		cmds = append(cmds, checkoutSha(p.Build.Commit, p.Config.Lfs))
+		cmds = append(cmds, checkoutSha(p.Build.Commit))
 	}
 
 	for name, submoduleUrl := range p.Config.Submodules {
@@ -72,6 +75,10 @@ func (p Plugin) Exec() error {
 
 	if p.Config.Recursive {
 		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote))
+	}
+
+	if p.Config.Lfs {
+		cmds = append(cmds, checkoutLFS())
 	}
 
 	for _, cmd := range cmds {
@@ -179,21 +186,12 @@ func appendEnv(cmd *exec.Cmd, env ...string) *exec.Cmd {
 	return cmd
 }
 
-func applyLFSEnv(cmd *exec.Cmd, lfs bool) *exec.Cmd {
-	if lfs {
-		return appendEnv(cmd, "GIT_LFS_SKIP_SMUDGE=0")
-	}
-
-	// The GIT_LFS_SKIP_SMUDGE=1 env var prevents git-lfs from retrieving any LFS files.
-	return appendEnv(cmd, "GIT_LFS_SKIP_SMUDGE=1")
-}
-
 // Creates an empty git repository.
 func initGit(branch string) *exec.Cmd {
 	if branch == "" {
-		return exec.Command("git", "init")
+		return appendEnv(exec.Command("git", "init"), defaultEnvVars...)
 	}
-	return exec.Command("git", "init", "-b", branch)
+	return appendEnv(exec.Command("git", "init", "-b", branch), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
@@ -208,33 +206,36 @@ func remote(remote string) *exec.Cmd {
 }
 
 // Checkout executes a git checkout command.
-func checkoutHead(lfs bool) *exec.Cmd {
-	cmd := appendEnv(exec.Command(
+func checkoutHead() *exec.Cmd {
+	return appendEnv(exec.Command(
 		"git",
 		"checkout",
 		"-qf",
 		"FETCH_HEAD",
 	), defaultEnvVars...)
-
-	return applyLFSEnv(cmd, lfs)
 }
 
 // Checkout executes a git checkout command.
-func checkoutSha(commit string, lfs bool) *exec.Cmd {
-	cmd := appendEnv(exec.Command(
+func checkoutSha(commit string) *exec.Cmd {
+	return appendEnv(exec.Command(
 		"git",
 		"reset",
 		"--hard",
 		"-q",
 		commit,
 	), defaultEnvVars...)
+}
 
-	return applyLFSEnv(cmd, lfs)
+func checkoutLFS() *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git-lfs",
+		"checkout",
+	), defaultEnvVars...)
 }
 
 // fetch retuns git command that fetches from origin. If tags is true
 // then tags will be fetched.
-func fetch(ref string, tags bool, depth int, lfs bool) *exec.Cmd {
+func fetch(ref string, tags bool, depth int) *exec.Cmd {
 	tags_option := "--no-tags"
 	if tags {
 		tags_option = "--tags"
@@ -250,9 +251,7 @@ func fetch(ref string, tags bool, depth int, lfs bool) *exec.Cmd {
 	cmd.Args = append(cmd.Args, "origin")
 	cmd.Args = append(cmd.Args, fmt.Sprintf("+%s:", ref))
 
-	cmd = appendEnv(cmd, defaultEnvVars...)
-
-	return applyLFSEnv(cmd, lfs)
+	return appendEnv(cmd, defaultEnvVars...)
 }
 
 // updateSubmodules recursively initializes and updates submodules.
