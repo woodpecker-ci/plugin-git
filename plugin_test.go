@@ -98,6 +98,7 @@ var commits = []struct {
 		file: "README",
 		data: "Hello World!\n\nsomething is changed!\n",
 	},
+	// ### test lfs, please do not change order, otherwise TestCloneNonEmpty will fail ###
 	// chekout with lfs skip
 	{
 		path:     "test-assets/woodpecker-git-test-lfs",
