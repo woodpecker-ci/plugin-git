@@ -228,7 +228,7 @@ func checkoutSha(commit string) *exec.Cmd {
 
 func checkoutLFS() *exec.Cmd {
 	return appendEnv(exec.Command(
-		"git-lfs",
+		"git", "lfs",
 		"checkout",
 	), defaultEnvVars...)
 }
