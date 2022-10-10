@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -414,7 +413,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 // helper function that will setup a temporary workspace.
 // to which we can clone the repositroy
 func setup() string {
-	dir, _ := ioutil.TempDir("/tmp", "plugin_git_test_")
+	dir, _ := os.MkdirTemp("/tmp", "plugin_git_test_")
 	os.Mkdir(dir, 0o777)
 	return dir
 }
@@ -427,7 +426,7 @@ func teardown(dir string) {
 // helper function to read a file in the temporary worskapce.
 func readFile(dir, file string) string {
 	filename := filepath.Join(dir, file)
-	data, _ := ioutil.ReadFile(filename)
+	data, _ := os.ReadFile(filename)
 	return string(data)
 }
 
