@@ -55,15 +55,15 @@ func (p Plugin) Exec() error {
 	}
 
 	// fetch ref in any case
-	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, !p.Config.Lfs))
+	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, p.Config.Lfs))
 
 	switch {
 	case isPullRequest(p.Build.Event) || isTag(p.Build.Event, p.Build.Ref) || p.Build.Commit == "":
 		// checkout by fetched ref
-		cmds = append(cmds, checkoutHead())
+		cmds = append(cmds, checkoutHead(p.Config.Lfs))
 	default:
 		// checkout by commit sha
-		cmds = append(cmds, checkoutSha(p.Build.Commit))
+		cmds = append(cmds, checkoutSha(p.Build.Commit, p.Config.Lfs))
 	}
 
 	for name, submoduleUrl := range p.Config.Submodules {
@@ -179,6 +179,15 @@ func appendEnv(cmd *exec.Cmd, env ...string) *exec.Cmd {
 	return cmd
 }
 
+func applyLFSEnv(cmd *exec.Cmd, lfs bool) *exec.Cmd {
+	if lfs {
+		return appendEnv(cmd, "GIT_LFS_SKIP_SMUDGE=0")
+	}
+
+	// The GIT_LFS_SKIP_SMUDGE=1 env var prevents git-lfs from retrieving any LFS files.
+	return appendEnv(cmd, "GIT_LFS_SKIP_SMUDGE=1")
+}
+
 // Creates an empty git repository.
 func initGit(branch string) *exec.Cmd {
 	if branch == "" {
@@ -199,29 +208,33 @@ func remote(remote string) *exec.Cmd {
 }
 
 // Checkout executes a git checkout command.
-func checkoutHead() *exec.Cmd {
-	return appendEnv(exec.Command(
+func checkoutHead(lfs bool) *exec.Cmd {
+	cmd := appendEnv(exec.Command(
 		"git",
 		"checkout",
 		"-qf",
 		"FETCH_HEAD",
 	), defaultEnvVars...)
+
+	return applyLFSEnv(cmd, lfs)
 }
 
 // Checkout executes a git checkout command.
-func checkoutSha(commit string) *exec.Cmd {
-	return appendEnv(exec.Command(
+func checkoutSha(commit string, lfs bool) *exec.Cmd {
+	cmd := appendEnv(exec.Command(
 		"git",
 		"reset",
 		"--hard",
 		"-q",
 		commit,
 	), defaultEnvVars...)
+
+	return applyLFSEnv(cmd, lfs)
 }
 
 // fetch retuns git command that fetches from origin. If tags is true
 // then tags will be fetched.
-func fetch(ref string, tags bool, depth int, skipLfs bool) *exec.Cmd {
+func fetch(ref string, tags bool, depth int, lfs bool) *exec.Cmd {
 	tags_option := "--no-tags"
 	if tags {
 		tags_option = "--tags"
@@ -236,13 +249,10 @@ func fetch(ref string, tags bool, depth int, skipLfs bool) *exec.Cmd {
 	}
 	cmd.Args = append(cmd.Args, "origin")
 	cmd.Args = append(cmd.Args, fmt.Sprintf("+%s:", ref))
-	if skipLfs {
-		// The GIT_LFS_SKIP_SMUDGE env var prevents git-lfs from retrieving any
-		// LFS files.
-		cmd = appendEnv(cmd, "GIT_LFS_SKIP_SMUDGE=1")
-	}
 
-	return appendEnv(cmd, defaultEnvVars...)
+	cmd = appendEnv(cmd, defaultEnvVars...)
+
+	return applyLFSEnv(cmd, lfs)
 }
 
 // updateSubmodules recursively initializes and updates submodules.

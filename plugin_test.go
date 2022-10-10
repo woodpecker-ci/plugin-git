@@ -187,6 +187,7 @@ func TestCloneNonEmpty(t *testing.T) {
 			},
 			Config: Config{
 				Recursive: c.recursive,
+				Lfs:       c.lfs,
 			},
 		}
 
@@ -194,10 +195,19 @@ func TestCloneNonEmpty(t *testing.T) {
 			t.Errorf("Expected successful clone. Got error. %s.", err)
 		}
 
-		data := readFile(plugin.Build.Path, c.file)
-		if data != c.data {
-			t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
-			break
+		if c.data != "" {
+			data := readFile(plugin.Build.Path, c.file)
+			if data != c.data {
+				t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
+				break
+			}
+		}
+
+		if c.dataSize != 0 {
+			size := getFileSize(plugin.Build.Path, c.file)
+			if size != c.dataSize {
+				t.Errorf("Expected %s size to be [%d]. Got [%d].", c.file, c.dataSize, size)
+			}
 		}
 	}
 }
