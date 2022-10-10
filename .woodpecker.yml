@@ -25,6 +25,7 @@ pipeline:
     group: test
     image: *golang
     commands:
+      - apk add git-lfs
       - make test
 
   build-dryrun:
