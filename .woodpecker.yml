@@ -1,5 +1,5 @@
 variables:
-  - &golang 'golang:1.18'
+  - &golang 'golang:1.18-alpine'
 
 pipeline:
   version:
