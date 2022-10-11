@@ -122,7 +122,7 @@ func main() {
 		&cli.StringFlag{
 			Name:    "branch",
 			Usage:   "Change branch name",
-			EnvVars: []string{"PLUGIN_BRANCH", "CI_COMMIT_BRANCH"},
+			EnvVars: []string{"PLUGIN_BRANCH", "CI_COMMIT_BRANCH", "CI_REPO_DEFAULT_BRANCH"},
 		},
 	}
 
