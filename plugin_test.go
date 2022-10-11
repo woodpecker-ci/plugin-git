@@ -118,6 +118,7 @@ var commits = []struct {
 		ref:      "refs/heads/main",
 		file:     "4M.bin",
 		dataSize: 132,
+		lfs:      true,
 	},
 }
 
