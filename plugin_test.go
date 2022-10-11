@@ -117,7 +117,7 @@ var commits = []struct {
 		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
 		ref:      "refs/heads/main",
 		file:     "4M.bin",
-		dataSize: 132,
+		dataSize: 4194304,
 		lfs:      true,
 	},
 }
