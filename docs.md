@@ -1,11 +1,13 @@
 ---
 name: Git Plugin
 icon: https://woodpecker-ci.org/img/logo.svg
+
 description: This is the default plugin for the clone step.
 authors: Woodpecker Authors
 tags: [git, clone]
 containerImage: woodpeckerci/plugin-git
 containerImageUrl: https://hub.docker.com/r/woodpeckerci/plugin-git
+url: https://github.com/woodpecker-ci/plugin-git
 ---
 
 This plugin is automatically introduced into your pipeline as the first step.
