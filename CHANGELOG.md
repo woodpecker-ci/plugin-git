@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.6.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.6.0) - 2022-10-13
+
+* BUGFIXES
+  * Handle git-lfs separately (#40)
+* ENHANCEMENTS
+  * if no branch info is set, fallback to default repo branch (#41)
+
 ## [v1.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.5.0) - 2022-10-06
 
 * ENHANCEMENTS
