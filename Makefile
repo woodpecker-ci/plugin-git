@@ -39,10 +39,10 @@ clean:
 .PHONY: vet
 vet:
 	@echo "Running go vet..."
-	@go vet $(GO_PACKAGES)
+	CGO_ENABLED=0 go vet $(GO_PACKAGES)
 
 test:
-	go test -cover ./...
+	CGO_ENABLED=0 go test -cover ./...
 	# we can not use "-race" as test trigger write to os.stdout
 
 build:

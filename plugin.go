@@ -23,7 +23,10 @@ type Plugin struct {
 
 const customCertTmpPath = "/tmp/customCert.pem"
 
-var defaultEnvVars = []string{"GIT_TERMINAL_PROMPT=0"}
+var defaultEnvVars = []string{
+	"GIT_TERMINAL_PROMPT=0", // don't wait for user input
+	"GIT_LFS_SKIP_SMUDGE=1", // prevents git-lfs from retrieving any LFS files
+}
 
 func (p Plugin) Exec() error {
 	if p.Build.Path != "" {
@@ -55,7 +58,7 @@ func (p Plugin) Exec() error {
 	}
 
 	// fetch ref in any case
-	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, !p.Config.Lfs))
+	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth))
 
 	switch {
 	case isPullRequest(p.Build.Event) || isTag(p.Build.Event, p.Build.Ref) || p.Build.Commit == "":
@@ -72,6 +75,12 @@ func (p Plugin) Exec() error {
 
 	if p.Config.Recursive {
 		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote))
+	}
+
+	if p.Config.Lfs {
+		cmds = append(cmds,
+			fetchLFS(),
+			checkoutLFS())
 	}
 
 	for _, cmd := range cmds {
@@ -182,9 +191,9 @@ func appendEnv(cmd *exec.Cmd, env ...string) *exec.Cmd {
 // Creates an empty git repository.
 func initGit(branch string) *exec.Cmd {
 	if branch == "" {
-		return exec.Command("git", "init")
+		return appendEnv(exec.Command("git", "init"), defaultEnvVars...)
 	}
-	return exec.Command("git", "init", "-b", branch)
+	return appendEnv(exec.Command("git", "init", "-b", branch), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
@@ -219,9 +228,23 @@ func checkoutSha(commit string) *exec.Cmd {
 	), defaultEnvVars...)
 }
 
+func fetchLFS() *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git", "lfs",
+		"fetch",
+	), defaultEnvVars...)
+}
+
+func checkoutLFS() *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git", "lfs",
+		"checkout",
+	), defaultEnvVars...)
+}
+
 // fetch retuns git command that fetches from origin. If tags is true
 // then tags will be fetched.
-func fetch(ref string, tags bool, depth int, skipLfs bool) *exec.Cmd {
+func fetch(ref string, tags bool, depth int) *exec.Cmd {
 	tags_option := "--no-tags"
 	if tags {
 		tags_option = "--tags"
@@ -236,11 +259,6 @@ func fetch(ref string, tags bool, depth int, skipLfs bool) *exec.Cmd {
 	}
 	cmd.Args = append(cmd.Args, "origin")
 	cmd.Args = append(cmd.Args, fmt.Sprintf("+%s:", ref))
-	if skipLfs {
-		// The GIT_LFS_SKIP_SMUDGE env var prevents git-lfs from retrieving any
-		// LFS files.
-		cmd = appendEnv(cmd, "GIT_LFS_SKIP_SMUDGE=1")
-	}
 
 	return appendEnv(cmd, defaultEnvVars...)
 }

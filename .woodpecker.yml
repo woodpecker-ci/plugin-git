@@ -1,23 +1,25 @@
 variables:
-  - &golang 'golang:1.18'
+  - &golang 'golang:1.18-alpine'
 
 pipeline:
   version:
     group: prepare
     image: *golang
     commands:
+      - apk add make
       - make version
 
   vendor:
     group: prepare
     image: *golang
     commands:
-      - make vendor
+      - go mod vendor
 
   lint:
     group: test
     image: *golang
     commands:
+      - apk add make
       - make vet
       - make formatcheck
 
@@ -25,6 +27,7 @@ pipeline:
     group: test
     image: *golang
     commands:
+      - apk add make git-lfs
       - make test
 
   build-dryrun:
@@ -64,6 +67,7 @@ pipeline:
   build-binarys:
     image: *golang
     commands:
+      - apk add make
       - make release
     when:
       event: tag

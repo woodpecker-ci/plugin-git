@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -18,7 +17,9 @@ var commits = []struct {
 	ref       string
 	file      string
 	data      string
+	dataSize  int64
 	recursive bool
+	lfs       bool
 }{
 	// first commit
 	{
@@ -87,7 +88,7 @@ var commits = []struct {
 		data:      "Hello World!\n",
 		recursive: true,
 	},
-	// chekout with ref only
+	// checkout with ref only
 	{
 		path:  "octocat/Hello-World",
 		clone: "https://github.com/octocat/Hello-World.git",
@@ -96,6 +97,28 @@ var commits = []struct {
 		ref:  "pull/2403/head",
 		file: "README",
 		data: "Hello World!\n\nsomething is changed!\n",
+	},
+	// ### test lfs, please do not change order, otherwise TestCloneNonEmpty will fail ###
+	// checkout with lfs skip
+	{
+		path:     "test-assets/woodpecker-git-test-lfs",
+		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
+		event:    "push",
+		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
+		ref:      "refs/heads/main",
+		file:     "4M.bin",
+		dataSize: 132,
+	},
+	// checkout with lfs
+	{
+		path:     "test-assets/woodpecker-git-test-lfs",
+		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
+		event:    "push",
+		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
+		ref:      "refs/heads/main",
+		file:     "4M.bin",
+		dataSize: 4194304,
+		lfs:      true,
 	},
 }
 
@@ -118,6 +141,7 @@ func TestClone(t *testing.T) {
 			},
 			Config: Config{
 				Recursive: c.recursive,
+				Lfs:       c.lfs,
 			},
 		}
 
@@ -125,10 +149,20 @@ func TestClone(t *testing.T) {
 			t.Errorf("Expected successful clone. Got error. %s.", err)
 		}
 
-		data := readFile(plugin.Build.Path, c.file)
-		if data != c.data {
-			t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
+		if c.data != "" {
+			data := readFile(plugin.Build.Path, c.file)
+			if data != c.data {
+				t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
+			}
 		}
+
+		if c.dataSize != 0 {
+			size := getFileSize(plugin.Build.Path, c.file)
+			if size != c.dataSize {
+				t.Errorf("Expected %s size to be [%d]. Got [%d].", c.file, c.dataSize, size)
+			}
+		}
+
 	}
 }
 
@@ -153,6 +187,7 @@ func TestCloneNonEmpty(t *testing.T) {
 			},
 			Config: Config{
 				Recursive: c.recursive,
+				Lfs:       c.lfs,
 			},
 		}
 
@@ -160,10 +195,19 @@ func TestCloneNonEmpty(t *testing.T) {
 			t.Errorf("Expected successful clone. Got error. %s.", err)
 		}
 
-		data := readFile(plugin.Build.Path, c.file)
-		if data != c.data {
-			t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
-			break
+		if c.data != "" {
+			data := readFile(plugin.Build.Path, c.file)
+			if data != c.data {
+				t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
+				break
+			}
+		}
+
+		if c.dataSize != 0 {
+			size := getFileSize(plugin.Build.Path, c.file)
+			if size != c.dataSize {
+				t.Errorf("Expected %s size to be [%d]. Got [%d].", c.file, c.dataSize, size)
+			}
 		}
 	}
 }
@@ -216,7 +260,7 @@ func TestFetch(t *testing.T) {
 		},
 	}
 	for _, td := range testdata {
-		c := fetch(td.ref, td.tags, td.depth, false)
+		c := fetch(td.ref, td.tags, td.depth)
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}
@@ -370,7 +414,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 // helper function that will setup a temporary workspace.
 // to which we can clone the repositroy
 func setup() string {
-	dir, _ := ioutil.TempDir("/tmp", "plugin_git_test_")
+	dir, _ := os.MkdirTemp("/tmp", "plugin_git_test_")
 	os.Mkdir(dir, 0o777)
 	return dir
 }
@@ -383,6 +427,12 @@ func teardown(dir string) {
 // helper function to read a file in the temporary worskapce.
 func readFile(dir, file string) string {
 	filename := filepath.Join(dir, file)
-	data, _ := ioutil.ReadFile(filename)
+	data, _ := os.ReadFile(filename)
 	return string(data)
+}
+
+func getFileSize(dir, file string) int64 {
+	filename := filepath.Join(dir, file)
+	fi, _ := os.Stat(filename)
+	return fi.Size()
 }
