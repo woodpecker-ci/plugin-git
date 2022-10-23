@@ -17,6 +17,18 @@ func trace(cmd *exec.Cmd) {
 	fmt.Printf("+ %s\n", strings.Join(cmd.Args, " "))
 }
 
+// pathExists returns whether the given file or directory exists or not
+func pathExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return true, err
+}
+
 // helper function returns true if directory dir is empty.
 func isDirEmpty(dir string) bool {
 	f, err := os.Open(dir)

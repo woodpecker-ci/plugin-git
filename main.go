@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
 
+	"github.com/adrg/xdg"
 	"github.com/joho/godotenv"
 	"github.com/urfave/cli/v2"
 )
@@ -135,6 +137,17 @@ func run(c *cli.Context) error {
 	if c.String("env-file") != "" {
 		_ = godotenv.Load(c.String("env-file"))
 	}
+
+	// make sure home dir exist and is set
+	home := xdg.Home
+	homeExist, err := pathExists(home)
+	if err != nil {
+		return err
+	}
+	if !homeExist {
+		return fmt.Errorf("home dir '%s' do not exist", home)
+	}
+	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
 
 	event := c.String("event")
 
