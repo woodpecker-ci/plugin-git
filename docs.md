@@ -50,5 +50,6 @@ clone:
 | `backoff`                 | `5sec`            | Change backoff duration
 | `attempts`                | `5`               | Change backoff attempts
 | `branch`                  | $CI_COMMIT_BRANCH | Change branch name to checkout to
+| `home`                    |                   | Change HOME var for commands executed, fail if not exist
 
 [pipelineClone]: https://woodpecker-ci.org/docs/usage/pipeline-syntax#clone

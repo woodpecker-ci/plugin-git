@@ -1,12 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
 
-	"github.com/adrg/xdg"
 	"github.com/joho/godotenv"
 	"github.com/urfave/cli/v2"
 )
@@ -126,6 +124,11 @@ func main() {
 			Usage:   "Change branch name",
 			EnvVars: []string{"PLUGIN_BRANCH", "CI_COMMIT_BRANCH", "CI_REPO_DEFAULT_BRANCH"},
 		},
+		&cli.StringFlag{
+			Name:    "home",
+			Usage:   "Change home dir",
+			EnvVars: []string{"PLUGIN_HOME"},
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -137,17 +140,6 @@ func run(c *cli.Context) error {
 	if c.String("env-file") != "" {
 		_ = godotenv.Load(c.String("env-file"))
 	}
-
-	// make sure home dir exist and is set
-	home := xdg.Home
-	homeExist, err := pathExists(home)
-	if err != nil {
-		return err
-	}
-	if !homeExist {
-		return fmt.Errorf("home dir '%s' do not exist", home)
-	}
-	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
 
 	event := c.String("event")
 
@@ -183,6 +175,7 @@ func run(c *cli.Context) error {
 			Submodules:      c.Generic("submodule-override").(*MapFlag).Get(),
 			Lfs:             c.Bool("lfs"),
 			Branch:          c.String("branch"),
+			Home:            c.String("home"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),
