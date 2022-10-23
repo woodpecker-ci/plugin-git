@@ -172,6 +172,7 @@ func retryExec(cmd *exec.Cmd, backoff time.Duration, retries int) (err error) {
 		// copy the original command
 		retry := exec.Command(cmd.Args[0], cmd.Args[1:]...)
 		retry.Dir = cmd.Dir
+		retry.Env = cmd.Env
 		retry.Stdout = os.Stdout
 		retry.Stderr = os.Stderr
 		trace(retry)
