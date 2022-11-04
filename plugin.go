@@ -339,9 +339,5 @@ func setHome(home string) error {
 	}
 	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
 
-	// debug
-	fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
-	fmt.Println(home)
-	fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
 	return nil
 }
