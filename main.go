@@ -1,12 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
 
-	"github.com/adrg/xdg"
 	"github.com/joho/godotenv"
 	"github.com/urfave/cli/v2"
 )
@@ -143,19 +141,7 @@ func run(c *cli.Context) error {
 		_ = godotenv.Load(c.String("env-file"))
 	}
 
-	// make sure home dir exist and is set
-	home := xdg.Home
-	homeExist, err := pathExists(home)
-	if err != nil {
-		return err
-	}
-	if !homeExist {
-		return fmt.Errorf("home dir '%s' do not exist", home)
-	}
-	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
-
 	event := c.String("event")
-
 	tags := c.Bool("tags")
 	if event == "tag" && !c.IsSet("tags") {
 		// tags clone not explicit set but pipeline is triggered by a tag
