@@ -260,7 +260,7 @@ func TestFetch(t *testing.T) {
 		},
 	}
 	for _, td := range testdata {
-		c := fetch(td.ref, td.tags, td.depth)
+		c := fetch(td.ref, td.tags, td.depth, "")
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}
