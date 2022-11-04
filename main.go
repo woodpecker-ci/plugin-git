@@ -126,6 +126,12 @@ func main() {
 			Usage:   "Change branch name",
 			EnvVars: []string{"PLUGIN_BRANCH", "CI_COMMIT_BRANCH", "CI_REPO_DEFAULT_BRANCH"},
 		},
+		&cli.BoolFlag{
+			Name:    "partial",
+			Usage:   "Enable/Disable Partial clone",
+			EnvVars: []string{"PLUGIN_PARTIAL"},
+			Value:   true,
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -150,12 +156,23 @@ func run(c *cli.Context) error {
 	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
 
 	event := c.String("event")
-
 	tags := c.Bool("tags")
+	partial := c.Bool("partial")
+
+	if c.IsSet("tags") && c.IsSet("partial") {
+		return fmt.Errorf("fetching tags and partial clone are both enabled, this would only slow down clone\n\n" +
+			"please fix your settings")
+	}
+
 	if event == "tag" && !c.IsSet("tags") {
 		// tags clone not explicit set but pipeline is triggered by a tag
 		// auto set tags cloning to true
 		tags = true
+	}
+
+	if tags {
+		// if tag fetching is enabled per event or setting, disable partial clone
+		partial = false
 	}
 
 	plugin := Plugin{
@@ -183,6 +200,7 @@ func run(c *cli.Context) error {
 			Submodules:      c.Generic("submodule-override").(*MapFlag).Get(),
 			Lfs:             c.Bool("lfs"),
 			Branch:          c.String("branch"),
+			Partial:         partial,
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),

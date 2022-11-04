@@ -34,6 +34,7 @@ type (
 		CustomCert      string
 		Lfs             bool
 		Branch          string
+		Partial         bool
 	}
 
 	Backoff struct {
