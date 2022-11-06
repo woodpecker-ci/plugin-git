@@ -58,7 +58,7 @@ func (p Plugin) Exec() error {
 	}
 
 	// fetch ref in any case
-	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth))
+	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
 
 	switch {
 	case isPullRequest(p.Build.Event) || isTag(p.Build.Event, p.Build.Ref) || p.Build.Commit == "":
@@ -245,7 +245,7 @@ func checkoutLFS() *exec.Cmd {
 
 // fetch retuns git command that fetches from origin. If tags is true
 // then tags will be fetched.
-func fetch(ref string, tags bool, depth int) *exec.Cmd {
+func fetch(ref string, tags bool, depth int, filter string) *exec.Cmd {
 	tags_option := "--no-tags"
 	if tags {
 		tags_option = "--tags"
@@ -257,6 +257,9 @@ func fetch(ref string, tags bool, depth int) *exec.Cmd {
 	)
 	if depth != 0 {
 		cmd.Args = append(cmd.Args, fmt.Sprintf("--depth=%d", depth))
+	}
+	if filter != "" {
+		cmd.Args = append(cmd.Args, "--filter="+filter)
 	}
 	cmd.Args = append(cmd.Args, "origin")
 	cmd.Args = append(cmd.Args, fmt.Sprintf("+%s:", ref))

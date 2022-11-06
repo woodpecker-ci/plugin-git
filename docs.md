@@ -38,7 +38,7 @@ clone:
 
 | Settings Name             | Default           | Description
 | --------------------------| ----------------- | --------------------------------------------
-| `depth`                   | *none*            | If specified, uses git's `--depth` option to create a shallow clone with a limited number of commits
+| `depth`                   | *none*            | If specified, uses git's `--depth` option to create a shallow clone with a limited number of commits, overwritten by partial
 | `lfs`                     | `true`            | Set this to `false` to disable retrieval of LFS files
 | `recursive`               | `false`           | Clones submodules recursively
 | `skip_verify`             | `false`           | Skips the SSL verification
@@ -50,5 +50,6 @@ clone:
 | `backoff`                 | `5sec`            | Change backoff duration
 | `attempts`                | `5`               | Change backoff attempts
 | `branch`                  | $CI_COMMIT_BRANCH | Change branch name to checkout to
+| `partial`                 | `true` (except if tags are fetched) | Only fetch the one commit and it's blob objects to resolve all files, overwrite depth with 1
 
 [pipelineClone]: https://woodpecker-ci.org/docs/usage/pipeline-syntax#clone
