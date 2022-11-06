@@ -335,7 +335,7 @@ func setHome(home string) error {
 		return err
 	}
 	if !homeExist {
-		return fmt.Errorf("home dir '%s' do not exist", home)
+		return fmt.Errorf("home directory '%s' do not exist", home)
 	}
 	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
 

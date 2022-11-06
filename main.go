@@ -126,7 +126,7 @@ func main() {
 		},
 		&cli.StringFlag{
 			Name:    "home",
-			Usage:   "Change home dir",
+			Usage:   "Change home directory",
 			EnvVars: []string{"PLUGIN_HOME"},
 		},
 	}
