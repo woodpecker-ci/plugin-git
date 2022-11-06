@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.6.1) - 2022-11-06
+
+* BUGFIXES
+  * Explicite set and check for home dir (#46)
+
 ## [v1.6.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v1.6.0) - 2022-10-13
 
 * BUGFIXES
