@@ -124,6 +124,12 @@ func main() {
 			Usage:   "Change branch name",
 			EnvVars: []string{"PLUGIN_BRANCH", "CI_COMMIT_BRANCH", "CI_REPO_DEFAULT_BRANCH"},
 		},
+		&cli.BoolFlag{
+			Name:    "partial",
+			Usage:   "Enable/Disable Partial clone",
+			EnvVars: []string{"PLUGIN_PARTIAL"},
+			Value:   true,
+		},
 		&cli.StringFlag{
 			Name:    "home",
 			Usage:   "Change home directory",
@@ -141,21 +147,13 @@ func run(c *cli.Context) error {
 		_ = godotenv.Load(c.String("env-file"))
 	}
 
-	event := c.String("event")
-	tags := c.Bool("tags")
-	if event == "tag" && !c.IsSet("tags") {
-		// tags clone not explicit set but pipeline is triggered by a tag
-		// auto set tags cloning to true
-		tags = true
-	}
-
 	plugin := Plugin{
 		Repo: Repo{
 			Clone: c.String("remote"),
 		},
 		Build: Build{
 			Commit: c.String("sha"),
-			Event:  event,
+			Event:  c.String("event"),
 			Path:   c.String("path"),
 			Ref:    c.String("ref"),
 		},
@@ -166,7 +164,7 @@ func run(c *cli.Context) error {
 		},
 		Config: Config{
 			Depth:           c.Int("depth"),
-			Tags:            tags,
+			Tags:            c.Bool("tags"),
 			Recursive:       c.Bool("recursive"),
 			SkipVerify:      c.Bool("skip-verify"),
 			CustomCert:      c.String("custom-cert"),
@@ -174,6 +172,7 @@ func run(c *cli.Context) error {
 			Submodules:      c.Generic("submodule-override").(*MapFlag).Get(),
 			Lfs:             c.Bool("lfs"),
 			Branch:          c.String("branch"),
+			Partial:         c.Bool("partial"),
 			Home:            c.String("home"),
 		},
 		Backoff: Backoff{
@@ -181,6 +180,8 @@ func run(c *cli.Context) error {
 			Duration: c.Duration("backoff"),
 		},
 	}
+
+	SetDefaults(c, &plugin)
 
 	return plugin.Exec()
 }

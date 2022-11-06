@@ -35,6 +35,8 @@ type (
 		Lfs             bool
 		Branch          string
 		Home            string
+		Partial         bool
+		filter          string
 	}
 
 	Backoff struct {
