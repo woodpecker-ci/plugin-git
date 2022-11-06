@@ -51,5 +51,6 @@ clone:
 | `attempts`                | `5`               | Change backoff attempts
 | `branch`                  | $CI_COMMIT_BRANCH | Change branch name to checkout to
 | `partial`                 | `true` (except if tags are fetched) | Only fetch the one commit and it's blob objects to resolve all files, overwrite depth with 1
+| `home`                    |                   | Change HOME var for commands executed, fail if it does not exist
 
 [pipelineClone]: https://woodpecker-ci.org/docs/usage/pipeline-syntax#clone

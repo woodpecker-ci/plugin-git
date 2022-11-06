@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/adrg/xdg"
 )
 
 type Plugin struct {
@@ -38,6 +40,11 @@ func (p Plugin) Exec() error {
 
 	err := writeNetrc(p.Netrc.Machine, p.Netrc.Login, p.Netrc.Password)
 	if err != nil {
+		return err
+	}
+
+	// alter home var for all commands exec afterwards
+	if err := setHome(p.Config.Home); err != nil {
 		return err
 	}
 
@@ -317,4 +324,23 @@ func remapSubmodule(name, url string) *exec.Cmd {
 		name,
 		url,
 	), defaultEnvVars...)
+}
+
+func setHome(home string) error {
+	if len(home) == 0 {
+		// fallback to system home
+		home = xdg.Home
+	}
+
+	// make sure home dir exist and is set
+	homeExist, err := pathExists(home)
+	if err != nil {
+		return err
+	}
+	if !homeExist {
+		return fmt.Errorf("home directory '%s' do not exist", home)
+	}
+	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
+
+	return nil
 }

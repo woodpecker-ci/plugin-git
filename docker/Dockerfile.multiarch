@@ -1,7 +1,8 @@
 ARG TARGETOS TARGETARCH
-ARG HOME=/root
+ARG HOME=/app
 
 FROM --platform=$BUILDPLATFORM golang:1.18 AS build
+ARG TARGETOS TARGETARCH
 
 WORKDIR /src
 COPY . .
@@ -10,10 +11,12 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     make build
 
 FROM alpine:edge
+ARG HOME
+
 RUN mkdir -p $HOME
 RUN apk add --no-cache ca-certificates git openssh curl git-lfs
 ENV GODEBUG=netdns=go
-ENV HOME=$HOME
+ENV PLUGIN_HOME=$HOME
 
 COPY --from=build src/release/plugin-git /bin/
 ENTRYPOINT ["/bin/plugin-git"]

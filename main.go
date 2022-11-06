@@ -1,12 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
 
-	"github.com/adrg/xdg"
 	"github.com/joho/godotenv"
 	"github.com/urfave/cli/v2"
 )
@@ -132,6 +130,11 @@ func main() {
 			EnvVars: []string{"PLUGIN_PARTIAL"},
 			Value:   true,
 		},
+		&cli.StringFlag{
+			Name:    "home",
+			Usage:   "Change home directory",
+			EnvVars: []string{"PLUGIN_HOME"},
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -143,17 +146,6 @@ func run(c *cli.Context) error {
 	if c.String("env-file") != "" {
 		_ = godotenv.Load(c.String("env-file"))
 	}
-
-	// make sure home dir exist and is set
-	home := xdg.Home
-	homeExist, err := pathExists(home)
-	if err != nil {
-		return err
-	}
-	if !homeExist {
-		return fmt.Errorf("home dir '%s' do not exist", home)
-	}
-	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
 
 	plugin := Plugin{
 		Repo: Repo{
@@ -181,6 +173,7 @@ func run(c *cli.Context) error {
 			Lfs:             c.Bool("lfs"),
 			Branch:          c.String("branch"),
 			Partial:         c.Bool("partial"),
+			Home:            c.String("home"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),
