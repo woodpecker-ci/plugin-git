@@ -61,6 +61,7 @@ pipeline:
       dockerfile: ./docker/Dockerfile.multiarch
       platforms: *platforms
       auto_tag: true
+      # remove line below if you can read it on a release branch and it's not the latest release branch
       tags: latest
     secrets: [docker_username, docker_password]
     when:
