@@ -26,7 +26,7 @@ type Plugin struct {
 const customCertTmpPath = "/tmp/customCert.pem"
 
 var defaultEnvVars = []string{
-	// do not set GIT_TERMINAL_PROMPT=0, otherwise git won't load credentials from ".netrc" 
+	// do not set GIT_TERMINAL_PROMPT=0, otherwise git won't load credentials from ".netrc"
 	"GIT_LFS_SKIP_SMUDGE=1", // prevents git-lfs from retrieving any LFS files
 }
 
