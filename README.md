@@ -42,11 +42,17 @@ go build -v -a -tags netgo -o release/linux/amd64/plugin-git
 Build the Docker image with the following command:
 
 ```console
-docker build \
+docker buildx build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
-  --file docker/Dockerfile.linux.amd64 --tag woodpeckerci/plugin-git .
+  --platform linux/amd64 --output type=docker \
+  --file docker/Dockerfile.multiarch --tag woodpeckerci/plugin-git .
 ```
+
+*The platform linux/amd64 should be replaced by the correct platform.*
+
+This will build the image and load it into docker so the image can be used locally.  
+[More information on the output formats can be found in docker buildx doc](https://docs.docker.com/engine/reference/commandline/buildx_build/#output).
 
 ## Usage
 
