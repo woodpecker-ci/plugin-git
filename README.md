@@ -91,3 +91,10 @@ docker run --rm \
   -e CI_COMMIT_REF=refs/tags/74/head \
   woodpeckerci/plugin-git
 ```
+
+## Build arguments
+
+### HOME
+
+The docker image can be build using `--build-arg HOME=<custom home>`.  
+This will create the directory for the custom home and set the custom home as the default value for the `home` plugin setting (see [the plugin docs](./docs.md) for more information about this setting).
