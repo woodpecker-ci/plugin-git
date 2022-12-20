@@ -1,5 +1,11 @@
 # Changelog
 
+## [v2.0.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/v2.0.1) - 2022-12-21
+
+* BUGFIXES
+  * Fix dockerfile to build correct go binary (#54)
+  * Do not set GIT_TERMINAL_PROMPT=0 for git (#52)
+
 ## [v2.0.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/v2.0.0) - 2022-11-14
 
 * FEATURES
