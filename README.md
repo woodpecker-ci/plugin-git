@@ -42,11 +42,17 @@ go build -v -a -tags netgo -o release/linux/amd64/plugin-git
 Build the Docker image with the following command:
 
 ```console
-docker build \
+docker buildx build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
-  --file docker/Dockerfile.linux.amd64 --tag woodpeckerci/plugin-git .
+  --platform linux/amd64 --output type=docker \
+  --file docker/Dockerfile.multiarch --tag woodpeckerci/plugin-git .
 ```
+
+*The platform linux/amd64 should be replaced by the correct platform.*
+
+This will build the image and load it into docker so the image can be used locally.  
+[More information on the output formats can be found in docker buildx doc](https://docs.docker.com/engine/reference/commandline/buildx_build/#output).
 
 ## Usage
 
@@ -85,3 +91,10 @@ docker run --rm \
   -e CI_COMMIT_REF=refs/tags/74/head \
   woodpeckerci/plugin-git
 ```
+
+## Build arguments
+
+### HOME
+
+The docker image can be build using `--build-arg HOME=<custom home>`.  
+This will create the directory for the custom home and set the custom home as the default value for the `home` plugin setting (see [the plugin docs](./docs.md) for more information about this setting).
