@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
-	"os/user"
 	"path/filepath"
 	"strings"
 )
@@ -53,7 +52,7 @@ func isTag(event, ref string) bool {
 }
 
 // helper function to write a netrc file.
-func writeNetrc(machine, login, password string) error {
+func writeNetrc(home, machine, login, password string) error {
 	if machine == "" || (login == "" && password == "") {
 		return nil
 	}
@@ -64,11 +63,6 @@ func writeNetrc(machine, login, password string) error {
 		password,
 	)
 
-	home := "/root"
-	u, err := user.Current()
-	if err == nil {
-		home = u.HomeDir
-	}
 	path := filepath.Join(home, ".netrc")
 	return ioutil.WriteFile(path, []byte(out), 0o600)
 }

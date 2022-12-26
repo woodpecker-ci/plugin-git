@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/adrg/xdg"
 	"github.com/urfave/cli/v2"
 )
 
@@ -25,5 +26,10 @@ func SetDefaults(c *cli.Context, p *Plugin) {
 	if p.Config.Partial {
 		p.Config.Depth = 1
 		p.Config.filter = "tree:0"
+	}
+
+	if len(p.Config.Home) == 0 {
+		// fallback to system home
+		p.Config.Home = xdg.Home
 	}
 }
