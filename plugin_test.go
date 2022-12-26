@@ -142,6 +142,7 @@ func TestClone(t *testing.T) {
 			Config: Config{
 				Recursive: c.recursive,
 				Lfs:       c.lfs,
+				Home:      "/tmp",
 			},
 		}
 
@@ -188,6 +189,7 @@ func TestCloneNonEmpty(t *testing.T) {
 			Config: Config{
 				Recursive: c.recursive,
 				Lfs:       c.lfs,
+				Home:      "/tmp",
 			},
 		}
 
