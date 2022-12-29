@@ -1,5 +1,10 @@
 # Changelog
 
+## [v2.0.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/v2.0.3) - 2022-12-29
+
+* BUGFIXES
+  * Fix write .netrc location with home var (#57)
+
 ## [v2.0.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/v2.0.1) - 2022-12-21
 
 * BUGFIXES
