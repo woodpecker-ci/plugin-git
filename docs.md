@@ -1,5 +1,5 @@
 ---
-name: Git Plugin
+name: Git Clone
 icon: https://woodpecker-ci.org/img/logo.svg
 
 description: This is the default plugin for the clone step.
