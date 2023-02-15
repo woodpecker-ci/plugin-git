@@ -21,7 +21,7 @@
   </a>
 </p>
 
-Woodpecker plugin to clone `git` repositories. For the usage information and a listing of the available options please take a look at [the docs](https://woodpecker-ci.org/plugins/plugin-git).
+Woodpecker plugin to clone `git` repositories. For the usage information and a listing of the available options please take a look at [the docs](https://woodpecker-ci.org/plugins/Git%20Clone).
 The docs are also available in [`docs.md` in this repository](docs.md).
 
 ## Build
