@@ -16,4 +16,4 @@ ENV GODEBUG=netdns=go
 ENV PLUGIN_HOME=$HOME
 
 COPY --from=build src/release/plugin-git /bin/
-ENTRYPOINT ["/bin/plugin-git"]
+ENTRYPOINT [ "sh", "-c", "/bin/plugin-git" ]
