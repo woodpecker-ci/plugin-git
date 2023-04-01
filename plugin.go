@@ -41,6 +41,9 @@ func (p Plugin) Exec() error {
 		return err
 	}
 
+	// set vars from exec environment
+	defaultEnvVars = append(os.Environ(), defaultEnvVars...)
+
 	// alter home var for all commands exec afterwards
 	if err := setHome(p.Config.Home); err != nil {
 		return err
