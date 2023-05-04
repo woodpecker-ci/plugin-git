@@ -135,6 +135,12 @@ func main() {
 			Usage:   "Change home directory",
 			EnvVars: []string{"PLUGIN_HOME"},
 		},
+		&cli.StringFlag{
+			Name:    "safe-directory",
+			Usage:   "Define safe directories",
+			EnvVars: []string{"PLUGIN_SAFE_DIRECTORY"},
+			Value:   "*",
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -174,6 +180,7 @@ func run(c *cli.Context) error {
 			Branch:          c.String("branch"),
 			Partial:         c.Bool("partial"),
 			Home:            c.String("home"),
+			SafeDirectory:   c.String("safe-directory"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),

@@ -37,6 +37,7 @@ type (
 		Home            string
 		Partial         bool
 		filter          string
+		SafeDirectory   string
 	}
 
 	Backoff struct {
