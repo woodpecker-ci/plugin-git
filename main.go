@@ -139,7 +139,7 @@ func main() {
 			Name:    "safe-directory",
 			Usage:   "Define safe directories",
 			EnvVars: []string{"PLUGIN_SAFE_DIRECTORY"},
-			Value:   "*",
+			Value:   "$CI_WORKSPACE",
 		},
 	}
 
