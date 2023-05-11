@@ -207,7 +207,7 @@ func initGit(branch string) *exec.Cmd {
 }
 
 func safeDirectory(safeDirectory string) *exec.Cmd {
-	return appendEnv(exec.Command("git", "config", "--global", "safe.directory", os.ExpandEnv(safeDirectory)), defaultEnvVars...)
+	return appendEnv(exec.Command("git", "config", "safe.directory", os.ExpandEnv(safeDirectory)), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
