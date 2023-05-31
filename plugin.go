@@ -62,6 +62,7 @@ func (p Plugin) Exec() error {
 
 	if isDirEmpty(filepath.Join(p.Build.Path, ".git")) {
 		cmds = append(cmds, initGit(p.Config.Branch))
+		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
 		cmds = append(cmds, remote(p.Repo.Clone))
 	}
 
@@ -203,6 +204,10 @@ func initGit(branch string) *exec.Cmd {
 		return appendEnv(exec.Command("git", "init"), defaultEnvVars...)
 	}
 	return appendEnv(exec.Command("git", "init", "-b", branch), defaultEnvVars...)
+}
+
+func safeDirectory(safeDirectory string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "--global", "safe.directory", safeDirectory), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
