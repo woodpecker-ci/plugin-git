@@ -85,3 +85,9 @@ pipeline:
         from_secret: github_token
     when:
       event: tag
+
+when:
+  - event: pull_request
+  - event: tag
+  - event: push
+    branch: ${CI_REPO_DEFAULT_BRANCH}
