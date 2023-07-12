@@ -103,4 +103,4 @@
 * ENHANCEMENTS
   * Multiarch build (#8)
 * MISC
-  * Upgrade urfave/cli to v2 (#5)
+  * Upgrade urfave/cli to v2 (#5
