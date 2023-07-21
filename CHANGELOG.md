@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.0.4) - 2023-07-12
+## [2.0.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.0.4) - 2023-07-21
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -19,7 +19,6 @@
 ### Misc
 
 - Add release helper [[#72](https://github.com/woodpecker-ci/plugin-git/pull/72)]
-- Fix broken docs link in README.md ([7da6c1f](https://github.com/woodpecker-ci/plugin-git/commit/7da6c1f13a16a055dfe33e9d61fa3985fe8241d8))
 
 ## [v2.0.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/v2.0.3) - 2022-12-29
 
@@ -103,4 +102,4 @@
 * ENHANCEMENTS
   * Multiarch build (#8)
 * MISC
-  * Upgrade urfave/cli to v2 (#5
+  * Upgrade urfave/cli to v2 (#
