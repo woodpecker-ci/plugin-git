@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.0.4) - 2023-07-21
+## [2.0.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.0.4) - 2023-07-23
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -102,4 +102,4 @@
 * ENHANCEMENTS
   * Multiarch build (#8)
 * MISC
-  * Upgrade urfave/cli to v2 (#
+  * Upgrade urfave/cli to v2 (
