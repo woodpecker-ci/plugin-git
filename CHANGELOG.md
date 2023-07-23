@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.1.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.1.0) - 2023-07-23
+
+### ❤️ Thanks to all contributors! ❤️
+
+@anbraten, @pat-s, @qwerty287, @ambroisie, @6543
+
+### 📈 Enhancement
+
+- Add git `safe.directory` support [[#70](https://github.com/woodpecker-ci/plugin-git/pull/70)]
+- Use new env vars [[#71](https://github.com/woodpecker-ci/plugin-git/pull/71)]
+- Add os.Environ() for git commands environments [[#67](https://github.com/woodpecker-ci/plugin-git/pull/67)]
+
+### 📚 Documentation
+
+- Change plugin name to "Git Clone" [[#61](https://github.com/woodpecker-ci/plugin-git/pull/61)]
+
+### Misc
+
+- Add release helper [[#72](https://github.com/woodpecker-ci/plugin-git/pull/72)]
+
 ## [2.0.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.0.4) - 2023-07-23
 
 ### ❤️ Thanks to all contributors! ❤️
