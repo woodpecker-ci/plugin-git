@@ -1,5 +1,5 @@
 variables:
-  - &golang 'golang:1.18-alpine'
+  - &golang 'golang:1.20-alpine'
   - &platforms 'linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/riscv64,linux/s390x'
 
 pipeline:
