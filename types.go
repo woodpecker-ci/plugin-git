@@ -8,6 +8,7 @@ import (
 type (
 	Repo struct {
 		Clone string
+		Forge string
 	}
 
 	Build struct {
@@ -38,6 +39,8 @@ type (
 		Partial         bool
 		filter          string
 		SafeDirectory   string
+		UseSSH	 		bool
+		SSHKey			string
 	}
 
 	Backoff struct {

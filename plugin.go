@@ -63,6 +63,10 @@ func (p Plugin) Exec() error {
 	if isDirEmpty(filepath.Join(p.Build.Path, ".git")) {
 		cmds = append(cmds, initGit(p.Config.Branch))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
+		if p.Config.UseSSH {
+			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
+			cmds = append(cmds, useSSH(p.Repo.Forge))
+		}
 		cmds = append(cmds, remote(p.Repo.Clone))
 	}
 
@@ -209,6 +213,19 @@ func initGit(branch string) *exec.Cmd {
 func safeDirectory(safeDirectory string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "--global", "safe.directory", safeDirectory), defaultEnvVars...)
 }
+
+// Replace the https protocol with the ssh protocol.
+func useSSH(forgeURL string) *exec.Cmd {
+	// Parsing FQDN from remote url to use it in config
+	var remoteURL string
+	if strings.Contains(forgeURL, "https://") {
+		remoteURL = strings.Replace(forgeURL, "https://", "", 1)
+	} else if strings.Contains(forgeURL, "http://") {
+		remoteURL = strings.Replace(forgeURL, "http://", "", 1)
+	}
+	return appendEnv(exec.Command("git", "config", fmt.Sprintf("url.git@%s:.insteadOf", remoteURL), forgeURL+"/"), defaultEnvVars...)
+}
+
 
 // Sets the remote origin for the repository.
 func remote(remote string) *exec.Cmd {
