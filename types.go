@@ -39,8 +39,8 @@ type (
 		Partial         bool
 		filter          string
 		SafeDirectory   string
-		UseSSH	 		bool
-		SSHKey			string
+		UseSSH          bool
+		SSHKey          string
 	}
 
 	Backoff struct {

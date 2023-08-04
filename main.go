@@ -197,8 +197,8 @@ func run(c *cli.Context) error {
 			Partial:         c.Bool("partial"),
 			Home:            c.String("home"),
 			SafeDirectory:   c.String("safe-directory"),
-			UseSSH: 	 	 c.Bool("use-ssh"),
-			SSHKey: 	 	 c.String("ssh-key"),
+			UseSSH:          c.Bool("use-ssh"),
+			SSHKey:          c.String("ssh-key"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),

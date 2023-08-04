@@ -226,7 +226,6 @@ func useSSH(forgeURL string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", fmt.Sprintf("url.git@%s:.insteadOf", remoteURL), forgeURL+"/"), defaultEnvVars...)
 }
 
-
 // Sets the remote origin for the repository.
 func remote(remote string) *exec.Cmd {
 	return appendEnv(exec.Command(
