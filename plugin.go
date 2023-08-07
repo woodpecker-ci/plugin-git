@@ -66,6 +66,10 @@ func (p Plugin) Exec() error {
 		if p.Config.UseSSH {
 			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
 			cmds = append(cmds, useSSH(p.Repo.Forge))
+			if p.Config.SSHKey != "" {
+				// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
+				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey))
+			}
 		}
 		cmds = append(cmds, remote(p.Repo.Clone))
 	}
@@ -214,7 +218,7 @@ func safeDirectory(safeDirectory string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "--global", "safe.directory", safeDirectory), defaultEnvVars...)
 }
 
-// Replace the https protocol with the ssh protocol.
+// Replace the http(s) protocol with the ssh protocol.
 func useSSH(forgeURL string) *exec.Cmd {
 	// Parsing FQDN from remote url to use it in config
 	var remoteURL string
@@ -224,6 +228,11 @@ func useSSH(forgeURL string) *exec.Cmd {
 		remoteURL = strings.Replace(forgeURL, "http://", "", 1)
 	}
 	return appendEnv(exec.Command("git", "config", fmt.Sprintf("url.git@%s:.insteadOf", remoteURL), forgeURL+"/"), defaultEnvVars...)
+}
+
+// Use custom SSH Key thanks to core.sshCommand
+func sshKeyHandler(sshKey string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "core.sshCommand", "ssh -i "+sshKey), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
@@ -272,7 +281,7 @@ func checkoutLFS() *exec.Cmd {
 	), defaultEnvVars...)
 }
 
-// fetch retuns git command that fetches from origin. If tags is true
+// fetch returns git command that fetches from origin. If tags is true
 // then tags will be fetched.
 func fetch(ref string, tags bool, depth int, filter string) *exec.Cmd {
 	tags_option := "--no-tags"
