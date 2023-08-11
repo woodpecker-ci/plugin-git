@@ -71,6 +71,7 @@ func (p Plugin) Exec() error {
 
 	if p.Build.Commit == "" {
 		// checkout by fetched ref
+		fmt.Println("no commit information: using head checkout")
 		cmds = append(cmds, checkoutHead())
 	} else {
 		// checkout by commit sha
