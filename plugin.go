@@ -65,7 +65,7 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
 		if p.Config.UseSSH {
 			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
-			cmds = append(cmds, useSSH(p.Repo.Forge))
+			cmds = append(cmds, useSSH(p.Config.SSHUser, p.Repo.Forge))
 			if p.Config.SSHKey != "" {
 				// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
 				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey))
@@ -219,7 +219,7 @@ func safeDirectory(safeDirectory string) *exec.Cmd {
 }
 
 // Replace the http(s) protocol with the ssh protocol.
-func useSSH(forgeURL string) *exec.Cmd {
+func useSSH(gitUser string, forgeURL string) *exec.Cmd {
 	// Parsing FQDN from remote url to use it in config
 	var remoteURL string
 	if strings.Contains(forgeURL, "https://") {
@@ -227,7 +227,7 @@ func useSSH(forgeURL string) *exec.Cmd {
 	} else if strings.Contains(forgeURL, "http://") {
 		remoteURL = strings.Replace(forgeURL, "http://", "", 1)
 	}
-	return appendEnv(exec.Command("git", "config", fmt.Sprintf("url.git@%s:.insteadOf", remoteURL), forgeURL+"/"), defaultEnvVars...)
+	return appendEnv(exec.Command("git", "config", fmt.Sprintf("url.%s@%s:.insteadOf", gitUser, remoteURL), forgeURL+"/"), defaultEnvVars...)
 }
 
 // Use custom SSH Key thanks to core.sshCommand

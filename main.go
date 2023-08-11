@@ -152,6 +152,11 @@ func main() {
 			EnvVars: []string{"PLUGIN_SSH_KEY"},
 		},
 		&cli.StringFlag{
+			Name:    "ssh-user",
+			Usage:   "Username for ssh clone",
+			EnvVars: []string{"PLUGIN_SSH_USER"},
+		},
+		&cli.StringFlag{
 			Name:    "forge-url",
 			Usage:   "Forge URL for ssh clone",
 			EnvVars: []string{"CI_FORGE_URL"},
@@ -199,6 +204,7 @@ func run(c *cli.Context) error {
 			SafeDirectory:   c.String("safe-directory"),
 			UseSSH:          c.Bool("use-ssh"),
 			SSHKey:          c.String("ssh-key"),
+			SSHUser:         c.String("ssh-user"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),
