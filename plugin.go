@@ -69,11 +69,11 @@ func (p Plugin) Exec() error {
 	// fetch ref in any case
 	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
 
-	switch {
-	case isPullRequest(p.Build.Event) || isTag(p.Build.Event, p.Build.Ref) || p.Build.Commit == "":
+	if p.Build.Commit == "" {
 		// checkout by fetched ref
+		fmt.Println("no commit information: using head checkout")
 		cmds = append(cmds, checkoutHead())
-	default:
+	} else {
 		// checkout by commit sha
 		cmds = append(cmds, checkoutSha(p.Build.Commit))
 	}
