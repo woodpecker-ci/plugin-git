@@ -21,7 +21,7 @@ func main() {
 		&cli.StringFlag{
 			Name:    "remote",
 			Usage:   "git remote url",
-			EnvVars: []string{"PLUGIN_REMOTE", "CI_REPO_CLONE_URL", "CI_REPO_REMOTE", "CI_REMOTE_URL"},
+			EnvVars: []string{"PLUGIN_REMOTE", "CI_REPO_CLONE_URL"},
 		},
 		&cli.StringFlag{
 			Name:    "path",
@@ -42,8 +42,8 @@ func main() {
 		&cli.StringFlag{
 			Name:    "event",
 			Value:   "push",
-			Usage:   "build event",
-			EnvVars: []string{"CI_PIPELINE_EVENT", "CI_BUILD_EVENT"},
+			Usage:   "pipeline event",
+			EnvVars: []string{"CI_PIPELINE_EVENT"},
 		},
 		&cli.StringFlag{
 			Name:    "netrc.machine",
@@ -156,7 +156,7 @@ func run(c *cli.Context) error {
 		Repo: Repo{
 			Clone: c.String("remote"),
 		},
-		Build: Build{
+		Pipeline: Pipeline{
 			Commit: c.String("sha"),
 			Event:  c.String("event"),
 			Path:   c.String("path"),

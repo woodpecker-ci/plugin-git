@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -40,17 +39,6 @@ func isDirEmpty(dir string) bool {
 	return err == io.EOF
 }
 
-// helper function returns true if the commit is a pull_request.
-func isPullRequest(event string) bool {
-	return event == "pull_request"
-}
-
-// helper function returns true if the commit is a tag.
-func isTag(event, ref string) bool {
-	return event == "tag" ||
-		strings.HasPrefix(ref, "refs/tags/")
-}
-
 // helper function to write a netrc file.
 func writeNetrc(home, machine, login, password string) error {
 	if machine == "" || (login == "" && password == "") {
@@ -64,7 +52,7 @@ func writeNetrc(home, machine, login, password string) error {
 	)
 
 	path := filepath.Join(home, ".netrc")
-	return ioutil.WriteFile(path, []byte(out), 0o600)
+	return os.WriteFile(path, []byte(out), 0o600)
 }
 
 const netrcFile = `
