@@ -14,7 +14,6 @@ var commits = []struct {
 	event     string
 	branch    string
 	commit    string
-	ref       string
 	file      string
 	data      string
 	dataSize  int64
@@ -28,7 +27,6 @@ var commits = []struct {
 		event:  "push",
 		branch: "master",
 		commit: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e",
-		ref:    "refs/heads/master",
 		file:   "README",
 		data:   "Hello World!",
 	},
@@ -39,7 +37,6 @@ var commits = []struct {
 		event:  "push",
 		branch: "master",
 		commit: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
-		ref:    "refs/heads/master",
 		file:   "README",
 		data:   "Hello World!\n",
 	},
@@ -50,7 +47,6 @@ var commits = []struct {
 		event:  "pull_request",
 		branch: "master",
 		commit: "762941318ee16e59dabbacb1b4049eec22f0d303",
-		ref:    "refs/pull/6/merge",
 		file:   "README",
 		data:   "Hello World!\n",
 	},
@@ -61,7 +57,6 @@ var commits = []struct {
 		event:  "push",
 		branch: "test",
 		commit: "b3cbd5bbd7e81436d2eee04537ea2b4c0cad4cdf",
-		ref:    "refs/heads/test",
 		file:   "CONTRIBUTING.md",
 		data:   "## Contributing\n",
 	},
@@ -72,7 +67,6 @@ var commits = []struct {
 		event:  "tag",
 		branch: "master",
 		commit: "bf68d60215a167c935bc5976b7d06a7ffb290926",
-		ref:    "refs/tags/v1.17",
 		file:   ".gitignore",
 		data:   "*.swp\n*~\n.rake_tasks~\nhtml\ndoc\npkg\npublish\ncoverage\n",
 	},
@@ -83,7 +77,6 @@ var commits = []struct {
 		event:     "push",
 		branch:    "main",
 		commit:    "cc020eb6aaa601c13ca7b0d5db9d1ca694e7a003",
-		ref:       "refs/heads/main",
 		file:      "Hello-World/README",
 		data:      "Hello World!\n",
 		recursive: true,
@@ -93,7 +86,6 @@ var commits = []struct {
 		clone:  "https://github.com/octocat/Hello-World.git",
 		event:  "push",
 		commit: "a11fb45a696bf1d696fc9ab2c733f8f123aa4cf5",
-		ref:    "pull/2403/head",
 		file:   "README",
 		data:   "Hello World!\n\nsomething is changed!\n",
 	},
@@ -104,7 +96,6 @@ var commits = []struct {
 		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
 		event:    "push",
 		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
-		ref:      "refs/heads/main",
 		file:     "4M.bin",
 		dataSize: 132,
 	},
@@ -114,7 +105,6 @@ var commits = []struct {
 		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
 		event:    "push",
 		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
-		ref:      "refs/heads/main",
 		file:     "4M.bin",
 		dataSize: 4194304,
 		lfs:      true,
