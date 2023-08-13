@@ -256,7 +256,7 @@ func checkoutLFS() *exec.Cmd {
 	), defaultEnvVars...)
 }
 
-// fetch retuns git command that fetches from origin. If tags is true
+// fetch returns git command that fetches from origin. If tags is true
 // then tags will be fetched.
 func fetch(ref string, tags bool, depth int, filter string) *exec.Cmd {
 	tags_option := "--no-tags"
