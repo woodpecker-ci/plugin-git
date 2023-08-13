@@ -1,13 +1,13 @@
 # plugin-git
 
 <p align="center">
-  <a href="https://wp.laszlo.cloud/woodpecker-ci/plugin-git" title="Build Status">
-    <img src="https://wp.laszlo.cloud/api/badges/woodpecker-ci/plugin-git/status.svg">
+  <a href="https://ci.woodpecker-ci.org/repos/5586" title="Build Status">
+    <img src="https://ci.woodpecker-ci.org/api/badges/5586/status.svg">
   </a>
   <a href="https://discord.gg/fcMQqSMXJy" title="Join the Discord chat at https://discord.gg/fcMQqSMXJy">
     <img src="https://img.shields.io/discord/838698813463724034.svg">
   </a>
-  <a href="https://goreportcard.com/badge/github.com/woodpecker-ci/plugin-git" title="Go Report Card">
+  <a href="https://goreportcard.com/report/github.com/woodpecker-ci/plugin-git" title="Go Report Card">
     <img src="https://goreportcard.com/badge/github.com/woodpecker-ci/plugin-git">
   </a>
   <a href="https://godoc.org/github.com/woodpecker-ci/plugin-git" title="GoDoc">

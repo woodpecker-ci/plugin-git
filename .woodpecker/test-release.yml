@@ -18,15 +18,7 @@ variables:
   - &publish_repos 'woodpeckerci/plugin-git,quay.io/woodpeckerci/plugin-git'
 
 steps:
-  version:
-    group: prepare
-    image: *golang
-    commands:
-      - apk add make
-      - make version
-
   vendor:
-    group: prepare
     image: *golang
     commands:
       - go mod vendor

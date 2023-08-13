@@ -10,7 +10,7 @@ type (
 		Clone string
 	}
 
-	Build struct {
+	Pipeline struct {
 		Path   string
 		Event  string
 		Number int
