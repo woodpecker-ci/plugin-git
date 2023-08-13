@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.1.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.1.1) - 2023-08-12
+## [2.1.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.1.1) - 2023-08-13
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -12,6 +12,7 @@
 
 ### Misc
 
+- Cleanups and updates [[#78](https://github.com/woodpecker-ci/plugin-git/pull/78)]
 - Publish to quay.io too [[#74](https://github.com/woodpecker-ci/plugin-git/pull/74)]
 
 ## [2.1.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.1.0) - 2023-07-23
