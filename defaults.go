@@ -8,7 +8,7 @@ import (
 )
 
 func SetDefaults(c *cli.Context, p *Plugin) {
-	if p.Build.Event == "tag" && !c.IsSet("tags") {
+	if p.Pipeline.Event == "tag" && !c.IsSet("tags") {
 		// tags clone not explicit set but pipeline is triggered by a tag
 		// auto set tags cloning to true
 		p.Config.Tags = true
