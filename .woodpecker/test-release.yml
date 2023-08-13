@@ -19,7 +19,6 @@ variables:
 
 steps:
   vendor:
-    group: prepare
     image: *golang
     commands:
       - go mod vendor
