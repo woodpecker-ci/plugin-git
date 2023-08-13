@@ -133,7 +133,7 @@ func TestClone(t *testing.T) {
 			Repo: Repo{
 				Clone: c.clone,
 			},
-			Build: Build{
+			Pipeline: Pipeline{
 				Path:   filepath.Join(dir, c.path),
 				Commit: c.commit,
 				Event:  c.event,
@@ -151,14 +151,14 @@ func TestClone(t *testing.T) {
 		}
 
 		if c.data != "" {
-			data := readFile(plugin.Build.Path, c.file)
+			data := readFile(plugin.Pipeline.Path, c.file)
 			if data != c.data {
 				t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
 			}
 		}
 
 		if c.dataSize != 0 {
-			size := getFileSize(plugin.Build.Path, c.file)
+			size := getFileSize(plugin.Pipeline.Path, c.file)
 			if size != c.dataSize {
 				t.Errorf("Expected %s size to be [%d]. Got [%d].", c.file, c.dataSize, size)
 			}
@@ -169,7 +169,7 @@ func TestClone(t *testing.T) {
 
 // TestCloneNonEmpty tests the ability to clone a specific commit into
 // a non-empty directory. This is useful if the git workspace is cached
-// and re-stored for every build.
+// and re-stored for every workflow.
 func TestCloneNonEmpty(t *testing.T) {
 	dir := setup()
 	defer teardown(dir)
@@ -180,7 +180,7 @@ func TestCloneNonEmpty(t *testing.T) {
 			Repo: Repo{
 				Clone: c.clone,
 			},
-			Build: Build{
+			Pipeline: Pipeline{
 				Path:   filepath.Join(dir, c.path),
 				Commit: c.commit,
 				Event:  c.event,
@@ -198,7 +198,7 @@ func TestCloneNonEmpty(t *testing.T) {
 		}
 
 		if c.data != "" {
-			data := readFile(plugin.Build.Path, c.file)
+			data := readFile(plugin.Pipeline.Path, c.file)
 			if data != c.data {
 				t.Errorf("Expected %s to contain [%s]. Got [%s].", c.file, c.data, data)
 				break
@@ -206,7 +206,7 @@ func TestCloneNonEmpty(t *testing.T) {
 		}
 
 		if c.dataSize != 0 {
-			size := getFileSize(plugin.Build.Path, c.file)
+			size := getFileSize(plugin.Pipeline.Path, c.file)
 			if size != c.dataSize {
 				t.Errorf("Expected %s size to be [%d]. Got [%d].", c.file, c.dataSize, size)
 			}

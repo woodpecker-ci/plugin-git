@@ -14,11 +14,11 @@ import (
 )
 
 type Plugin struct {
-	Repo    Repo
-	Build   Build
-	Netrc   Netrc
-	Config  Config
-	Backoff Backoff
+	Repo     Repo
+	Pipeline Pipeline
+	Netrc    Netrc
+	Config   Config
+	Backoff  Backoff
 }
 
 const customCertTmpPath = "/tmp/customCert.pem"
@@ -29,8 +29,8 @@ var defaultEnvVars = []string{
 }
 
 func (p Plugin) Exec() error {
-	if p.Build.Path != "" {
-		err := os.MkdirAll(p.Build.Path, 0o777)
+	if p.Pipeline.Path != "" {
+		err := os.MkdirAll(p.Pipeline.Path, 0o777)
 		if err != nil {
 			return err
 		}
@@ -60,22 +60,22 @@ func (p Plugin) Exec() error {
 		}
 	}
 
-	if isDirEmpty(filepath.Join(p.Build.Path, ".git")) {
+	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
 		cmds = append(cmds, initGit(p.Config.Branch))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
 		cmds = append(cmds, remote(p.Repo.Clone))
 	}
 
 	// fetch ref in any case
-	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
+	cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
 
-	if p.Build.Commit == "" {
+	if p.Pipeline.Commit == "" {
 		// checkout by fetched ref
 		fmt.Println("no commit information: using head checkout")
 		cmds = append(cmds, checkoutHead())
 	} else {
 		// checkout by commit sha
-		cmds = append(cmds, checkoutSha(p.Build.Commit))
+		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
 	}
 
 	for name, submoduleUrl := range p.Config.Submodules {
@@ -94,7 +94,7 @@ func (p Plugin) Exec() error {
 
 	for _, cmd := range cmds {
 		buf := new(bytes.Buffer)
-		cmd.Dir = p.Build.Path
+		cmd.Dir = p.Pipeline.Path
 		cmd.Stdout = io.MultiWriter(os.Stdout, buf)
 		cmd.Stderr = io.MultiWriter(os.Stderr, buf)
 		trace(cmd)

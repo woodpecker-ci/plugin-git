@@ -42,7 +42,7 @@ func main() {
 		&cli.StringFlag{
 			Name:    "event",
 			Value:   "push",
-			Usage:   "build event",
+			Usage:   "pipeline event",
 			EnvVars: []string{"CI_PIPELINE_EVENT", "CI_BUILD_EVENT"},
 		},
 		&cli.StringFlag{
@@ -156,7 +156,7 @@ func run(c *cli.Context) error {
 		Repo: Repo{
 			Clone: c.String("remote"),
 		},
-		Build: Build{
+		Pipeline: Pipeline{
 			Commit: c.String("sha"),
 			Event:  c.String("event"),
 			Path:   c.String("path"),
