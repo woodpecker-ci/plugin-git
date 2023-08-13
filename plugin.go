@@ -67,16 +67,10 @@ func (p Plugin) Exec() error {
 	}
 
 	// fetch ref in any case
-	cmds = append(cmds, fetch(p.Build.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
+	cmds = append(cmds, fetch(p.Build.Commit, p.Config.Tags, p.Config.Depth, p.Config.filter))
 
-	if p.Build.Commit == "" {
-		// checkout by fetched ref
-		fmt.Println("no commit information: using head checkout")
-		cmds = append(cmds, checkoutHead())
-	} else {
-		// checkout by commit sha
-		cmds = append(cmds, checkoutSha(p.Build.Commit))
-	}
+	// checkout by commit sha
+	cmds = append(cmds, checkoutSha(p.Build.Commit))
 
 	for name, submoduleUrl := range p.Config.Submodules {
 		cmds = append(cmds, remapSubmodule(name, submoduleUrl))
@@ -222,16 +216,6 @@ func remote(remote string) *exec.Cmd {
 }
 
 // Checkout executes a git checkout command.
-func checkoutHead() *exec.Cmd {
-	return appendEnv(exec.Command(
-		"git",
-		"checkout",
-		"-qf",
-		"FETCH_HEAD",
-	), defaultEnvVars...)
-}
-
-// Checkout executes a git checkout command.
 func checkoutSha(commit string) *exec.Cmd {
 	return appendEnv(exec.Command(
 		"git",
@@ -258,15 +242,15 @@ func checkoutLFS() *exec.Cmd {
 
 // fetch retuns git command that fetches from origin. If tags is true
 // then tags will be fetched.
-func fetch(ref string, tags bool, depth int, filter string) *exec.Cmd {
-	tags_option := "--no-tags"
+func fetch(sha string, tags bool, depth int, filter string) *exec.Cmd {
+	tagsOption := "--no-tags"
 	if tags {
-		tags_option = "--tags"
+		tagsOption = "--tags"
 	}
 	cmd := exec.Command(
 		"git",
 		"fetch",
-		tags_option,
+		tagsOption,
 	)
 	if depth != 0 {
 		cmd.Args = append(cmd.Args, fmt.Sprintf("--depth=%d", depth))
@@ -275,7 +259,7 @@ func fetch(ref string, tags bool, depth int, filter string) *exec.Cmd {
 		cmd.Args = append(cmd.Args, "--filter="+filter)
 	}
 	cmd.Args = append(cmd.Args, "origin")
-	cmd.Args = append(cmd.Args, fmt.Sprintf("+%s:", ref))
+	cmd.Args = append(cmd.Args, fmt.Sprintf("+%s", sha))
 
 	return appendEnv(cmd, defaultEnvVars...)
 }

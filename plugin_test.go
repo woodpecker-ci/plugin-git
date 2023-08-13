@@ -217,13 +217,13 @@ func TestCloneNonEmpty(t *testing.T) {
 // TestFetch tests if the arguments to `git fetch` are constructed properly.
 func TestFetch(t *testing.T) {
 	testdata := []struct {
-		ref   string
+		sha   string
 		tags  bool
 		depth int
 		exp   []string
 	}{
 		{
-			"refs/heads/master",
+			"470ec6ddee5ce807b026b5e36ffa844e9e1fce96",
 			false,
 			0,
 			[]string{
@@ -231,11 +231,11 @@ func TestFetch(t *testing.T) {
 				"fetch",
 				"--no-tags",
 				"origin",
-				"+refs/heads/master:",
+				"+470ec6ddee5ce807b026b5e36ffa844e9e1fce96",
 			},
 		},
 		{
-			"refs/heads/master",
+			"470ec6ddee5ce807b026b5e36ffa844e9e1fce96",
 			false,
 			50,
 			[]string{
@@ -244,11 +244,11 @@ func TestFetch(t *testing.T) {
 				"--no-tags",
 				"--depth=50",
 				"origin",
-				"+refs/heads/master:",
+				"+470ec6ddee5ce807b026b5e36ffa844e9e1fce96",
 			},
 		},
 		{
-			"refs/heads/master",
+			"470ec6ddee5ce807b026b5e36ffa844e9e1fce96",
 			true,
 			100,
 			[]string{
@@ -257,12 +257,12 @@ func TestFetch(t *testing.T) {
 				"--tags",
 				"--depth=100",
 				"origin",
-				"+refs/heads/master:",
+				"+470ec6ddee5ce807b026b5e36ffa844e9e1fce96",
 			},
 		},
 	}
 	for _, td := range testdata {
-		c := fetch(td.ref, td.tags, td.depth, "")
+		c := fetch(td.sha, td.tags, td.depth, "")
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}
