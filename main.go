@@ -34,12 +34,6 @@ func main() {
 			EnvVars: []string{"PLUGIN_SHA", "CI_COMMIT_SHA"},
 		},
 		&cli.StringFlag{
-			Name:    "ref",
-			Value:   "refs/heads/master",
-			Usage:   "git commit ref",
-			EnvVars: []string{"PLUGIN_REF", "CI_COMMIT_REF"},
-		},
-		&cli.StringFlag{
 			Name:    "event",
 			Value:   "push",
 			Usage:   "build event",
@@ -160,7 +154,6 @@ func run(c *cli.Context) error {
 			Commit: c.String("sha"),
 			Event:  c.String("event"),
 			Path:   c.String("path"),
-			Ref:    c.String("ref"),
 		},
 		Netrc: Netrc{
 			Login:    c.String("netrc.username"),

@@ -137,7 +137,6 @@ func TestClone(t *testing.T) {
 				Path:   filepath.Join(dir, c.path),
 				Commit: c.commit,
 				Event:  c.event,
-				Ref:    c.ref,
 			},
 			Config: Config{
 				Recursive: c.recursive,
@@ -184,7 +183,6 @@ func TestCloneNonEmpty(t *testing.T) {
 				Path:   filepath.Join(dir, c.path),
 				Commit: c.commit,
 				Event:  c.event,
-				Ref:    c.ref,
 			},
 			Config: Config{
 				Recursive: c.recursive,
