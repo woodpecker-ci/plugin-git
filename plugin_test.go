@@ -88,15 +88,14 @@ var commits = []struct {
 		data:      "Hello World!\n",
 		recursive: true,
 	},
-	// checkout with ref only
 	{
-		path:  "octocat/Hello-World",
-		clone: "https://github.com/octocat/Hello-World.git",
-		event: "push",
-		// commit: "a11fb45a696bf1d696fc9ab2c733f8f123aa4cf5",
-		ref:  "pull/2403/head",
-		file: "README",
-		data: "Hello World!\n\nsomething is changed!\n",
+		path:   "octocat/Hello-World",
+		clone:  "https://github.com/octocat/Hello-World.git",
+		event:  "push",
+		commit: "a11fb45a696bf1d696fc9ab2c733f8f123aa4cf5",
+		ref:    "pull/2403/head",
+		file:   "README",
+		data:   "Hello World!\n\nsomething is changed!\n",
 	},
 	// ### test lfs, please do not change order, otherwise TestCloneNonEmpty will fail ###
 	// checkout with lfs skip
