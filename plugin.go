@@ -72,7 +72,6 @@ func (p Plugin) Exec() error {
 	// checkout by commit sha
 	cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
 
-
 	for name, submoduleUrl := range p.Config.Submodules {
 		cmds = append(cmds, remapSubmodule(name, submoduleUrl))
 	}
