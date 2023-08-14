@@ -7,8 +7,8 @@ import (
 
 type (
 	Repo struct {
-		Clone string
-		Forge string
+		Clone    string
+		CloneSSH string
 	}
 
 	Build struct {

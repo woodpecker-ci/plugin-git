@@ -24,6 +24,11 @@ func main() {
 			EnvVars: []string{"PLUGIN_REMOTE", "CI_REPO_CLONE_URL", "CI_REPO_REMOTE", "CI_REMOTE_URL"},
 		},
 		&cli.StringFlag{
+			Name:    "remote-ssh",
+			Usage:   "git clone ssh url",
+			EnvVars: []string{"CI_REPO_CLONE_SSH_URL"},
+		},
+		&cli.StringFlag{
 			Name:    "path",
 			Usage:   "git clone path",
 			EnvVars: []string{"PLUGIN_PATH", "CI_WORKSPACE"},
@@ -156,11 +161,6 @@ func main() {
 			Usage:   "Username for ssh clone",
 			EnvVars: []string{"PLUGIN_SSH_USER"},
 		},
-		&cli.StringFlag{
-			Name:    "forge-url",
-			Usage:   "Forge URL for ssh clone",
-			EnvVars: []string{"CI_FORGE_URL"},
-		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -175,8 +175,8 @@ func run(c *cli.Context) error {
 
 	plugin := Plugin{
 		Repo: Repo{
-			Clone: c.String("remote"),
-			Forge: c.String("forge-url"),
+			Clone:    c.String("remote"),
+			CloneSSH: c.String("remote-ssh"),
 		},
 		Build: Build{
 			Commit: c.String("sha"),
@@ -204,7 +204,6 @@ func run(c *cli.Context) error {
 			SafeDirectory:   c.String("safe-directory"),
 			UseSSH:          c.Bool("use-ssh"),
 			SSHKey:          c.String("ssh-key"),
-			SSHUser:         c.String("ssh-user"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),

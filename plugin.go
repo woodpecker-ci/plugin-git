@@ -65,13 +65,15 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
 		if p.Config.UseSSH {
 			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
-			cmds = append(cmds, useSSH(p.Config.SSHUser, p.Repo.Forge))
+			cmds = append(cmds, remote(p.Repo.CloneSSH))
 			if p.Config.SSHKey != "" {
 				// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
 				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey))
 			}
+		} else {
+			cmds = append(cmds, remote(p.Repo.Clone))
 		}
-		cmds = append(cmds, remote(p.Repo.Clone))
+
 	}
 
 	// fetch ref in any case
@@ -216,18 +218,6 @@ func initGit(branch string) *exec.Cmd {
 
 func safeDirectory(safeDirectory string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "--global", "safe.directory", safeDirectory), defaultEnvVars...)
-}
-
-// Replace the http(s) protocol with the ssh protocol.
-func useSSH(gitUser string, forgeURL string) *exec.Cmd {
-	// Parsing FQDN from remote url to use it in config
-	var remoteURL string
-	if strings.Contains(forgeURL, "https://") {
-		remoteURL = strings.Replace(forgeURL, "https://", "", 1)
-	} else if strings.Contains(forgeURL, "http://") {
-		remoteURL = strings.Replace(forgeURL, "http://", "", 1)
-	}
-	return appendEnv(exec.Command("git", "config", fmt.Sprintf("url.%s@%s:.insteadOf", gitUser, remoteURL), forgeURL+"/"), defaultEnvVars...)
 }
 
 // Use custom SSH Key thanks to core.sshCommand
