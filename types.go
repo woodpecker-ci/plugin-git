@@ -11,7 +11,7 @@ type (
 		CloneSSH string
 	}
 
-	Build struct {
+	Pipeline struct {
 		Path   string
 		Event  string
 		Number int
