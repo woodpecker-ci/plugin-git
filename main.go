@@ -26,7 +26,7 @@ func main() {
 		&cli.StringFlag{
 			Name:    "remote-ssh",
 			Usage:   "git clone ssh url",
-			EnvVars: []string{"CI_REPO_CLONE_SSH_URL"},
+			EnvVars: []string{"PLUGIN_REMOTE_SSH", "CI_REPO_CLONE_SSH_URL"},
 		},
 		&cli.StringFlag{
 			Name:    "path",
