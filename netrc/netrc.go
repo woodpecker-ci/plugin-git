@@ -94,7 +94,23 @@ func Read() (*NetRC, error) {
 		return nil, fmt.Errorf("error while reading file '%s': %w", file, err)
 	}
 
-	for _, v := range strings.Split(string(raw), "\n") {
+	return parseNetRC(string(raw))
+}
+
+func getHomeDir() string {
+	if homeDir := os.Getenv("HOME"); homeDir != "" {
+		return homeDir
+	}
+	if homeDir, _ := os.UserHomeDir(); homeDir != "" {
+		return homeDir
+	}
+	pwd, _ := os.Getwd()
+	return pwd
+}
+
+func parseNetRC(raw string) (*NetRC, error) {
+	netRC := &NetRC{}
+	for _, v := range strings.Split(raw, "\n") {
 		v = strings.TrimSpace(v)
 		if strings.HasPrefix(v, "machine") {
 			netRC.Machine = strings.TrimSpace(strings.TrimPrefix(v, "machine"))
@@ -107,16 +123,9 @@ func Read() (*NetRC, error) {
 		}
 	}
 
-	return nil, nil
-}
+	if netRC.Login == "" && netRC.Password == "" {
+		return nil, fmt.Errorf("parsing netrc failed, got empty result")
+	}
 
-func getHomeDir() string {
-	if homeDir := os.Getenv("HOME"); homeDir != "" {
-		return homeDir
-	}
-	if homeDir, _ := os.UserHomeDir(); homeDir != "" {
-		return homeDir
-	}
-	pwd, _ := os.Getwd()
-	return pwd
+	return netRC, nil
 }
