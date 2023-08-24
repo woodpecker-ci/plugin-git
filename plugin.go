@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -50,6 +51,11 @@ func (p Plugin) Exec() error {
 	}
 
 	var cmds []*exec.Cmd
+
+	// windows don't understand netrc so we use our build-in helper
+	if runtime.GOOS == "windows" {
+		cmds = append(cmds, setNetRCHelper())
+	}
 
 	if p.Config.SkipVerify {
 		cmds = append(cmds, skipVerify())

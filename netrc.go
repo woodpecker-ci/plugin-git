@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"os/exec"
 
 	"github.com/urfave/cli/v2"
 
@@ -61,4 +63,15 @@ func netrcGet(c *cli.Context) error {
 	}
 
 	return nil
+}
+
+func setNetRCHelper() *exec.Cmd {
+	curExec, err := os.Executable()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	credHelper := fmt.Sprintf("%s netrc", curExec)
+
+	return appendEnv(exec.Command("git", "config", "--global", "credential.helper", credHelper), defaultEnvVars...)
 }
