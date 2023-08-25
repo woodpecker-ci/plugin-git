@@ -13,7 +13,7 @@ import (
 
 var netrcCommand = &cli.Command{
 	Name:  "netrc",
-	Usage: "built in credentials helper to read netrc",
+	Usage: "built-in credentials helper to read netrc",
 	Flags: []cli.Flag{&cli.StringFlag{
 		Name:    "home",
 		Usage:   "Change home directory",
@@ -28,7 +28,7 @@ func netrcGet(c *cli.Context) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("built in credentials helper to read netrc\n"+
+		fmt.Printf("built-in credentials helper to read netrc\n"+
 			"exec \"git config --global credential.helper '%s netrc'\" to use it\n", curExec)
 		return nil
 	}
