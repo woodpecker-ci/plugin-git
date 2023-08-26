@@ -52,7 +52,7 @@ func (p Plugin) Exec() error {
 
 	var cmds []*exec.Cmd
 
-	// windows don't understand netrc so we use our build-in helper
+	// windows doesn't understand netrc, so we use our build-in helper
 	if runtime.GOOS == "windows" {
 		cmds = append(cmds, setNetRCHelper())
 	}
