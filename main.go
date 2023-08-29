@@ -156,11 +156,6 @@ func main() {
 			Usage:   "SSH key for ssh clone",
 			EnvVars: []string{"PLUGIN_SSH_KEY"},
 		},
-		&cli.StringFlag{
-			Name:    "ssh-user",
-			Usage:   "Username for ssh clone",
-			EnvVars: []string{"PLUGIN_SSH_USER"},
-		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
