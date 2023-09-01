@@ -66,15 +66,14 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, remote(p.Repo.Clone))
 	}
 
-	// fetch ref in any case
-	cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
-
 	if p.Pipeline.Commit == "" {
-		// checkout by fetched ref
+		// fetch and checkout by ref
 		fmt.Println("no commit information: using head checkout")
+		cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
 		cmds = append(cmds, checkoutHead())
 	} else {
-		// checkout by commit sha
+		// fetch and checkout by commit sha
+		cmds = append(cmds, fetch(p.Pipeline.Commit, p.Config.Tags, p.Config.Depth, p.Config.filter))
 		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
 	}
 
