@@ -24,6 +24,11 @@ func main() {
 			EnvVars: []string{"PLUGIN_REMOTE", "CI_REPO_CLONE_URL"},
 		},
 		&cli.StringFlag{
+			Name:    "remote-ssh",
+			Usage:   "git clone ssh url",
+			EnvVars: []string{"PLUGIN_REMOTE_SSH", "CI_REPO_CLONE_SSH_URL"},
+		},
+		&cli.StringFlag{
 			Name:    "path",
 			Usage:   "git clone path",
 			EnvVars: []string{"PLUGIN_PATH", "CI_WORKSPACE"},
@@ -140,6 +145,17 @@ func main() {
 			Usage:   "Define safe directories",
 			EnvVars: []string{"PLUGIN_SAFE_DIRECTORY", "CI_WORKSPACE"},
 		},
+		&cli.BoolFlag{
+			Name:    "use-ssh",
+			Usage:   "Using ssh for git clone",
+			EnvVars: []string{"PLUGIN_USE_SSH"},
+			Value:   false,
+		},
+		&cli.StringFlag{
+			Name:    "ssh-key",
+			Usage:   "SSH key for ssh clone",
+			EnvVars: []string{"PLUGIN_SSH_KEY"},
+		},
 	}
 
 	if err := app.Run(os.Args); err != nil {
@@ -154,7 +170,8 @@ func run(c *cli.Context) error {
 
 	plugin := Plugin{
 		Repo: Repo{
-			Clone: c.String("remote"),
+			Clone:    c.String("remote"),
+			CloneSSH: c.String("remote-ssh"),
 		},
 		Pipeline: Pipeline{
 			Commit: c.String("sha"),
@@ -180,6 +197,8 @@ func run(c *cli.Context) error {
 			Partial:         c.Bool("partial"),
 			Home:            c.String("home"),
 			SafeDirectory:   c.String("safe-directory"),
+			UseSSH:          c.Bool("use-ssh"),
+			SSHKey:          c.String("ssh-key"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),
