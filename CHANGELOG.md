@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.1.2) - 2023-09-05
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🐛 Bug Fixes
+
+- Fix SHA checkout on PRs [[#84](https://github.com/woodpecker-ci/plugin-git/pull/84)]
+
 ## [2.1.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.1.1) - 2023-08-13
 
 ### ❤️ Thanks to all contributors! ❤️
