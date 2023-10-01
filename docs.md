@@ -52,5 +52,9 @@ clone:
 | `branch`                  | $CI_COMMIT_BRANCH | Change branch name to checkout to
 | `partial`                 | `true` (except if tags are fetched) | Only fetch the one commit and it's blob objects to resolve all files, overwrite depth with 1
 | `home`                    |                   | Change HOME var for commands executed, fail if it does not exist
+| `remote`                  | $CI_REPO_CLONE_URL | Set the git remote url
+| `sha`                     | $CI_COMMIT_SHA     | git commit hash to retrieve (use `sha: ''` for `FETCH_HEAD`)
+| `ref`                     | $CI_COMMIT_REF     | Set the git reference to retrieve (use `ref: refs/head/a_branch` and `sha: ''` to retrieve the head commit from the "a_branch" branch)
+| `path`                    | $CI_WORKSPACE      | Set destination path to clone to
 
 [pipelineClone]: https://woodpecker-ci.org/docs/usage/pipeline-syntax#clone
