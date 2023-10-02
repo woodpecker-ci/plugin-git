@@ -39,7 +39,7 @@ steps:
       - make test
 
   build-dryrun:
-    image: woodpeckerci/plugin-docker-buildx:2
+    image: woodpeckerci/plugin-docker-buildx:2.1.0
     settings:
       repo: test/repo
       dockerfile: ./docker/Dockerfile.multiarch
@@ -50,7 +50,7 @@ steps:
       event: pull_request
 
   release-next:
-    image: woodpeckerci/plugin-docker-buildx:2
+    image: woodpeckerci/plugin-docker-buildx:2.1.0
     settings:
       repo: *publish_repos
       dockerfile: ./docker/Dockerfile.multiarch
@@ -62,7 +62,7 @@ steps:
       event: push
 
   release-tag:
-    image: woodpeckerci/plugin-docker-buildx:2
+    image: woodpeckerci/plugin-docker-buildx:2.1.0
     settings:
       repo: *publish_repos
       dockerfile: ./docker/Dockerfile.multiarch
@@ -83,7 +83,7 @@ steps:
       event: tag
 
   release-binarys:
-    image: plugins/github-release
+    image: plugins/github-release:latest
     settings:
       files:
         - release/*
