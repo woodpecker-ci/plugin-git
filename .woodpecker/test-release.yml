@@ -83,7 +83,7 @@ steps:
       event: tag
 
   release-binarys:
-    image: plugins/github-release:latest
+    image: woodpeckerci/plugin-github-release:next
     settings:
       files:
         - release/*
