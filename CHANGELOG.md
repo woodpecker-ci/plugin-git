@@ -4,7 +4,7 @@
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@pat-s, @fracai, @RayaneB75
+@pat-s, @qwerty287, @fracai, @RayaneB75
 
 ### ✨ Features
 
@@ -12,7 +12,12 @@
 
 ### 📈 Enhancement
 
+- Use woodpecker plugin instead of drone one [[#91](https://github.com/woodpecker-ci/plugin-git/pull/91)]
 - Add renovate config [[#89](https://github.com/woodpecker-ci/plugin-git/pull/89)]
+
+### 🐛 Bug Fixes
+
+- Fix renovate labels [[#92](https://github.com/woodpecker-ci/plugin-git/pull/92)]
 
 ### 📚 Documentation
 
