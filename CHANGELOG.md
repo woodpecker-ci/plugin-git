@@ -1,14 +1,18 @@
 # Changelog
 
-## [2.2.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.2.0) - 2023-10-01
+## [2.2.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.2.0) - 2023-10-03
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@fracai, @RayaneB75
+@pat-s, @fracai, @RayaneB75
 
 ### ✨ Features
 
 - Add option to use SSH for cloning repo [[#75](https://github.com/woodpecker-ci/plugin-git/pull/75)]
+
+### 📈 Enhancement
+
+- Add renovate config [[#89](https://github.com/woodpecker-ci/plugin-git/pull/89)]
 
 ### 📚 Documentation
 
