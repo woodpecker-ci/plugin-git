@@ -4,12 +4,8 @@
   "prConcurrentLimit": 5,
   "packageRules": [
     {
-      "matchManagers": ["gomod", "dockerfile"],
-      "labels": ["dependencies"]
-    },
-    {
-      "matchManagers": ["woodpecker"],
-      "labels": ["build"]
+      "matchManagers": ["gomod", "dockerfile", "woodpecker"],
+      "labels": ["dependency"]
     }
   ]
 }
