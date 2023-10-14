@@ -84,12 +84,11 @@ steps:
 
   release-binarys:
     image: woodpeckerci/plugin-github-release:next
+    secrets: [github_token]
     settings:
       files:
         - release/*
       title: ${CI_COMMIT_TAG##v}
-      api_key:
-        from_secret: github_token
     when:
       event: tag
 
