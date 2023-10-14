@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.2.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.2.0) - 2023-10-05
+
+### ❤️ Thanks to all contributors! ❤️
+
+@renovate[bot], @pat-s, @qwerty287, @fracai, @RayaneB75
+
+### ✨ Features
+
+- Add option to use SSH for cloning repo [[#75](https://github.com/woodpecker-ci/plugin-git/pull/75)]
+
+### 📈 Enhancement
+
+- Use woodpecker plugin instead of drone one [[#91](https://github.com/woodpecker-ci/plugin-git/pull/91)]
+- Add renovate config [[#89](https://github.com/woodpecker-ci/plugin-git/pull/89)]
+
+### 🐛 Bug Fixes
+
+- Fix renovate labels [[#92](https://github.com/woodpecker-ci/plugin-git/pull/92)]
+
+### 📚 Documentation
+
+- docs for remote, refs, sha, path [[#88](https://github.com/woodpecker-ci/plugin-git/pull/88)]
+
+### Misc
+
+- Update golang Docker tag to v1.21 [[#94](https://github.com/woodpecker-ci/plugin-git/pull/94)]
+
 ## [2.1.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.1.2) - 2023-09-05
 
 ### ❤️ Thanks to all contributors! ❤️
