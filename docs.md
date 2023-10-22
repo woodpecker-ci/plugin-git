@@ -54,7 +54,7 @@ clone:
 | `home`                    |                   | Change HOME var for commands executed, fail if it does not exist
 | `remote`                  | $CI_REPO_CLONE_URL | Set the git remote url
 | `sha`                     | $CI_COMMIT_SHA     | git commit hash to retrieve (use `sha: ''` to clone the `ref`)
-| `ref`                     | $CI_COMMIT_REF     | Set the git reference to retrieve (use `ref: refs/head/a_branch` and `sha: ''` to retrieve the head commit from the "a_branch" branch)
+| `ref`                     | $CI_COMMIT_REF     | Set the git reference to retrieve (use `ref: refs/heads/a_branch` and `sha: ''` to retrieve the head commit from the "a_branch" branch)
 | `path`                    | $CI_WORKSPACE      | Set destination path to clone to
 
 [pipelineClone]: https://woodpecker-ci.org/docs/usage/pipeline-syntax#clone
