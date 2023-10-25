@@ -1,14 +1,18 @@
 # Changelog
 
-## [2.2.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.2.1) - 2023-10-22
+## [2.2.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.2.1) - 2023-10-25
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@crapStone
+@renovate[bot], @crapStone
 
 ### 📚 Documentation
 
 - Use correct ref spec [[#97](https://github.com/woodpecker-ci/plugin-git/pull/97)]
+
+### Misc
+
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v2.2.0 [[#99](https://github.com/woodpecker-ci/plugin-git/pull/99)]
 
 ## [2.2.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.2.0) - 2023-10-05
 
