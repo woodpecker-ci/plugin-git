@@ -222,7 +222,7 @@ func initGit(branch string) *exec.Cmd {
 }
 
 func safeDirectory(safeDirectory string) *exec.Cmd {
-	return appendEnv(exec.Command("git", "config", "--global", "safe.directory", safeDirectory), defaultEnvVars...)
+	return appendEnv(exec.Command("git", "config", "--global", "--replace-all", "safe.directory", safeDirectory), defaultEnvVars...)
 }
 
 // Use custom SSH Key thanks to core.sshCommand
