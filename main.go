@@ -16,7 +16,6 @@ func main() {
 	app.Usage = "git plugin"
 	app.Action = run
 	app.Version = version
-	app.Commands = []*cli.Command{netrcCommand}
 	app.Flags = globalFlags
 
 	if err := app.Run(os.Args); err != nil {
