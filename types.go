@@ -7,7 +7,8 @@ import (
 
 type (
 	Repo struct {
-		Clone string
+		Clone    string
+		CloneSSH string
 	}
 
 	Pipeline struct {
@@ -38,6 +39,8 @@ type (
 		Partial         bool
 		filter          string
 		SafeDirectory   string
+		UseSSH          bool
+		SSHKey          string
 	}
 
 	Backoff struct {

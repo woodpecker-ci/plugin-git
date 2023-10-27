@@ -31,7 +31,8 @@ func run(c *cli.Context) error {
 
 	plugin := Plugin{
 		Repo: Repo{
-			Clone: c.String("remote"),
+			Clone:    c.String("remote"),
+			CloneSSH: c.String("remote-ssh"),
 		},
 		Pipeline: Pipeline{
 			Commit: c.String("sha"),
@@ -57,6 +58,8 @@ func run(c *cli.Context) error {
 			Partial:         c.Bool("partial"),
 			Home:            c.String("home"),
 			SafeDirectory:   c.String("safe-directory"),
+			UseSSH:          c.Bool("use-ssh"),
+			SSHKey:          c.String("ssh-key"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),

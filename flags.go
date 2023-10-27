@@ -13,6 +13,11 @@ var globalFlags = []cli.Flag{
 		EnvVars: []string{"PLUGIN_REMOTE", "CI_REPO_CLONE_URL"},
 	},
 	&cli.StringFlag{
+		Name:    "remote-ssh",
+		Usage:   "git clone ssh url",
+		EnvVars: []string{"PLUGIN_REMOTE_SSH", "CI_REPO_CLONE_SSH_URL"},
+	},
+	&cli.StringFlag{
 		Name:    "path",
 		Usage:   "git clone path",
 		EnvVars: []string{"PLUGIN_PATH", "CI_WORKSPACE"},
@@ -128,5 +133,16 @@ var globalFlags = []cli.Flag{
 		Name:    "safe-directory",
 		Usage:   "Define safe directories",
 		EnvVars: []string{"PLUGIN_SAFE_DIRECTORY", "CI_WORKSPACE"},
+	},
+	&cli.BoolFlag{
+		Name:    "use-ssh",
+		Usage:   "Using ssh for git clone",
+		EnvVars: []string{"PLUGIN_USE_SSH"},
+		Value:   false,
+	},
+	&cli.StringFlag{
+		Name:    "ssh-key",
+		Usage:   "SSH key for ssh clone",
+		EnvVars: []string{"PLUGIN_SSH_KEY"},
 	},
 }

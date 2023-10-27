@@ -69,7 +69,17 @@ func (p Plugin) Exec() error {
 	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
 		cmds = append(cmds, initGit(p.Config.Branch))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
-		cmds = append(cmds, remote(p.Repo.Clone))
+		if p.Config.UseSSH {
+			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
+			cmds = append(cmds, remote(p.Repo.CloneSSH))
+			if p.Config.SSHKey != "" {
+				// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
+				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey))
+			}
+		} else {
+			cmds = append(cmds, remote(p.Repo.Clone))
+		}
+
 	}
 
 	if p.Pipeline.Commit == "" {
@@ -213,6 +223,11 @@ func initGit(branch string) *exec.Cmd {
 
 func safeDirectory(safeDirectory string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "--global", "safe.directory", safeDirectory), defaultEnvVars...)
+}
+
+// Use custom SSH Key thanks to core.sshCommand
+func sshKeyHandler(sshKey string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "core.sshCommand", "ssh -i "+sshKey), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
