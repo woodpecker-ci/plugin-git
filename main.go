@@ -142,7 +142,7 @@ func main() {
 		},
 		&cli.StringFlag{
 			Name:    "safe-directory",
-			Usage:   "Define safe directories",
+			Usage:   "Define / replace safe directories",
 			EnvVars: []string{"PLUGIN_SAFE_DIRECTORY", "CI_WORKSPACE"},
 		},
 		&cli.BoolFlag{
