@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.3.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.3.0) - 2023-11-08
+
+### ❤️ Thanks to all contributors! ❤️
+
+@renovate[bot], @6543, @pat-s, @crapStone
+
+### 📈 Enhancement
+
+- move flags into own file [[#100](https://github.com/woodpecker-ci/plugin-git/pull/100)]
+
+### 📚 Documentation
+
+- Use correct ref spec [[#97](https://github.com/woodpecker-ci/plugin-git/pull/97)]
+
+### Misc
+
+- Update woodpeckerci/plugin-ready-release-go Docker tag to v0.7.0 [[#102](https://github.com/woodpecker-ci/plugin-git/pull/102)]
+- make sure setting safe-directory does not fail [[#101](https://github.com/woodpecker-ci/plugin-git/pull/101)]
+- Plugin github-release: inject the secret as an env var [[#96](https://github.com/woodpecker-ci/plugin-git/pull/96)]
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v2.2.0 [[#99](https://github.com/woodpecker-ci/plugin-git/pull/99)]
+
 ## [2.2.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.2.0) - 2023-10-05
 
 ### ❤️ Thanks to all contributors! ❤️
