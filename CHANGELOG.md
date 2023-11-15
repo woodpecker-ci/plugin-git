@@ -171,7 +171,7 @@
 - FEATURES
   - Add ppc64le support (#8)
 - BUGFIXES
-  - Regognize "CI\_-" EnvVars (#6)
+  - Regognize "CI\_*" EnvVars (#6)
 - ENHANCEMENTS
   - Multiarch build (#8)
 - MISC
