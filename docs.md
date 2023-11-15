@@ -45,6 +45,7 @@ clone:
 | `tags`                    | `false` (except on tag event) | Fetches tags when set to true, default is false if event is not tag else true
 | `submodule_overrides`     | *none*            | Override submodule urls
 | `submodule_update_remote` | `false`           | Pass the --remote flag to git submodule update
+| `submodule_partial`       | `true`            | Update submodules via partial clone (depth=1)
 | `custom_ssl_path`         | *none*            | Set path to custom cert
 | `custom_ssl_url`          | *none*            | Set url to custom cert
 | `backoff`                 | `5sec`            | Change backoff duration
