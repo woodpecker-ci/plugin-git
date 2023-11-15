@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.3.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.3.1) - 2023-11-11
+
+### ❤️ Thanks to all contributors! ❤️
+
+@renovate[bot]
+
+### Misc
+
+- Update woodpeckerci/plugin-ready-release-go Docker tag to v1 [[#104](https://github.com/woodpecker-ci/plugin-git/pull/104)]
+
 ## [2.3.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.3.0) - 2023-11-08
 
 ### ❤️ Thanks to all contributors! ❤️
