@@ -303,7 +303,7 @@ func TestUpdateSubmodules(t *testing.T) {
 		},
 	}
 	for _, td := range testdata {
-		c := updateSubmodules(false)
+		c := updateSubmodules(false, false)
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}
@@ -401,7 +401,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 		},
 	}
 	for _, td := range testdata {
-		c := updateSubmodules(true)
+		c := updateSubmodules(true, true)
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}

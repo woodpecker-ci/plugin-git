@@ -91,6 +91,12 @@ var globalFlags = []cli.Flag{
 		EnvVars: []string{"PLUGIN_SUBMODULE_OVERRIDE"},
 		Value:   &MapFlag{},
 	},
+	&cli.BoolFlag{
+		Name:    "submodule-partial",
+		Usage:   "update submodules via partial clone (depth=1) (default)",
+		EnvVars: []string{"PLUGIN_SUBMODULES_PARTIAL", "PLUGIN_SUBMODULE_PARTIAL"},
+		Value:   true,
+	},
 	&cli.DurationFlag{
 		Name:    "backoff",
 		Usage:   "backoff duration",
