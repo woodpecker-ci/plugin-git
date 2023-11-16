@@ -1,0 +1,38 @@
+linters-settings:
+  gofmt:
+    simplify: true
+  misspell:
+    locale: US
+  gofumpt:
+    extra-rules: true
+  forbidigo:
+    forbid:
+      - context\.WithCancel$
+      - ^print.*$
+      - panic
+  errorlint:
+    errorf-multi: true
+
+linters:
+  disable-all: true
+  enable:
+    - bidichk
+    - errcheck
+    - gofmt
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - revive
+    - staticcheck
+    - typecheck
+    - unused
+    - whitespace
+    - gofumpt
+    - errorlint
+    - forbidigo
+    - zerologlint
+
+run:
+  timeout: 5m
