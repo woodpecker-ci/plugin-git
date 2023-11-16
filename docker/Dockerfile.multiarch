@@ -10,10 +10,10 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 FROM alpine:edge
 ARG HOME=/app
 
-RUN mkdir -p $HOME
-RUN apk add --no-cache ca-certificates git openssh curl git-lfs
 ENV GODEBUG=netdns=go
 ENV PLUGIN_HOME=$HOME
+
+RUN mkdir -p $HOME && apk add --no-cache ca-certificates git openssh curl git-lfs
 
 COPY --from=build src/release/plugin-git /bin/
 ENTRYPOINT ["/bin/plugin-git"]
