@@ -278,11 +278,11 @@ func TestFetch(t *testing.T) {
 // are constructed properly.
 func TestUpdateSubmodules(t *testing.T) {
 	testdata := []struct {
-		depth int
-		exp   []string
+		partial bool
+		exp     []string
 	}{
 		{
-			50,
+			false,
 			[]string{
 				"git",
 				"submodule",
@@ -292,18 +292,20 @@ func TestUpdateSubmodules(t *testing.T) {
 			},
 		},
 		{
-			100,
+			true,
 			[]string{
 				"git",
 				"submodule",
 				"update",
 				"--init",
 				"--recursive",
+				"--depth=1",
+				"--recommend-shallow",
 			},
 		},
 	}
 	for _, td := range testdata {
-		c := updateSubmodules(false)
+		c := updateSubmodules(false, td.partial)
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}
@@ -374,11 +376,9 @@ func TestCustomCertFile(t *testing.T) {
 // are constructed properly.
 func TestUpdateSubmodulesRemote(t *testing.T) {
 	testdata := []struct {
-		depth int
-		exp   []string
+		exp []string
 	}{
 		{
-			50,
 			[]string{
 				"git",
 				"submodule",
@@ -389,7 +389,6 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 			},
 		},
 		{
-			100,
 			[]string{
 				"git",
 				"submodule",
@@ -401,7 +400,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 		},
 	}
 	for _, td := range testdata {
-		c := updateSubmodules(true)
+		c := updateSubmodules(true, false)
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}
