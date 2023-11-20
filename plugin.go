@@ -98,7 +98,7 @@ func (p Plugin) Exec() error {
 	}
 
 	if p.Config.Recursive {
-		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote))
+		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote, p.Config.SubmodulePartial))
 	}
 
 	if p.Config.Lfs {
@@ -301,14 +301,12 @@ func fetch(ref string, tags bool, depth int, filter string) *exec.Cmd {
 }
 
 // updateSubmodules recursively initializes and updates submodules.
-func updateSubmodules(remote bool) *exec.Cmd {
-	cmd := exec.Command(
-		"git",
-		"submodule",
-		"update",
-		"--init",
-		"--recursive",
-	)
+func updateSubmodules(remote, partial bool) *exec.Cmd {
+	args := []string{"submodule", "update", "--init", "--recursive"}
+	if partial {
+		args = append(args, "--depth=1", "--recommend-shallow")
+	}
+	cmd := exec.Command("git", args...)
 
 	if remote {
 		cmd.Args = append(cmd.Args, "--remote")

@@ -18,6 +18,7 @@ endif
 
 LDFLAGS := -s -w -extldflags "-static" -X main.version=${BUILD_VERSION}
 
+.PHONY: all
 all: build
 
 .PHONY: vendor
@@ -41,6 +42,7 @@ vet:
 	@echo "Running go vet..."
 	CGO_ENABLED=0 go vet $(GO_PACKAGES)
 
+.PHONY: test
 test:
 	CGO_ENABLED=0 go test -cover ./...
 	# we can not use "-race" as test trigger write to os.stdout
