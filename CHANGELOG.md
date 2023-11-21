@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.4.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.4.0) - 2023-11-21
+
+### ❤️ Thanks to all contributors! ❤️
+
+@renovate[bot], @6543, @pat-s
+
+### 📈 Enhancement
+
+- Shallow clone submodules by default [[#106](https://github.com/woodpecker-ci/plugin-git/pull/106)]
+- add precommit and linters [[#103](https://github.com/woodpecker-ci/plugin-git/pull/103)]
+
+### Misc
+
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v2.2.1 [[#107](https://github.com/woodpecker-ci/plugin-git/pull/107)]
+
 ## [2.3.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.3.1) - 2023-11-11
 
 ### ❤️ Thanks to all contributors! ❤️
