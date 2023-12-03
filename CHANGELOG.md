@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.4.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.4.1) - 2023-12-03
+
+### ❤️ Thanks to all contributors! ❤️
+
+@renovate[bot]
+
+### Misc
+
+- Update module github.com/urfave/cli/v2 to v2.26.0 [[#110](https://github.com/woodpecker-ci/plugin-git/pull/110)]
+- Update woodpeckerci/plugin-ready-release-go Docker tag to v1.0.3 [[#109](https://github.com/woodpecker-ci/plugin-git/pull/109)]
+
 ## [2.4.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.4.0) - 2023-11-21
 
 ### ❤️ Thanks to all contributors! ❤️
