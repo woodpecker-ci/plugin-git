@@ -1,10 +1,14 @@
 # Changelog
 
-## [2.4.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.4.1) - 2023-12-03
+## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2023-12-13
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@renovate[bot]
+@6543, @renovate[bot]
+
+### 📈 Enhancement
+
+- make add ".exe" on windows builds [[#112](https://github.com/woodpecker-ci/plugin-git/pull/112)]
 
 ### Misc
 
