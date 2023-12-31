@@ -61,6 +61,6 @@ clone:
 | `ref`                     | $CI_COMMIT_REF                      | Set the git reference to retrieve (use `ref: refs/heads/a_branch` and `sha: ''` to retrieve the head commit from the "a_branch" branch) |
 | `path`                    | $CI_WORKSPACE                       | Set destination path to clone to                                                                                                        |
 | `use_ssh`                 | `false`                             | Clone using SSH                                                                                                                         |
-| `ssh_key`                 | _none_                             | SSH key for SSH clone                                                                                                                   |
+| `ssh_key`                 | _none_                              | SSH key for SSH clone                                                                                                                   |
 
 [workflowClone]: https://woodpecker-ci.org/docs/usage/workflow-syntax#clone
