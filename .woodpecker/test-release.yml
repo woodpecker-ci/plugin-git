@@ -24,7 +24,6 @@ steps:
       - go mod vendor
 
   lint:
-    group: test
     image: *golang
     depends_on: vendor
     commands:
@@ -37,7 +36,6 @@ steps:
         branch: renovate/*
 
   test:
-    group: test
     image: *golang
     depends_on: vendor
     commands:
