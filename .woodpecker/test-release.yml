@@ -64,9 +64,6 @@ steps:
 
   release-next:
     image: woodpeckerci/plugin-docker-buildx:2.2.1
-    depends_on:
-      - lint
-      - test
     settings:
       repo: *publish_repos
       dockerfile: ./docker/Dockerfile.multiarch
