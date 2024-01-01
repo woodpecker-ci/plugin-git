@@ -57,7 +57,7 @@ clone:
 | `home`                    |                                     | Change HOME var for commands executed, fail if it does not exist                                                                        |
 | `remote`                  | $CI_REPO_CLONE_URL                  | Set the git remote url                                                                                                                  |
 | `remote_ssh`              | $CI_REPO_CLONE_SSH_URL              | Set the git SSH remote url                                                                                                              |
-| `ref`                     | $CI_COMMIT_REF                      | Set the git reference to retrieve                                                                                            |
+| `ref`                     | _none_                              | Set the git reference to retrieve                                                                                            |
 | `path`                    | $CI_WORKSPACE                       | Set destination path to clone to                                                                                                        |
 | `use_ssh`                 | `false`                             | Clone using SSH                                                                                                                         |
 | `ssh_key`                 | _none_                              | SSH key for SSH clone                                                                                                                   |

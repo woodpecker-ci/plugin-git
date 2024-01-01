@@ -29,7 +29,6 @@ var globalFlags = []cli.Flag{
 	},
 	&cli.StringFlag{
 		Name:    "ref",
-		Value:   "refs/heads/main",
 		Usage:   "git commit ref",
 		EnvVars: []string{"PLUGIN_REF"},
 	},
