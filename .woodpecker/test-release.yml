@@ -26,20 +26,33 @@ steps:
   lint:
     group: test
     image: *golang
+    depends_on: vendor
     commands:
       - apk add make
       - make vet
       - make formatcheck
+    when:
+      - event: pull_request
+      - event: push
+        branch: renovate/*
 
   test:
     group: test
     image: *golang
+    depends_on: vendor
     commands:
       - apk add make git-lfs
       - make test
+    when:
+      - event: pull_request
+      - event: push
+        branch: renovate/*
 
   build-dryrun:
     image: woodpeckerci/plugin-docker-buildx:2.2.1
+    depends_on:
+      - lint
+      - test
     settings:
       repo: test/repo
       dockerfile: ./docker/Dockerfile.multiarch
@@ -47,10 +60,16 @@ steps:
       platforms: *platforms
       tags: latest
     when:
-      event: pull_request
+      - event: pull_request
+      - event: push
+        branch: renovate/*
+
 
   release-next:
     image: woodpeckerci/plugin-docker-buildx:2.2.1
+    depends_on:
+      - lint
+      - test
     settings:
       repo: *publish_repos
       dockerfile: ./docker/Dockerfile.multiarch
@@ -96,4 +115,6 @@ when:
   - event: pull_request
   - event: tag
   - event: push
-    branch: ${CI_REPO_DEFAULT_BRANCH}
+    branch:
+      - ${CI_REPO_DEFAULT_BRANCH}
+      - renovate/*
