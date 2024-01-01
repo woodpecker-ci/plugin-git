@@ -34,11 +34,6 @@ var globalFlags = []cli.Flag{
 		EnvVars: []string{"PLUGIN_REF"},
 	},
 	&cli.StringFlag{
-		Name:    "ref-ci",
-		Usage:   "git commit ref",
-		EnvVars: []string{"CI_COMMIT_REF"},
-	},
-	&cli.StringFlag{
 		Name:    "event",
 		Value:   "push",
 		Usage:   "pipeline event",

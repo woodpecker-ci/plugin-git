@@ -38,7 +38,6 @@ func run(c *cli.Context) error {
 			Event:  c.String("event"),
 			Path:   c.String("path"),
 			Ref:    c.String("ref"),
-			RefCI:  c.String("ref-ci"),
 		},
 		Netrc: Netrc{
 			Login:    c.String("netrc.username"),

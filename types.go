@@ -17,7 +17,6 @@ type (
 		Number int
 		Commit string
 		Ref    string
-		RefCI  string
 	}
 
 	Netrc struct {

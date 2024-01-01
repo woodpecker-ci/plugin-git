@@ -76,10 +76,10 @@ func (p Plugin) Exec() error {
 
 	}
 
-	if p.Pipeline.RefCI != "" {
+	if p.Pipeline.Ref != "" {
 		// fetch and checkout by ref
 		fmt.Println("using head checkout")
-		cmds = append(cmds, fetch(p.Pipeline.RefCI, p.Config.Tags, p.Config.Depth, p.Config.filter))
+		cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
 		cmds = append(cmds, checkoutHead())
 	} else {
 		// fetch and checkout by commit sha
