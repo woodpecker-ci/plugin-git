@@ -25,13 +25,18 @@ var globalFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:    "sha",
 		Usage:   "git commit sha",
-		EnvVars: []string{"PLUGIN_SHA", "CI_COMMIT_SHA"},
+		EnvVars: []string{"CI_COMMIT_SHA"},
 	},
 	&cli.StringFlag{
 		Name:    "ref",
-		Value:   "refs/heads/master",
+		Value:   "refs/heads/main",
 		Usage:   "git commit ref",
-		EnvVars: []string{"PLUGIN_REF", "CI_COMMIT_REF"},
+		EnvVars: []string{"PLUGIN_REF"},
+	},
+	&cli.StringFlag{
+		Name:    "ref-ci",
+		Usage:   "git commit ref",
+		EnvVars: []string{"CI_COMMIT_REF"},
 	},
 	&cli.StringFlag{
 		Name:    "event",
