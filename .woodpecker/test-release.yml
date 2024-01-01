@@ -62,7 +62,6 @@ steps:
       - event: push
         branch: renovate/*
 
-
   release-next:
     image: woodpeckerci/plugin-docker-buildx:2.2.1
     depends_on:
