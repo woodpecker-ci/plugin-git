@@ -64,6 +64,7 @@ steps:
 
   release-next:
     image: woodpeckerci/plugin-docker-buildx:2.3.0
+    depends_on: vendor
     settings:
       repo: *publish_repos
       dockerfile: ./docker/Dockerfile.multiarch
@@ -76,6 +77,7 @@ steps:
 
   release-tag:
     image: woodpeckerci/plugin-docker-buildx:2.3.0
+    depends_on: vendor
     settings:
       repo: *publish_repos
       dockerfile: ./docker/Dockerfile.multiarch
@@ -87,16 +89,18 @@ steps:
     when:
       event: tag
 
-  build-binarys:
+  build-binaries:
     image: *golang
+    depends_on: vendor
     commands:
       - apk add make
       - make release
     when:
       event: tag
 
-  release-binarys:
+  release-binaries:
     image: woodpeckerci/plugin-github-release:1.1.0
+    depends_on: build-binaries
     secrets: [github_token]
     settings:
       files:
