@@ -1,9 +1,8 @@
 ---
 name: Git Clone
-icon: https://woodpecker-ci.org/img/logo.svg
-
+icon: https://raw.githubusercontent.com/woodpecker-ci/plugin-git/main/git.svg
 description: This is the default plugin for the clone step.
-authors: Woodpecker Authors
+author: Woodpecker Authors
 tags: [git, clone]
 containerImage: woodpeckerci/plugin-git
 containerImageUrl: https://hub.docker.com/r/woodpeckerci/plugin-git
