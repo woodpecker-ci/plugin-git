@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2024-01-02
+## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2024-01-15
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -8,6 +8,7 @@
 
 ### 📚 Documentation
 
+- Add logo [[#123](https://github.com/woodpecker-ci/plugin-git/pull/123)]
 - Document SSH settings [[#116](https://github.com/woodpecker-ci/plugin-git/pull/116)]
 
 ### 📈 Enhancement
