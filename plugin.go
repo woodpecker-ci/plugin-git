@@ -76,9 +76,9 @@ func (p Plugin) Exec() error {
 
 	}
 
-	if p.Pipeline.Commit == "" {
+	if p.Pipeline.Ref != "" {
 		// fetch and checkout by ref
-		fmt.Println("no commit information: using head checkout")
+		fmt.Println("using head checkout")
 		cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
 		cmds = append(cmds, checkoutHead())
 	} else {

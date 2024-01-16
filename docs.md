@@ -56,8 +56,8 @@ clone:
 | `home`                    |                                     | Change HOME var for commands executed, fail if it does not exist                                                                        |
 | `remote`                  | $CI_REPO_CLONE_URL                  | Set the git remote url                                                                                                                  |
 | `remote-ssh`              | $CI_REPO_CLONE_SSH_URL              | Set the git SSH remote url                                                                                                              |
-| `sha`                     | $CI_COMMIT_SHA                      | git commit hash to retrieve (use `sha: ''` to clone the `ref`)                                                                          |
-| `ref`                     | $CI_COMMIT_REF                      | Set the git reference to retrieve (use `ref: refs/heads/a_branch` and `sha: ''` to retrieve the head commit from the "a_branch" branch) |
+| `sha`                     | $CI_COMMIT_SHA                      | git commit hash to retrieve                                                                                                             |
+| `ref`                     | _none_                              | Set the git reference to retrieve                                                                                                       |
 | `path`                    | $CI_WORKSPACE                       | Set destination path to clone to                                                                                                        |
 | `use-ssh`                 | `false`                             | Clone using SSH                                                                                                                         |
 | `ssh-key`                 | _none_                              | SSH key for SSH clone                                                                                                                   |
