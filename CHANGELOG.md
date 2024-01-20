@@ -1,22 +1,26 @@
 # Changelog
 
-## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2024-01-15
+## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2024-01-20
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@qwerty287, @renovate[bot], @pre-commit-ci[bot], @6543
-
-### 📚 Documentation
-
-- Add logo [[#123](https://github.com/woodpecker-ci/plugin-git/pull/123)]
-- Document SSH settings [[#116](https://github.com/woodpecker-ci/plugin-git/pull/116)]
+@renovate[bot], @qwerty287, @mhmdanas, @pre-commit-ci[bot], @6543
 
 ### 📈 Enhancement
 
+- Clone ref if `ref` setting is set [[#117](https://github.com/woodpecker-ci/plugin-git/pull/117)]
 - make add ".exe" on windows builds [[#112](https://github.com/woodpecker-ci/plugin-git/pull/112)]
+
+### 📚 Documentation
+
+- Correct config options' names in `docs.md` [[#124](https://github.com/woodpecker-ci/plugin-git/pull/124)]
+- Add logo [[#123](https://github.com/woodpecker-ci/plugin-git/pull/123)]
+- Document SSH settings [[#116](https://github.com/woodpecker-ci/plugin-git/pull/116)]
 
 ### Misc
 
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v3 [[#126](https://github.com/woodpecker-ci/plugin-git/pull/126)]
+- Use cleartext user [[#125](https://github.com/woodpecker-ci/plugin-git/pull/125)]
 - Fix `depends_on`, take 2 [[#120](https://github.com/woodpecker-ci/plugin-git/pull/120)]
 - Update woodpeckerci/plugin-docker-buildx Docker tag to v2.3.0 [[#122](https://github.com/woodpecker-ci/plugin-git/pull/122)]
 - [pre-commit.ci] pre-commit autoupdate [[#121](https://github.com/woodpecker-ci/plugin-git/pull/121)]
