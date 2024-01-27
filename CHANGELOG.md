@@ -1,5 +1,37 @@
 # Changelog
 
+## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2024-01-27
+
+### ❤️ Thanks to all contributors! ❤️
+
+@6543, @mhmdanas, @qwerty287
+
+### 📈 Enhancement
+
+- Clone ref if `ref` setting is set [[#117](https://github.com/woodpecker-ci/plugin-git/pull/117)]
+- make add ".exe" on windows builds [[#112](https://github.com/woodpecker-ci/plugin-git/pull/112)]
+
+### 📚 Documentation
+
+- Correct config options' names in `docs.md` [[#124](https://github.com/woodpecker-ci/plugin-git/pull/124)]
+- Add logo [[#123](https://github.com/woodpecker-ci/plugin-git/pull/123)]
+- Document SSH settings [[#116](https://github.com/woodpecker-ci/plugin-git/pull/116)]
+
+### Misc
+
+- Update woodpeckerci/plugin-ready-release-go Docker tag to v1.1.0 [[#127](https://github.com/woodpecker-ci/plugin-git/pull/127)]
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v3 [[#126](https://github.com/woodpecker-ci/plugin-git/pull/126)]
+- Use cleartext user [[#125](https://github.com/woodpecker-ci/plugin-git/pull/125)]
+- Fix `depends_on`, take 2 [[#120](https://github.com/woodpecker-ci/plugin-git/pull/120)]
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v2.3.0 [[#122](https://github.com/woodpecker-ci/plugin-git/pull/122)]
+- [pre-commit.ci] pre-commit autoupdate [[#121](https://github.com/woodpecker-ci/plugin-git/pull/121)]
+- Fix `depends_on` [[#119](https://github.com/woodpecker-ci/plugin-git/pull/119)]
+- Use `depends_on` [[#118](https://github.com/woodpecker-ci/plugin-git/pull/118)]
+- Update module github.com/urfave/cli/v2 to v2.27.1 [[#115](https://github.com/woodpecker-ci/plugin-git/pull/115)]
+- Update module github.com/urfave/cli/v2 to v2.27.0 [[#114](https://github.com/woodpecker-ci/plugin-git/pull/114)]
+- Update module github.com/urfave/cli/v2 to v2.26.0 [[#110](https://github.com/woodpecker-ci/plugin-git/pull/110)]
+- Update woodpeckerci/plugin-ready-release-go Docker tag to v1.0.3 [[#109](https://github.com/woodpecker-ci/plugin-git/pull/109)]
+
 ## [2.4.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.4.0) - 2023-11-21
 
 ### ❤️ Thanks to all contributors! ❤️
