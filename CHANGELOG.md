@@ -1,10 +1,10 @@
 # Changelog
 
-## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2024-01-20
+## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2024-01-27
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@renovate[bot], @qwerty287, @mhmdanas, @pre-commit-ci[bot], @6543
+@6543, @mhmdanas, @qwerty287
 
 ### 📈 Enhancement
 
@@ -19,6 +19,7 @@
 
 ### Misc
 
+- Update woodpeckerci/plugin-ready-release-go Docker tag to v1.1.0 [[#127](https://github.com/woodpecker-ci/plugin-git/pull/127)]
 - Update woodpeckerci/plugin-docker-buildx Docker tag to v3 [[#126](https://github.com/woodpecker-ci/plugin-git/pull/126)]
 - Use cleartext user [[#125](https://github.com/woodpecker-ci/plugin-git/pull/125)]
 - Fix `depends_on`, take 2 [[#120](https://github.com/woodpecker-ci/plugin-git/pull/120)]
