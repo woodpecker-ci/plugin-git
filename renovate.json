@@ -1,11 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":maintainLockFilesWeekly"],
-  "prConcurrentLimit": 5,
-  "packageRules": [
-    {
-      "matchManagers": ["gomod", "dockerfile", "woodpecker"],
-      "labels": ["dependency"]
-    }
-  ]
+  "extends": ["github>woodpecker-ci/renovate-config"]
 }
