@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-02-11
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### Misc
+
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v3.1.0 [[#132](https://github.com/woodpecker-ci/plugin-git/pull/132)]
+- Update golang Docker tag to v1.22 [[#131](https://github.com/woodpecker-ci/plugin-git/pull/131)]
+- [pre-commit.ci] pre-commit autoupdate [[#130](https://github.com/woodpecker-ci/plugin-git/pull/130)]
+- Renovate: Use org config [[#129](https://github.com/woodpecker-ci/plugin-git/pull/129)]
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v3.0.1 [[#128](https://github.com/woodpecker-ci/plugin-git/pull/128)]
+
 ## [2.5.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.0) - 2024-01-27
 
 ### ❤️ Thanks to all contributors! ❤️
