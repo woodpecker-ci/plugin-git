@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-02-11
+## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-04-16
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -8,6 +8,12 @@
 
 ### Misc
 
+- Update pre-commit hook pre-commit/pre-commit-hooks to v4.6.0 [[#140](https://github.com/woodpecker-ci/plugin-git/pull/140)]
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v3.2.1 [[#139](https://github.com/woodpecker-ci/plugin-git/pull/139)]
+- Update pre-commit hook golangci/golangci-lint to v1.57.2 [[#138](https://github.com/woodpecker-ci/plugin-git/pull/138)]
+- Update pre-commit hook golangci/golangci-lint to v1.57.1 [[#137](https://github.com/woodpecker-ci/plugin-git/pull/137)]
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v3.2.0 [[#136](https://github.com/woodpecker-ci/plugin-git/pull/136)]
+- Update woodpeckerci/plugin-github-release Docker tag to v1.1.2 [[#135](https://github.com/woodpecker-ci/plugin-git/pull/135)]
 - Update woodpeckerci/plugin-docker-buildx Docker tag to v3.1.0 [[#132](https://github.com/woodpecker-ci/plugin-git/pull/132)]
 - Update golang Docker tag to v1.22 [[#131](https://github.com/woodpecker-ci/plugin-git/pull/131)]
 - [pre-commit.ci] pre-commit autoupdate [[#130](https://github.com/woodpecker-ci/plugin-git/pull/130)]
