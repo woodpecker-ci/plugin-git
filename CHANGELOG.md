@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-04-23
+## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-06-04
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -8,6 +8,13 @@
 
 ### Misc
 
+- Use `release` plugin [[#152](https://github.com/woodpecker-ci/plugin-git/pull/152)]
+- Update pre-commit non-major [[#150](https://github.com/woodpecker-ci/plugin-git/pull/150)]
+- Update woodpeckerci/plugin-ready-release-go Docker tag to v1.1.2 [[#149](https://github.com/woodpecker-ci/plugin-git/pull/149)]
+- Update pre-commit hook golangci/golangci-lint to v1.58.2 [[#148](https://github.com/woodpecker-ci/plugin-git/pull/148)]
+- Update pre-commit non-major [[#144](https://github.com/woodpecker-ci/plugin-git/pull/144)]
+- Update woodpeckerci/plugin-docker-buildx Docker tag to v4 [[#146](https://github.com/woodpecker-ci/plugin-git/pull/146)]
+- Update module github.com/urfave/cli/v2 to v2.27.2 [[#143](https://github.com/woodpecker-ci/plugin-git/pull/143)]
 - Update woodpeckerci/plugin-github-release Docker tag to v1.2.0 [[#142](https://github.com/woodpecker-ci/plugin-git/pull/142)]
 - Update woodpeckerci/plugin-ready-release-go Docker tag to v1.1.1 [[#141](https://github.com/woodpecker-ci/plugin-git/pull/141)]
 - Update pre-commit hook pre-commit/pre-commit-hooks to v4.6.0 [[#140](https://github.com/woodpecker-ci/plugin-git/pull/140)]
