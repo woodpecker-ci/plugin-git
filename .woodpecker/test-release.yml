@@ -97,10 +97,11 @@ steps:
       event: tag
 
   release-binaries:
-    image: woodpeckerci/plugin-github-release:1.2.0
+    image: woodpeckerci/plugin-release:0.1.0
     depends_on: build-binaries
-    secrets: [github_token]
     settings:
+      api_key:
+        from_secret: github_token
       files:
         - release/*
       title: ${CI_COMMIT_TAG##v}
