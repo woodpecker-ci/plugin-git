@@ -18,7 +18,7 @@ Its purpose is to clone your Git repository.
 
 - Git LFS support is enabled by default.
 - Fetch tags when needed.
-- Ajust submodules.
+- Adjust submodules.
 
 ## Overriding Settings
 
