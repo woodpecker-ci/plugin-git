@@ -1,13 +1,17 @@
 # Changelog
 
-## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-06-04
+## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-07-13
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@qwerty287
+@christoph-heiss, @qwerty287
 
 ### Misc
 
+- fix(deps): update module github.com/adrg/xdg to v0.5.0 [[#157](https://github.com/woodpecker-ci/plugin-git/pull/157)]
+- Explain setting `depth` to `0` effect [[#156](https://github.com/woodpecker-ci/plugin-git/pull/156)]
+- docs: fix typo in plugin feature description [[#154](https://github.com/woodpecker-ci/plugin-git/pull/154)]
+- Update pre-commit hook golangci/golangci-lint to v1.59.1 [[#153](https://github.com/woodpecker-ci/plugin-git/pull/153)]
 - Use `release` plugin [[#152](https://github.com/woodpecker-ci/plugin-git/pull/152)]
 - Update pre-commit non-major [[#150](https://github.com/woodpecker-ci/plugin-git/pull/150)]
 - Update woodpeckerci/plugin-ready-release-go Docker tag to v1.1.2 [[#149](https://github.com/woodpecker-ci/plugin-git/pull/149)]
