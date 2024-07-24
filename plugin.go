@@ -84,6 +84,9 @@ func (p Plugin) Exec() error {
 	} else if len(p.Pipeline.Commit) != 40 {
 		// fetch requires full SHA1 commits (unambiguous reference)
 		// for short SHA1, fetch and switch the branch before commit reset
+		if p.Config.Branch == "" {
+			return fmt.Errorf("short commit SHA1 checkout requires a branch")
+		}
 		cmds = append(cmds, fetch(p.Config.Branch, p.Config.Tags, p.Config.Depth, p.Config.filter))
 		cmds = append(cmds, switchBranch(p.Config.Branch))
 		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
