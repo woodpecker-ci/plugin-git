@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.5.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.2) - 2024-07-25
+
+### ❤️ Thanks to all contributors! ❤️
+
+@j04n-f
+
+### 🐛 Bug Fixes
+
+- Fetch using short commit SHA [[#160](https://github.com/woodpecker-ci/plugin-git/pull/160)]
+
+### Misc
+
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v1.2.0 [[#159](https://github.com/woodpecker-ci/plugin-git/pull/159)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v4.2.0 [[#158](https://github.com/woodpecker-ci/plugin-git/pull/158)]
+
 ## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-07-13
 
 ### ❤️ Thanks to all contributors! ❤️
