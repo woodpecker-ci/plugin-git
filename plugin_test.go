@@ -98,6 +98,17 @@ var commits = []struct {
 		file: "README",
 		data: "Hello World!\n\nsomething is changed!\n",
 	},
+	// checkout with short SHA!
+	{
+		path:   "octocat/Hello-World",
+		clone:  "https://github.com/octocat/Hello-World.git",
+		event:  "pull_request",
+		branch: "test",
+		commit: "7629413",
+		ref:    "",
+		file:   "README",
+		data:   "Hello World!\n",
+	},
 	// ### test lfs, please do not change order, otherwise TestCloneNonEmpty will fail ###
 	// checkout with lfs skip
 	{
@@ -143,6 +154,7 @@ func TestClone(t *testing.T) {
 				Recursive: c.recursive,
 				Lfs:       c.lfs,
 				Home:      "/tmp",
+				Branch:    c.branch,
 			},
 		}
 
@@ -190,6 +202,7 @@ func TestCloneNonEmpty(t *testing.T) {
 				Recursive: c.recursive,
 				Lfs:       c.lfs,
 				Home:      "/tmp",
+				Branch:    c.branch,
 			},
 		}
 
@@ -361,6 +374,33 @@ func TestCustomCertFile(t *testing.T) {
 
 	for _, td := range testdata {
 		c := customCertHandler("/etc/ssl/my-cert.pem")
+		if len(c.Args) != len(td.exp) {
+			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+		}
+		for i := range c.Args {
+			if c.Args[i] != td.exp[i] {
+				t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+			}
+		}
+	}
+}
+
+func TestSwitchBranch(t *testing.T) {
+	testdata := []struct {
+		exp []string
+	}{
+		{
+			[]string{
+				"git",
+				"switch",
+				"-q",
+				"test",
+			},
+		},
+	}
+
+	for _, td := range testdata {
+		c := switchBranch("test")
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}

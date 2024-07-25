@@ -81,6 +81,15 @@ func (p Plugin) Exec() error {
 		fmt.Println("using head checkout")
 		cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
 		cmds = append(cmds, checkoutHead())
+	} else if len(p.Pipeline.Commit) != 40 && len(p.Pipeline.Commit) != 64 {
+		// fetch requires full SHA1 (40 chars) or SHA256 (64 chars) commits (unambiguous reference)
+		// for short SHA1 or SHA256, fetch and switch the branch before commit reset
+		if p.Config.Branch == "" {
+			return fmt.Errorf("short commit SHA1 checkout requires a branch")
+		}
+		cmds = append(cmds, fetch(p.Config.Branch, p.Config.Tags, p.Config.Depth, p.Config.filter))
+		cmds = append(cmds, switchBranch(p.Config.Branch))
+		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
 	} else {
 		// fetch and checkout by commit sha
 		cmds = append(cmds, fetch(p.Pipeline.Commit, p.Config.Tags, p.Config.Depth, p.Config.filter))
@@ -253,6 +262,16 @@ func checkoutSha(commit string) *exec.Cmd {
 		"--hard",
 		"-q",
 		commit,
+	), defaultEnvVars...)
+}
+
+// Switch executes a git switch command.
+func switchBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"switch",
+		"-q",
+		branch,
 	), defaultEnvVars...)
 }
 
