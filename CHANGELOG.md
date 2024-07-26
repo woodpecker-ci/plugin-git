@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.5.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.2) - 2024-07-26
+
+### ❤️ Thanks to all contributors! ❤️
+
+@j04n-f
+
+### 🐛 Bug Fixes
+
+- Fetch using short commit SHA [[#160](https://github.com/woodpecker-ci/plugin-git/pull/160)]
+
 ## [2.5.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.1) - 2024-07-13
 
 ### ❤️ Thanks to all contributors! ❤️
