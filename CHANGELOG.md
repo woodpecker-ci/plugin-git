@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.5.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.3) - 2024-08-13
+## [2.5.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.3) - 2024-08-16
 
 ### Misc
 
+- fix(deps): update module github.com/urfave/cli/v2 to v2.27.4 [[#166](https://github.com/woodpecker-ci/plugin-git/pull/166)]
 - [pre-commit.ci] pre-commit autoupdate [[#164](https://github.com/woodpecker-ci/plugin-git/pull/164)]
 - chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.1 [[#165](https://github.com/woodpecker-ci/plugin-git/pull/165)]
 - fix(deps): update module github.com/urfave/cli/v2 to v2.27.3 [[#162](https://github.com/woodpecker-ci/plugin-git/pull/162)]
