@@ -1,9 +1,21 @@
 # Changelog
 
-## [2.5.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.5.3) - 2024-08-16
+## [2.6.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.0) - 2024-09-20
+
+### ❤️ Thanks to all contributors! ❤️
+
+@6543
+
+### ✨ Features
+
+- Support sha256 git repos [[#173](https://github.com/woodpecker-ci/plugin-git/pull/173)]
 
 ### Misc
 
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.61.0 [[#171](https://github.com/woodpecker-ci/plugin-git/pull/171)]
+- [pre-commit.ci] pre-commit autoupdate [[#172](https://github.com/woodpecker-ci/plugin-git/pull/172)]
+- chore(deps): update golang docker tag to v1.23 [[#169](https://github.com/woodpecker-ci/plugin-git/pull/169)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.60.1 [[#170](https://github.com/woodpecker-ci/plugin-git/pull/170)]
 - fix(deps): update module github.com/urfave/cli/v2 to v2.27.4 [[#166](https://github.com/woodpecker-ci/plugin-git/pull/166)]
 - [pre-commit.ci] pre-commit autoupdate [[#164](https://github.com/woodpecker-ci/plugin-git/pull/164)]
 - chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.1 [[#165](https://github.com/woodpecker-ci/plugin-git/pull/165)]
