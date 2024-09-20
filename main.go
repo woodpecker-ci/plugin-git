@@ -30,8 +30,9 @@ func run(c *cli.Context) error {
 
 	plugin := Plugin{
 		Repo: Repo{
-			Clone:    c.String("remote"),
-			CloneSSH: c.String("remote-ssh"),
+			Clone:        c.String("remote"),
+			CloneSSH:     c.String("remote-ssh"),
+			ObjectFormat: c.String("object-format"),
 		},
 		Pipeline: Pipeline{
 			Commit: c.String("sha"),

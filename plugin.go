@@ -60,8 +60,16 @@ func (p Plugin) Exec() error {
 		}
 	}
 
+	// autodetect object-format if not set
+	if p.Repo.ObjectFormat == "" {
+		p.Repo.ObjectFormat = "sha1"
+		if len(p.Pipeline.Commit) == 64 {
+			p.Repo.ObjectFormat = "sha256"
+		}
+	}
+
 	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
-		cmds = append(cmds, initGit(p.Config.Branch))
+		cmds = append(cmds, initGit(p.Config.Branch, p.Repo.ObjectFormat))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
 		if p.Config.UseSSH {
 			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
@@ -217,11 +225,11 @@ func appendEnv(cmd *exec.Cmd, env ...string) *exec.Cmd {
 }
 
 // Creates an empty git repository.
-func initGit(branch string) *exec.Cmd {
+func initGit(branch, objectFormat string) *exec.Cmd {
 	if branch == "" {
-		return appendEnv(exec.Command("git", "init"), defaultEnvVars...)
+		return appendEnv(exec.Command("git", "init", "--object-format", objectFormat), defaultEnvVars...)
 	}
-	return appendEnv(exec.Command("git", "init", "-b", branch), defaultEnvVars...)
+	return appendEnv(exec.Command("git", "init", "--object-format", objectFormat, "-b", branch), defaultEnvVars...)
 }
 
 func safeDirectory(safeDirectory string) *exec.Cmd {

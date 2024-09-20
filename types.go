@@ -7,8 +7,9 @@ import (
 
 type (
 	Repo struct {
-		Clone    string
-		CloneSSH string
+		Clone        string
+		CloneSSH     string
+		ObjectFormat string
 	}
 
 	Pipeline struct {
