@@ -18,6 +18,11 @@ var globalFlags = []cli.Flag{
 		EnvVars: []string{"PLUGIN_REMOTE_SSH", "CI_REPO_CLONE_SSH_URL"},
 	},
 	&cli.StringFlag{
+		Name:    "object-format",
+		Usage:   "specify the object format (hash) to be used on init. if not set it is autodetect by the commit sha.",
+		EnvVars: []string{"PLUGIN_OBJECT_FORMAT"},
+	},
+	&cli.StringFlag{
 		Name:    "path",
 		Usage:   "git clone path",
 		EnvVars: []string{"PLUGIN_PATH", "CI_WORKSPACE"},
