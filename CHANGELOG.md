@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2024-09-28
+
+### 📦️ Dependency
+
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v2 [[#174](https://github.com/woodpecker-ci/plugin-git/pull/174)]
+
 ## [2.6.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.0) - 2024-09-20
 
 ### ❤️ Thanks to all contributors! ❤️
