@@ -1,6 +1,10 @@
 # Changelog
 
-## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2024-11-13
+## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2024-11-19
+
+### ❤️ Thanks to all contributors! ❤️
+
+@miry
 
 ### 📦️ Dependency
 
@@ -16,6 +20,7 @@
 
 ### Misc
 
+- Add docs about object-format option [[#185](https://github.com/woodpecker-ci/plugin-git/pull/185)]
 - [pre-commit.ci] pre-commit autoupdate [[#178](https://github.com/woodpecker-ci/plugin-git/pull/178)]
 
 ## [2.6.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.0) - 2024-09-20
