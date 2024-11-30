@@ -97,7 +97,7 @@ steps:
       event: tag
 
   release-binaries:
-    image: woodpeckerci/plugin-release:0.2.1
+    image: woodpeckerci/plugin-release:0.2.2
     depends_on: build-binaries
     settings:
       api_key:
