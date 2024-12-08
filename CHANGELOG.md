@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2024-12-08
+
+### ❤️ Thanks to all contributors! ❤️
+
+@miry
+
+### 📦️ Dependency
+
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.1.0 [[#192](https://github.com/woodpecker-ci/plugin-git/pull/192)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v5.1.0 [[#191](https://github.com/woodpecker-ci/plugin-git/pull/191)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3 [[#190](https://github.com/woodpecker-ci/plugin-git/pull/190)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.2 [[#189](https://github.com/woodpecker-ci/plugin-git/pull/189)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.62.2 [[#188](https://github.com/woodpecker-ci/plugin-git/pull/188)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.43.0 [[#186](https://github.com/woodpecker-ci/plugin-git/pull/186)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.62.0 [[#184](https://github.com/woodpecker-ci/plugin-git/pull/184)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v2.1.1 [[#183](https://github.com/woodpecker-ci/plugin-git/pull/183)]
+- fix(deps): update module github.com/adrg/xdg to v0.5.3 [[#182](https://github.com/woodpecker-ci/plugin-git/pull/182)]
+- fix(deps): update module github.com/adrg/xdg to v0.5.2 [[#181](https://github.com/woodpecker-ci/plugin-git/pull/181)]
+- fix(deps): update module github.com/urfave/cli/v2 to v2.27.5 [[#180](https://github.com/woodpecker-ci/plugin-git/pull/180)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v5 [[#179](https://github.com/woodpecker-ci/plugin-git/pull/179)]
+- chore(deps): update pre-commit hook pre-commit/pre-commit-hooks to v5 [[#177](https://github.com/woodpecker-ci/plugin-git/pull/177)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.42.0 [[#176](https://github.com/woodpecker-ci/plugin-git/pull/176)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v2 [[#174](https://github.com/woodpecker-ci/plugin-git/pull/174)]
+
+### Misc
+
+- Add docs about object-format option [[#185](https://github.com/woodpecker-ci/plugin-git/pull/185)]
+- [pre-commit.ci] pre-commit autoupdate [[#178](https://github.com/woodpecker-ci/plugin-git/pull/178)]
+
 ## [2.6.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.0) - 2024-09-20
 
 ### ❤️ Thanks to all contributors! ❤️
