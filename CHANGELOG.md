@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2024-11-30
+## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2024-12-08
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -8,6 +8,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3 [[#190](https://github.com/woodpecker-ci/plugin-git/pull/190)]
 - chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.2 [[#189](https://github.com/woodpecker-ci/plugin-git/pull/189)]
 - chore(deps): update pre-commit hook golangci/golangci-lint to v1.62.2 [[#188](https://github.com/woodpecker-ci/plugin-git/pull/188)]
 - chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.43.0 [[#186](https://github.com/woodpecker-ci/plugin-git/pull/186)]
