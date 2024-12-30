@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2024-12-08
+## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2024-12-30
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -8,6 +8,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.1.1 [[#194](https://github.com/woodpecker-ci/plugin-git/pull/194)]
 - chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.1.0 [[#192](https://github.com/woodpecker-ci/plugin-git/pull/192)]
 - chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v5.1.0 [[#191](https://github.com/woodpecker-ci/plugin-git/pull/191)]
 - chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3 [[#190](https://github.com/woodpecker-ci/plugin-git/pull/190)]
