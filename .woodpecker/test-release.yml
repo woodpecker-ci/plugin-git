@@ -45,7 +45,7 @@ steps:
         branch: renovate/*
 
   build-dryrun:
-    image: woodpeckerci/plugin-docker-buildx:5.2.0
+    image: woodpeckerci/plugin-docker-buildx:5.2.1
     depends_on:
       - lint
       - test
@@ -61,7 +61,7 @@ steps:
         branch: renovate/*
 
   release-next:
-    image: woodpeckerci/plugin-docker-buildx:5.2.0
+    image: woodpeckerci/plugin-docker-buildx:5.2.1
     depends_on: vendor
     settings:
       repo: *publish_repos
@@ -74,7 +74,7 @@ steps:
       event: push
 
   release-tag:
-    image: woodpeckerci/plugin-docker-buildx:5.2.0
+    image: woodpeckerci/plugin-docker-buildx:5.2.1
     depends_on: vendor
     settings:
       repo: *publish_repos
