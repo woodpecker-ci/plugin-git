@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.6.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.2) - 2025-02-26
+
+### ❤️ Thanks to all contributors! ❤️
+
+@pat-s
+
+### Misc
+
+- Use alpine release to fix tag fetching [[#206](https://github.com/woodpecker-ci/plugin-git/pull/206)]
+
 ## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2025-02-21
 
 ### ❤️ Thanks to all contributors! ❤️
