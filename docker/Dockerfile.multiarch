@@ -4,10 +4,10 @@ ARG TARGETOS TARGETARCH
 WORKDIR /src
 COPY . .
 RUN --mount=type=cache,target=/root/.cache/go-build \
-    --mount=type=cache,target=/go/pkg \
-    make build
+  --mount=type=cache,target=/go/pkg \
+  make build
 
-FROM alpine:edge
+FROM alpine:3.21
 ARG HOME=/app
 
 ENV GODEBUG=netdns=go
