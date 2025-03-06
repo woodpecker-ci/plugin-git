@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.6.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.3) - 2025-03-06
+
+### 📦️ Dependency
+
+- fix(deps): update module github.com/urfave/cli/v2 to v2.27.6 [[#210](https://github.com/woodpecker-ci/plugin-git/pull/210)]
+
+### Misc
+
+- [pre-commit.ci] pre-commit autoupdate [[#208](https://github.com/woodpecker-ci/plugin-git/pull/208)]
+
 ## [2.6.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.2) - 2025-02-26
 
 ### ❤️ Thanks to all contributors! ❤️
