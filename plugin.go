@@ -34,6 +34,9 @@ func (p Plugin) Exec() error {
 		if err != nil {
 			return err
 		}
+
+		// Ensure correct mode if path already existed
+		os.Chmod(p.Pipeline.Path, 0o777)
 	}
 
 	err := writeNetrc(p.Config.Home, p.Netrc.Machine, p.Netrc.Login, p.Netrc.Password)
