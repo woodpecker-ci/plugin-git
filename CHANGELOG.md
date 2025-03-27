@@ -1,6 +1,14 @@
 # Changelog
 
-## [2.6.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.3) - 2025-03-24
+## [2.6.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.3) - 2025-03-27
+
+### ❤️ Thanks to all contributors! ❤️
+
+@xoxys
+
+### 🐛 Bug Fixes
+
+- Ensure fs mode for path is set correctly [[#215](https://github.com/woodpecker-ci/plugin-git/pull/215)]
 
 ### 📦️ Dependency
 
