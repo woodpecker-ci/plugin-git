@@ -35,7 +35,7 @@ func (p Plugin) Exec() error {
 			return err
 		}
 
-		// Ensure fs mode for path
+		// Ensure correct mode if path already existed
 		os.Chmod(p.Pipeline.Path, 0o777)
 	}
 
