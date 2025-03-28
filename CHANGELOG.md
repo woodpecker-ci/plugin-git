@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-03-28
+
+### ❤️ Thanks to all contributors! ❤️
+
+@xoxys
+
+### 📚 Documentation
+
+- Explain usage of chmod more detailed [[#216](https://github.com/woodpecker-ci/plugin-git/pull/216)]
+
 ## [2.6.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.3) - 2025-03-27
 
 ### ❤️ Thanks to all contributors! ❤️
