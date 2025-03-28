@@ -35,7 +35,10 @@ func (p Plugin) Exec() error {
 			return err
 		}
 
-		// Ensure correct mode if path already existed
+		// Ensure the correct mode for the path. This is also necessary if the path does not exist
+		// and was created by os.MkdirAll. This is due to the fact that the permissions set by os.MkdirAll
+		// are filtered by the system umask (usually 0022). As we need an additional chmod anyway,
+		// we do not mess around with the system umask.
 		os.Chmod(p.Pipeline.Path, 0o777)
 	}
 
