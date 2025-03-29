@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-03-28
+## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-03-29
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -9,6 +9,10 @@
 ### 📚 Documentation
 
 - Explain usage of chmod more detailed [[#216](https://github.com/woodpecker-ci/plugin-git/pull/216)]
+
+### 📦️ Dependency
+
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.1.4 [[#218](https://github.com/woodpecker-ci/plugin-git/pull/218)]
 
 ## [2.6.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.3) - 2025-03-27
 
