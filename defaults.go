@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/adrg/xdg"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 func SetDefaults(c *cli.Context, p *Plugin) {

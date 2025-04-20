@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 var globalFlags = []cli.Flag{
