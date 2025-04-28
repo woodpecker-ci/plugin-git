@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-04-26
+## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-04-28
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -12,6 +12,7 @@
 
 ### 📦️ Dependency
 
+- fix(deps): update module github.com/urfave/cli/v3 to v3.3.1 [[#226](https://github.com/woodpecker-ci/plugin-git/pull/226)]
 - chore(deps): update pre-commit hook golangci/golangci-lint to v2.1.5 [[#225](https://github.com/woodpecker-ci/plugin-git/pull/225)]
 - fix(deps): update module github.com/urfave/cli/v2 to v3 [[#220](https://github.com/woodpecker-ci/plugin-git/pull/220)]
 - chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.2.0 [[#223](https://github.com/woodpecker-ci/plugin-git/pull/223)]
