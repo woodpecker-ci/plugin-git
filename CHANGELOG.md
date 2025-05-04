@@ -12,6 +12,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.1 [[#229](https://github.com/woodpecker-ci/plugin-git/pull/229)]
 - chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6 [[#228](https://github.com/woodpecker-ci/plugin-git/pull/228)]
 - fix(deps): update module github.com/urfave/cli/v3 to v3.3.2 [[#227](https://github.com/woodpecker-ci/plugin-git/pull/227)]
 - fix(deps): update module github.com/urfave/cli/v3 to v3.3.1 [[#226](https://github.com/woodpecker-ci/plugin-git/pull/226)]
