@@ -1,13 +1,14 @@
 # Changelog
 
-## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-05-18
+## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-05-20
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@xoxys
+@qwerty287, @xoxys
 
 ### 📚 Documentation
 
+- Clarify SSH key docs [[#235](https://github.com/woodpecker-ci/plugin-git/pull/235)]
 - Explain usage of chmod more detailed [[#216](https://github.com/woodpecker-ci/plugin-git/pull/216)]
 
 ### 📦️ Dependency
