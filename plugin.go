@@ -10,6 +10,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -54,6 +55,10 @@ func (p Plugin) Exec() error {
 	if err := setHome(p.Config.Home); err != nil {
 		return err
 	}
+
+	// set umask to 0 so cloned files are
+	// accessible from non-root containers
+	syscall.Umask(0)
 
 	var cmds []*exec.Cmd
 
