@@ -10,6 +10,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -29,17 +30,15 @@ var defaultEnvVars = []string{
 }
 
 func (p Plugin) Exec() error {
+	// set umask to 0 so cloned files are
+	// accessible from non-root containers
+	syscall.Umask(0)
+
 	if p.Pipeline.Path != "" {
 		err := os.MkdirAll(p.Pipeline.Path, 0o777)
 		if err != nil {
 			return err
 		}
-
-		// Ensure the correct mode for the path. This is also necessary if the path does not exist
-		// and was created by os.MkdirAll. This is due to the fact that the permissions set by os.MkdirAll
-		// are filtered by the system umask (usually 0022). As we need an additional chmod anyway,
-		// we do not mess around with the system umask.
-		os.Chmod(p.Pipeline.Path, 0o777)
 	}
 
 	err := writeNetrc(p.Config.Home, p.Netrc.Machine, p.Netrc.Login, p.Netrc.Password)
