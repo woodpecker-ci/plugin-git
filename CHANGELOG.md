@@ -1,10 +1,14 @@
 # Changelog
 
-## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-05-20
+## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-05-27
 
 ### ❤️ Thanks to all contributors! ❤️
 
 @qwerty287, @xoxys
+
+### 🐛 Bug Fixes
+
+- Set umask to 0 before cloning [[#236](https://github.com/woodpecker-ci/plugin-git/pull/236)]
 
 ### 📚 Documentation
 
