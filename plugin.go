@@ -110,13 +110,15 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
 	}
 
-	var submoduleOverrides map[string]string
-	err = json.Unmarshal([]byte(p.Config.Submodules), &submoduleOverrides)
-	if err != nil {
-		return fmt.Errorf("could not parse submodule_override map: %v", err)
-	}
-	for name, submoduleUrl := range submoduleOverrides {
-		cmds = append(cmds, remapSubmodule(name, submoduleUrl))
+	if p.Config.Submodules != "" {
+		var submoduleOverrides map[string]string
+		err = json.Unmarshal([]byte(p.Config.Submodules), &submoduleOverrides)
+		if err != nil {
+			return fmt.Errorf("could not parse submodule_override map: %v", err)
+		}
+		for name, submoduleUrl := range submoduleOverrides {
+			cmds = append(cmds, remapSubmodule(name, submoduleUrl))
+		}
 	}
 
 	if p.Config.Recursive {
