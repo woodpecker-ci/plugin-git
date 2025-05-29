@@ -10,7 +10,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -32,7 +31,7 @@ var defaultEnvVars = []string{
 func (p Plugin) Exec() error {
 	// set umask to 0 so cloned files are
 	// accessible from non-root containers
-	syscall.Umask(0)
+	umask()
 
 	if p.Pipeline.Path != "" {
 		err := os.MkdirAll(p.Pipeline.Path, 0o777)
