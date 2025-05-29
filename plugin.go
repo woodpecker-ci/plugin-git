@@ -41,6 +41,9 @@ func (p Plugin) Exec() error {
 		}
 	}
 
+	// make sure pipeline workspace is always writable for anyone
+	os.Chmod(p.Pipeline.Path, 0o777)
+
 	err := writeNetrc(p.Config.Home, p.Netrc.Machine, p.Netrc.Login, p.Netrc.Password)
 	if err != nil {
 		return err
