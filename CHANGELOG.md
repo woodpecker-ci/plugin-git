@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.6.5](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.5) - 2025-05-30
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🐛 Bug Fixes
+
+- Fix windows build [[#239](https://github.com/woodpecker-ci/plugin-git/pull/239)]
+
 ## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-05-27
 
 ### ❤️ Thanks to all contributors! ❤️
