@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.6.5](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.5) - 2025-05-30
+## [2.6.5](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.5) - 2025-05-31
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -9,6 +9,10 @@
 ### 🐛 Bug Fixes
 
 - Fix windows build [[#239](https://github.com/woodpecker-ci/plugin-git/pull/239)]
+
+### 📦️ Dependency
+
+- chore(deps): update alpine docker tag to v3.22 [[#244](https://github.com/woodpecker-ci/plugin-git/pull/244)]
 
 ## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-05-27
 
