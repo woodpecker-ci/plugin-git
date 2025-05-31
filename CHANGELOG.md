@@ -8,6 +8,7 @@
 
 ### 🐛 Bug Fixes
 
+- Always chmod workspace [[#240](https://github.com/woodpecker-ci/plugin-git/pull/240)]
 - Fix submodule override flag [[#241](https://github.com/woodpecker-ci/plugin-git/pull/241)]
 - Fix windows build [[#239](https://github.com/woodpecker-ci/plugin-git/pull/239)]
 
