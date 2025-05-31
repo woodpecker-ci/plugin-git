@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -10,7 +11,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -32,7 +32,7 @@ var defaultEnvVars = []string{
 func (p Plugin) Exec() error {
 	// set umask to 0 so cloned files are
 	// accessible from non-root containers
-	syscall.Umask(0)
+	umask()
 
 	if p.Pipeline.Path != "" {
 		err := os.MkdirAll(p.Pipeline.Path, 0o777)
@@ -112,8 +112,15 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
 	}
 
-	for name, submoduleUrl := range p.Config.Submodules {
-		cmds = append(cmds, remapSubmodule(name, submoduleUrl))
+	if p.Config.Submodules != "" {
+		var submoduleOverrides map[string]string
+		err = json.Unmarshal([]byte(p.Config.Submodules), &submoduleOverrides)
+		if err != nil {
+			return fmt.Errorf("could not parse submodule_override map: %v", err)
+		}
+		for name, submoduleUrl := range submoduleOverrides {
+			cmds = append(cmds, remapSubmodule(name, submoduleUrl))
+		}
 	}
 
 	if p.Config.Recursive {
