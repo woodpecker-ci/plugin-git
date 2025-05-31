@@ -31,7 +31,7 @@ type (
 		Recursive        bool
 		SkipVerify       bool
 		Tags             bool
-		Submodules       map[string]string
+		Submodules       string
 		SubmoduleRemote  bool
 		SubmodulePartial bool
 		CustomCert       string

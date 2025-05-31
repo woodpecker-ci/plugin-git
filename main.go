@@ -55,7 +55,7 @@ func run(ctx context.Context, c *cli.Command) error {
 			SkipVerify:       c.Bool("skip-verify"),
 			CustomCert:       c.String("custom-cert"),
 			SubmoduleRemote:  c.Bool("submodule-update-remote"),
-			Submodules:       c.StringMap("submodule-override"),
+			Submodules:       c.String("submodule-override"),
 			SubmodulePartial: c.Bool("submodule-partial"),
 			Lfs:              c.Bool("lfs"),
 			Branch:           c.String("branch"),

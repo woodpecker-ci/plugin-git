@@ -89,7 +89,7 @@ var globalFlags = []cli.Flag{
 		Usage:   "update remote submodules",
 		Sources: cli.EnvVars("PLUGIN_SUBMODULES_UPDATE_REMOTE", "PLUGIN_SUBMODULE_UPDATE_REMOTE"),
 	},
-	&cli.StringMapFlag{
+	&cli.StringFlag{
 		Name:    "submodule-override",
 		Usage:   "json map of submodule overrides",
 		Sources: cli.EnvVars("PLUGIN_SUBMODULE_OVERRIDE"),
