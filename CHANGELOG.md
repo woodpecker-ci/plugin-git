@@ -8,6 +8,7 @@
 
 ### 🐛 Bug Fixes
 
+- Fix submodule override flag [[#241](https://github.com/woodpecker-ci/plugin-git/pull/241)]
 - Fix windows build [[#239](https://github.com/woodpecker-ci/plugin-git/pull/239)]
 
 ### 📦️ Dependency
