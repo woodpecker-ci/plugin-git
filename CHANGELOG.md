@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.6.5](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.5) - 2025-05-31
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🐛 Bug Fixes
+
+- Always chmod workspace [[#240](https://github.com/woodpecker-ci/plugin-git/pull/240)]
+- Fix submodule override flag [[#241](https://github.com/woodpecker-ci/plugin-git/pull/241)]
+- Fix windows build [[#239](https://github.com/woodpecker-ci/plugin-git/pull/239)]
+
+### 📦️ Dependency
+
+- chore(deps): update alpine docker tag to v3.22 [[#244](https://github.com/woodpecker-ci/plugin-git/pull/244)]
+
 ## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-05-27
 
 ### ❤️ Thanks to all contributors! ❤️
