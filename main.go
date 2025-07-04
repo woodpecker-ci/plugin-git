@@ -64,6 +64,8 @@ func run(ctx context.Context, c *cli.Command) error {
 			SafeDirectory:    c.String("safe-directory"),
 			UseSSH:           c.Bool("use-ssh"),
 			SSHKey:           c.String("ssh-key"),
+			MergePullRequest: c.Bool("merge-pull-request"),
+			TargetBranch:    c.String("target-branch"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),
