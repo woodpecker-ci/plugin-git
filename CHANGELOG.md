@@ -2,6 +2,14 @@
 
 ## [2.6.6](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.6) - 2025-07-05
 
+### ❤️ Thanks to all contributors! ❤️
+
+@johanvdw
+
+### 📚 Documentation
+
+- docs: Fix README env vars [[#252](https://github.com/woodpecker-ci/plugin-git/pull/252)]
+
 ### 📦️ Dependency
 
 - chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.3.0 [[#256](https://github.com/woodpecker-ci/plugin-git/pull/256)]
