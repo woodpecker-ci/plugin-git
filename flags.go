@@ -162,6 +162,6 @@ var globalFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:    "target-branch",
 		Usage:   "Target branch when merging pull request",
-		Sources: cli.EnvVars("CI_TARGET_BRANCH"),
+		Sources: cli.EnvVars("PLUGIN_TARGET_BRANCH", "CI_COMMIT_TARGET_BRANCH"),
 	},
 }
