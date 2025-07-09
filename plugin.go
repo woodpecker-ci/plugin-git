@@ -127,6 +127,12 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote, p.Config.SubmodulePartial))
 	}
 
+	if p.Config.MergePullRequest {
+		cmds = append(cmds,
+			fetchBranch(p.Config.TargetBranch))
+		cmds = append(cmds,
+			mergeBranch(p.Config.TargetBranch))
+	}
 	if p.Config.Lfs {
 		cmds = append(cmds,
 			fetchLFS(),
@@ -285,6 +291,26 @@ func checkoutSha(commit string) *exec.Cmd {
 		"--hard",
 		"-q",
 		commit,
+	), defaultEnvVars...)
+}
+
+// Fetch a branch
+func fetchBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"fetch",
+		"--unshallow",
+		"origin",
+		branch,
+	), defaultEnvVars...)
+}
+
+// Merge a branch
+func mergeBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"merge",
+		"origin/"+branch,
 	), defaultEnvVars...)
 }
 
