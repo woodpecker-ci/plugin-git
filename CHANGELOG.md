@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.6.6](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.6) - 2025-07-12
+## [2.6.6](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.6) - 2025-07-26
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -12,6 +12,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.3.0 [[#259](https://github.com/woodpecker-ci/plugin-git/pull/259)]
 - chore(deps): update pre-commit hook golangci/golangci-lint to v2.2.2 [[#258](https://github.com/woodpecker-ci/plugin-git/pull/258)]
 - chore(deps): update dependency go to v1.24.5 [[#257](https://github.com/woodpecker-ci/plugin-git/pull/257)]
 - chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.3.0 [[#256](https://github.com/woodpecker-ci/plugin-git/pull/256)]
