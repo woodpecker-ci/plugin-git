@@ -9,17 +9,19 @@ import (
 // commits is a list of commits of different types (push, pull request, tag)
 // to help us verify that this clone plugin can handle multiple commit types.
 var commits = []struct {
-	path      string
-	clone     string
-	event     string
-	branch    string
-	commit    string
-	ref       string
-	file      string
-	data      string
-	dataSize  int64
-	recursive bool
-	lfs       bool
+	path             string
+	clone            string
+	event            string
+	branch           string
+	commit           string
+	ref              string
+	file             string
+	data             string
+	dataSize         int64
+	recursive        bool
+	lfs              bool
+	targetbranch     string
+	mergepullrequest bool
 }{
 	// first commit
 	{
@@ -53,6 +55,19 @@ var commits = []struct {
 		ref:    "",
 		file:   "README",
 		data:   "Hello World!\n",
+	},
+	// pull request commit with merge
+	{
+		path:             "octocat/Hello-World",
+		clone:            "https://github.com/octocat/Hello-World.git",
+		event:            "pull_request",
+		branch:           "master",
+		commit:           "762941318ee16e59dabbacb1b4049eec22f0d303",
+		ref:              "",
+		file:             "README",
+		data:             "Hello World!\n",
+		targetbranch:     "master",
+		mergepullrequest: true,
 	},
 	// branch
 	{
@@ -151,10 +166,12 @@ func TestClone(t *testing.T) {
 				Ref:    c.ref,
 			},
 			Config: Config{
-				Recursive: c.recursive,
-				Lfs:       c.lfs,
-				Home:      "/tmp",
-				Branch:    c.branch,
+				Recursive:        c.recursive,
+				Lfs:              c.lfs,
+				Home:             "/tmp",
+				Branch:           c.branch,
+				TargetBranch:     c.targetbranch,
+				MergePullRequest: c.mergepullrequest,
 			},
 		}
 
