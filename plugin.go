@@ -76,6 +76,11 @@ func (p Plugin) Exec() error {
 		}
 	}
 
+	// depth should be set to 0 if merge pull request is enabled
+	if p.Config.MergePullRequest && p.Config.Depth != 0 {
+		p.Config.Depth = 0
+	}
+
 	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
 		cmds = append(cmds, initGit(p.Config.Branch, p.Repo.ObjectFormat))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
@@ -299,7 +304,6 @@ func fetchBranch(branch string) *exec.Cmd {
 	return appendEnv(exec.Command(
 		"git",
 		"fetch",
-		"--unshallow",
 		"origin",
 		branch,
 	), defaultEnvVars...)
