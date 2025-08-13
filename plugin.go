@@ -76,6 +76,11 @@ func (p Plugin) Exec() error {
 		}
 	}
 
+	// depth should be set to 0 if merge pull request is enabled
+	if p.Config.MergePullRequest && p.Config.Depth != 0 {
+		p.Config.Depth = 0
+	}
+
 	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
 		cmds = append(cmds, initGit(p.Config.Branch, p.Repo.ObjectFormat))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
@@ -127,6 +132,12 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote, p.Config.SubmodulePartial))
 	}
 
+	if p.Config.MergePullRequest {
+		cmds = append(cmds,
+			fetchBranch(p.Config.TargetBranch))
+		cmds = append(cmds,
+			mergeBranch(p.Config.TargetBranch))
+	}
 	if p.Config.Lfs {
 		cmds = append(cmds,
 			fetchLFS(),
@@ -285,6 +296,25 @@ func checkoutSha(commit string) *exec.Cmd {
 		"--hard",
 		"-q",
 		commit,
+	), defaultEnvVars...)
+}
+
+// Fetch a branch
+func fetchBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"fetch",
+		"origin",
+		branch,
+	), defaultEnvVars...)
+}
+
+// Merge a branch
+func mergeBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"merge",
+		"origin/"+branch,
 	), defaultEnvVars...)
 }
 
