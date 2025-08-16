@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.6.6](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.6) - 2025-08-16
+
+### ❤️ Thanks to all contributors! ❤️
+
+@johanvdw
+
+### 📚 Documentation
+
+- docs: Fix README env vars [[#252](https://github.com/woodpecker-ci/plugin-git/pull/252)]
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.4.0 [[#267](https://github.com/woodpecker-ci/plugin-git/pull/267)]
+- chore(deps): update golang docker tag to v1.25 [[#266](https://github.com/woodpecker-ci/plugin-git/pull/266)]
+- fix(deps): update golang deps non-major [[#265](https://github.com/woodpecker-ci/plugin-git/pull/265)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.4.0 [[#264](https://github.com/woodpecker-ci/plugin-git/pull/264)]
+- chore(deps): update pre-commit hook pre-commit/pre-commit-hooks to v6 [[#263](https://github.com/woodpecker-ci/plugin-git/pull/263)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.4.0 [[#262](https://github.com/woodpecker-ci/plugin-git/pull/262)]
+- chore(deps): update dependency go to v1.24.6 [[#261](https://github.com/woodpecker-ci/plugin-git/pull/261)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.3.1 [[#260](https://github.com/woodpecker-ci/plugin-git/pull/260)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.3.0 [[#259](https://github.com/woodpecker-ci/plugin-git/pull/259)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.2.2 [[#258](https://github.com/woodpecker-ci/plugin-git/pull/258)]
+- chore(deps): update dependency go to v1.24.5 [[#257](https://github.com/woodpecker-ci/plugin-git/pull/257)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.3.0 [[#256](https://github.com/woodpecker-ci/plugin-git/pull/256)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.2 [[#255](https://github.com/woodpecker-ci/plugin-git/pull/255)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.2.1 [[#254](https://github.com/woodpecker-ci/plugin-git/pull/254)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.2.0 [[#250](https://github.com/woodpecker-ci/plugin-git/pull/250)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.3.8 [[#249](https://github.com/woodpecker-ci/plugin-git/pull/249)]
+- chore(deps): update dependency go to v1.24.4 [[#246](https://github.com/woodpecker-ci/plugin-git/pull/246)]
+
 ## [2.6.5](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.5) - 2025-05-31
 
 ### ❤️ Thanks to all contributors! ❤️
