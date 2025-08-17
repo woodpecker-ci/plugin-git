@@ -1,5 +1,5 @@
 variables:
-  - &golang 'golang:1.24-alpine'
+  - &golang 'golang:1.25-alpine'
   - &platforms 'linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/riscv64,linux/s390x'
   # vars used on push / tag events only
   - publish_logins: &publish_logins
@@ -45,7 +45,7 @@ steps:
         branch: renovate/*
 
   build-dryrun:
-    image: woodpeckerci/plugin-docker-buildx:6.0.1
+    image: woodpeckerci/plugin-docker-buildx:6.0.2
     depends_on:
       - lint
       - test
@@ -61,7 +61,7 @@ steps:
         branch: renovate/*
 
   release-next:
-    image: woodpeckerci/plugin-docker-buildx:6.0.1
+    image: woodpeckerci/plugin-docker-buildx:6.0.2
     depends_on: vendor
     settings:
       repo: *publish_repos
@@ -74,7 +74,7 @@ steps:
       event: push
 
   release-tag:
-    image: woodpeckerci/plugin-docker-buildx:6.0.1
+    image: woodpeckerci/plugin-docker-buildx:6.0.2
     depends_on: vendor
     settings:
       repo: *publish_repos
