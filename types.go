@@ -43,6 +43,9 @@ type (
 		SafeDirectory    string
 		UseSSH           bool
 		SSHKey           string
+		MergePullRequest bool
+		TargetBranch     string
+		Event            string
 	}
 
 	Backoff struct {
