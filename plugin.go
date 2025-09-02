@@ -270,7 +270,7 @@ func setUserName() *exec.Cmd {
 }
 
 func setUserEmail() *exec.Cmd {
-	return appendEnv(exec.Command("git", "config", "--global", "user.email", "woodpecker@woodpercker.ci"), defaultEnvVars...)
+	return appendEnv(exec.Command("git", "config", "--global", "user.email", "woodpecker@woodpecker.ci"), defaultEnvVars...)
 }
 
 // Use custom SSH Key thanks to core.sshCommand
