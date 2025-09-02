@@ -62,5 +62,6 @@ clone:
 | `path`                    | $CI_WORKSPACE                       | Set destination path to clone to                                                                                                                                           |
 | `use-ssh`                 | `false`                             | Clone using SSH                                                                                                                                                            |
 | `ssh-key`                 | _none_                              | path to SSH key for SSH clone                                                                                                                                              |
+| `merge-pull-request`                 | `false`                              | merge the pull request with the target branch (can fail on merge conflict)                                                                                                                                              |
 
 [workflowClone]: https://woodpecker-ci.org/docs/usage/workflow-syntax#clone
