@@ -22,6 +22,7 @@ var commits = []struct {
 	lfs              bool
 	targetbranch     string
 	mergepullrequest bool
+	conflicts        bool
 }{
 	// first commit
 	{
@@ -146,12 +147,41 @@ var commits = []struct {
 		dataSize: 4194304,
 		lfs:      true,
 	},
+	// pull request with merge that does not conflict:
+	// PLUGIN_REF=refs/pull/1/head PLUGIN_MERGE_PULL_REQUEST=true release/plugin-git
+
+	{
+		path:             "johanvdw/test-git-plugin",
+		clone:            "https://codeberg.org/johanvdw/test-git-plugin.git",
+		event:            "pull_request",
+		branch:           "newfile",
+		commit:           "d02eaf69b920b19fd7b14ad3aee622dd97413fbc",
+		ref:              "refs/pull/1/head",
+		targetbranch:     "main",
+		mergepullrequest: true,
+	},
+
+	// pull request with merge that does conflict:
+	// CI_COMMIT_SHA=1f6c559c9ffcd65093d5ea71fb85330c7dcc3ff6 CI_COMMIT_TARGET_BRANCH=main PLUGIN_REF=refs/pull/2/head PLUGIN_MERGE_PULL_REQUEST=true release/plugin-git
+
+	{
+		path:             "johanvdw/test-git-plugin",
+		clone:            "https://codeberg.org/johanvdw/test-git-plugin.git",
+		event:            "pull_request",
+		branch:           "new3",
+		commit:           "1f6c559c9ffcd65093d5ea71fb85330c7dcc3ff6",
+		targetbranch:     "main",
+		mergepullrequest: true,
+		ref:              "refs/pull/2/head",
+		conflicts:        true,
+	},
 }
 
 // TestClone tests the ability to clone a specific commit into
 // a fresh, empty directory every time.
 func TestClone(t *testing.T) {
 	for _, c := range commits {
+
 		dir := setup()
 		defer teardown(dir)
 
@@ -172,9 +202,16 @@ func TestClone(t *testing.T) {
 				Branch:           c.branch,
 				TargetBranch:     c.targetbranch,
 				MergePullRequest: c.mergepullrequest,
+				Event:            c.event,
 			},
 		}
 
+		if c.conflicts {
+			if err := plugin.Exec(); err != nil {
+				t.Log("Received expected error")
+			}
+			continue
+		}
 		if err := plugin.Exec(); err != nil {
 			t.Errorf("Expected successful clone. Got error. %s.", err)
 		}
