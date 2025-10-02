@@ -1,10 +1,14 @@
 # Changelog
 
-## [2.6.6](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.6) - 2025-09-27
+## [2.7.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.0) - 2025-10-02
 
 ### ❤️ Thanks to all contributors! ❤️
 
 @johanvdw
+
+### 📈 Enhancement
+
+- Merge pull request: initial implementation [[#253](https://github.com/woodpecker-ci/plugin-git/pull/253)]
 
 ### 📚 Documentation
 
