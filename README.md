@@ -80,6 +80,21 @@ docker run --rm \
   woodpeckerci/plugin-git
 ```
 
+Clone a pull request and attempt merging it with the target branch:
+
+```console
+docker run --rm \
+  -e CI_PIPELINE_EVENT=pull_request \
+  -e CI_REPO_CLONE_URL=https://codeberg.org/johanvdw/test-git-plugin.git \
+  -e CI_COMMIT_SHA=d02eaf69b920b19fd7b14ad3aee622dd97413fbc \
+  -e CI_COMMIT_TARGET_BRANCH=main \
+  -e PLUGIN_REF=refs/pull/1/head \
+  -e PLUGIN_MERGE_PULL_REQUEST=true \
+  -e PLUGIN_GIT_USERNAME=ci \
+  -e PLUGIN_GIT_USEREMAIL=ci@mydomain.ci \
+   release/plugin-git
+```
+
 Clone a tag:
 
 ```console
