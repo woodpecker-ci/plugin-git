@@ -23,7 +23,7 @@ var commits = []struct {
 	targetbranch     string
 	mergepullrequest bool
 	error            bool
-	gitusername         string
+	gitusername      string
 	gituseremail     string
 }{
 	// first commit
@@ -161,8 +161,8 @@ var commits = []struct {
 		ref:              "refs/pull/1/head",
 		targetbranch:     "main",
 		mergepullrequest: true,
-		gitusername:         "woodpecker git plugin ci tests",
-		gituseremail:         "git-plugin@woodpecker.test",
+		gitusername:      "woodpecker git plugin ci tests",
+		gituseremail:     "git-plugin@woodpecker.test",
 	},
 
 	// pull request with merge that does conflict:
@@ -178,8 +178,8 @@ var commits = []struct {
 		mergepullrequest: true,
 		ref:              "refs/pull/2/head",
 		error:            true,
-		gitusername:         "woodpecker git plugin ci tests",
-		gituseremail:         "git-plugin@woodpecker.test",
+		gitusername:      "woodpecker git plugin ci tests",
+		gituseremail:     "git-plugin@woodpecker.test",
 	},
 }
 
