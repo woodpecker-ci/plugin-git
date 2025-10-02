@@ -216,7 +216,7 @@ func TestClone(t *testing.T) {
 		err := plugin.Exec()
 		if c.error {
 			if err == nil {
-				t.Log("Expected error. Got nil.")
+				t.Error("Expected error. Got nil.")
 			}
 			continue
 		}
