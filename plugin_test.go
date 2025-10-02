@@ -213,14 +213,14 @@ func TestClone(t *testing.T) {
 				GitUserEmail:     c.gituseremail,
 			},
 		}
-
+		err := plugin.Exec()
 		if c.error {
-			if err := plugin.Exec(); err != nil {
-				t.Log("Received expected error")
+			if err == nil {
+				t.Log("Expected error. Got nil.")
 			}
 			continue
 		}
-		if err := plugin.Exec(); err != nil {
+		if err != nil {
 			t.Errorf("Expected successful clone. Got error. %s.", err)
 		}
 
