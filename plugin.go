@@ -76,6 +76,11 @@ func (p Plugin) Exec() error {
 		}
 	}
 
+	// depth should be set to 0 if merge pull request is enabled
+	if p.Config.MergePullRequest && p.Config.Depth != 0 {
+		p.Config.Depth = 0
+	}
+
 	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
 		cmds = append(cmds, initGit(p.Config.Branch, p.Repo.ObjectFormat))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
@@ -125,6 +130,15 @@ func (p Plugin) Exec() error {
 
 	if p.Config.Recursive {
 		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote, p.Config.SubmodulePartial))
+	}
+
+	if p.Config.Event == "pull_request" && p.Config.MergePullRequest {
+		cmds = append(cmds, setUserName(p.Config.GitUserName))
+		cmds = append(cmds, setUserEmail(p.Config.GitUserEmail))
+		cmds = append(cmds,
+			fetchBranch(p.Config.TargetBranch))
+		cmds = append(cmds,
+			mergeBranch(p.Config.TargetBranch))
 	}
 
 	if p.Config.Lfs {
@@ -251,6 +265,14 @@ func safeDirectory(safeDirectory string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "--global", "--replace-all", "safe.directory", safeDirectory), defaultEnvVars...)
 }
 
+func setUserName(userName string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "--global", "user.name", userName), defaultEnvVars...)
+}
+
+func setUserEmail(userEmail string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "--global", "user.email", userEmail), defaultEnvVars...)
+}
+
 // Use custom SSH Key thanks to core.sshCommand
 func sshKeyHandler(sshKey string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "core.sshCommand", "ssh -i "+sshKey), defaultEnvVars...)
@@ -285,6 +307,25 @@ func checkoutSha(commit string) *exec.Cmd {
 		"--hard",
 		"-q",
 		commit,
+	), defaultEnvVars...)
+}
+
+// Fetch a branch
+func fetchBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"fetch",
+		"origin",
+		branch,
+	), defaultEnvVars...)
+}
+
+// Merge a branch
+func mergeBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"merge",
+		"origin/"+branch,
 	), defaultEnvVars...)
 }
 

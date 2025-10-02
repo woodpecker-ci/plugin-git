@@ -9,17 +9,22 @@ import (
 // commits is a list of commits of different types (push, pull request, tag)
 // to help us verify that this clone plugin can handle multiple commit types.
 var commits = []struct {
-	path      string
-	clone     string
-	event     string
-	branch    string
-	commit    string
-	ref       string
-	file      string
-	data      string
-	dataSize  int64
-	recursive bool
-	lfs       bool
+	path             string
+	clone            string
+	event            string
+	branch           string
+	commit           string
+	ref              string
+	file             string
+	data             string
+	dataSize         int64
+	recursive        bool
+	lfs              bool
+	targetbranch     string
+	mergepullrequest bool
+	error            bool
+	gitusername      string
+	gituseremail     string
 }{
 	// first commit
 	{
@@ -53,6 +58,19 @@ var commits = []struct {
 		ref:    "",
 		file:   "README",
 		data:   "Hello World!\n",
+	},
+	// pull request commit with merge
+	{
+		path:             "octocat/Hello-World",
+		clone:            "https://github.com/octocat/Hello-World.git",
+		event:            "pull_request",
+		branch:           "master",
+		commit:           "762941318ee16e59dabbacb1b4049eec22f0d303",
+		ref:              "",
+		file:             "README",
+		data:             "Hello World!\n",
+		targetbranch:     "master",
+		mergepullrequest: true,
 	},
 	// branch
 	{
@@ -131,12 +149,45 @@ var commits = []struct {
 		dataSize: 4194304,
 		lfs:      true,
 	},
+	// pull request with merge that does not conflict:
+	// PLUGIN_REF=refs/pull/1/head PLUGIN_MERGE_PULL_REQUEST=true release/plugin-git
+
+	{
+		path:             "johanvdw/test-git-plugin",
+		clone:            "https://codeberg.org/johanvdw/test-git-plugin.git",
+		event:            "pull_request",
+		branch:           "newfile",
+		commit:           "d02eaf69b920b19fd7b14ad3aee622dd97413fbc",
+		ref:              "refs/pull/1/head",
+		targetbranch:     "main",
+		mergepullrequest: true,
+		gitusername:      "woodpecker git plugin ci tests",
+		gituseremail:     "git-plugin@woodpecker.test",
+	},
+
+	// pull request with merge that does conflict:
+	// CI_COMMIT_SHA=1f6c559c9ffcd65093d5ea71fb85330c7dcc3ff6 CI_COMMIT_TARGET_BRANCH=main PLUGIN_REF=refs/pull/2/head PLUGIN_MERGE_PULL_REQUEST=true release/plugin-git
+
+	{
+		path:             "johanvdw/test-git-plugin",
+		clone:            "https://codeberg.org/johanvdw/test-git-plugin.git",
+		event:            "pull_request",
+		branch:           "new3",
+		commit:           "1f6c559c9ffcd65093d5ea71fb85330c7dcc3ff6",
+		targetbranch:     "main",
+		mergepullrequest: true,
+		ref:              "refs/pull/2/head",
+		error:            true,
+		gitusername:      "woodpecker git plugin ci tests",
+		gituseremail:     "git-plugin@woodpecker.test",
+	},
 }
 
 // TestClone tests the ability to clone a specific commit into
 // a fresh, empty directory every time.
 func TestClone(t *testing.T) {
 	for _, c := range commits {
+
 		dir := setup()
 		defer teardown(dir)
 
@@ -151,14 +202,25 @@ func TestClone(t *testing.T) {
 				Ref:    c.ref,
 			},
 			Config: Config{
-				Recursive: c.recursive,
-				Lfs:       c.lfs,
-				Home:      "/tmp",
-				Branch:    c.branch,
+				Recursive:        c.recursive,
+				Lfs:              c.lfs,
+				Home:             "/tmp",
+				Branch:           c.branch,
+				TargetBranch:     c.targetbranch,
+				MergePullRequest: c.mergepullrequest,
+				Event:            c.event,
+				GitUserName:      c.gitusername,
+				GitUserEmail:     c.gituseremail,
 			},
 		}
-
-		if err := plugin.Exec(); err != nil {
+		err := plugin.Exec()
+		if c.error {
+			if err == nil {
+				t.Error("Expected error. Got nil.")
+			}
+			continue
+		}
+		if err != nil {
 			t.Errorf("Expected successful clone. Got error. %s.", err)
 		}
 

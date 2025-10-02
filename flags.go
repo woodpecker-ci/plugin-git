@@ -154,4 +154,24 @@ var globalFlags = []cli.Flag{
 		Usage:   "SSH key for ssh clone",
 		Sources: cli.EnvVars("PLUGIN_SSH_KEY"),
 	},
+	&cli.BoolFlag{
+		Name:    "merge-pull-request",
+		Usage:   "Merge pull reguest with target branch",
+		Sources: cli.EnvVars("PLUGIN_MERGE_PULL_REQUEST"),
+	},
+	&cli.StringFlag{
+		Name:    "target-branch",
+		Usage:   "Target branch when merging pull request",
+		Sources: cli.EnvVars("PLUGIN_TARGET_BRANCH", "CI_COMMIT_TARGET_BRANCH"),
+	},
+	&cli.StringFlag{
+		Name:    "git-user-name",
+		Usage:   "Git username when merging pull request",
+		Sources: cli.EnvVars("PLUGIN_GIT_USERNAME"),
+	},
+	&cli.StringFlag{
+		Name:    "git-user-email",
+		Usage:   "Git user email when merging pull request",
+		Sources: cli.EnvVars("PLUGIN_GIT_USEREMAIL"),
+	},
 }
