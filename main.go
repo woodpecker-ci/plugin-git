@@ -67,6 +67,8 @@ func run(ctx context.Context, c *cli.Command) error {
 			MergePullRequest: c.Bool("merge-pull-request"),
 			TargetBranch:     c.String("target-branch"),
 			Event:            c.String("event"),
+			GitUserName:      c.String("git-user-name"),
+			GitUserEmail:     c.String("git-user-email"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),

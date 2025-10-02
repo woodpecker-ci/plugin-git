@@ -23,6 +23,8 @@ var commits = []struct {
 	targetbranch     string
 	mergepullrequest bool
 	conflicts        bool
+	gitusername         string
+	gituseremail     string
 }{
 	// first commit
 	{
@@ -159,6 +161,8 @@ var commits = []struct {
 		ref:              "refs/pull/1/head",
 		targetbranch:     "main",
 		mergepullrequest: true,
+		gitusername:         "woodpecker git plugin ci tests",
+		gituseremail:         "git-plugin@woodpecker.test",
 	},
 
 	// pull request with merge that does conflict:
@@ -174,6 +178,8 @@ var commits = []struct {
 		mergepullrequest: true,
 		ref:              "refs/pull/2/head",
 		conflicts:        true,
+		gitusername:         "woodpecker git plugin ci tests",
+		gituseremail:         "git-plugin@woodpecker.test",
 	},
 }
 
@@ -203,6 +209,8 @@ func TestClone(t *testing.T) {
 				TargetBranch:     c.targetbranch,
 				MergePullRequest: c.mergepullrequest,
 				Event:            c.event,
+				GitUserName:      c.gitusername,
+				GitUserEmail:     c.gituseremail,
 			},
 		}
 

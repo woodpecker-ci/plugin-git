@@ -90,6 +90,8 @@ docker run --rm \
   -e CI_COMMIT_TARGET_BRANCH=main \
   -e PLUGIN_REF=refs/pull/1/head \
   -e PLUGIN_MERGE_PULL_REQUEST=true \
+  -e PLUGIN_GIT_USERNAME=ci \
+  -e PLUGIN_GIT_USEREMAIL=ci@mydomain.ci \
    release/plugin-git
 ```
 

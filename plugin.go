@@ -133,8 +133,8 @@ func (p Plugin) Exec() error {
 	}
 
 	if p.Config.Event == "pull_request" && p.Config.MergePullRequest {
-		cmds = append(cmds, setUserName())
-		cmds = append(cmds, setUserEmail())
+		cmds = append(cmds, setUserName(p.Config.GitUserName))
+		cmds = append(cmds, setUserEmail(p.Config.GitUserEmail))
 		cmds = append(cmds,
 			fetchBranch(p.Config.TargetBranch))
 		cmds = append(cmds,
@@ -265,12 +265,12 @@ func safeDirectory(safeDirectory string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "--global", "--replace-all", "safe.directory", safeDirectory), defaultEnvVars...)
 }
 
-func setUserName() *exec.Cmd {
-	return appendEnv(exec.Command("git", "config", "--global", "user.name", "Woodpecker CI"), defaultEnvVars...)
+func setUserName(userName string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "--global", "user.name", userName), defaultEnvVars...)
 }
 
-func setUserEmail() *exec.Cmd {
-	return appendEnv(exec.Command("git", "config", "--global", "user.email", "woodpecker@woodpecker.ci"), defaultEnvVars...)
+func setUserEmail(userEmail string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "--global", "user.email", userEmail), defaultEnvVars...)
 }
 
 // Use custom SSH Key thanks to core.sshCommand

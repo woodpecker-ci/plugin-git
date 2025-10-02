@@ -46,6 +46,8 @@ type (
 		MergePullRequest bool
 		TargetBranch     string
 		Event            string
+		GitUserName      string
+		GitUserEmail     string
 	}
 
 	Backoff struct {
