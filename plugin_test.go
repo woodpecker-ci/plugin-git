@@ -22,7 +22,7 @@ var commits = []struct {
 	lfs              bool
 	targetbranch     string
 	mergepullrequest bool
-	conflicts        bool
+	error            bool
 	gitusername         string
 	gituseremail     string
 }{
@@ -177,7 +177,7 @@ var commits = []struct {
 		targetbranch:     "main",
 		mergepullrequest: true,
 		ref:              "refs/pull/2/head",
-		conflicts:        true,
+		error:            true,
 		gitusername:         "woodpecker git plugin ci tests",
 		gituseremail:         "git-plugin@woodpecker.test",
 	},
@@ -214,7 +214,7 @@ func TestClone(t *testing.T) {
 			},
 		}
 
-		if c.conflicts {
+		if c.error {
 			if err := plugin.Exec(); err != nil {
 				t.Log("Received expected error")
 			}
