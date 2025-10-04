@@ -4,6 +4,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.6 [[#272](https://github.com/woodpecker-ci/plugin-git/pull/272)]
 - chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.3 [[#271](https://github.com/woodpecker-ci/plugin-git/pull/271)]
 
 ## [2.7.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.0) - 2025-10-02
