@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.7.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.1) - 2025-11-17
+## [2.7.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.1) - 2025-11-22
 
 ### 📦️ Dependency
 
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.46.0 [[#283](https://github.com/woodpecker-ci/plugin-git/pull/283)]
 - fix(deps): update module github.com/urfave/cli/v3 to v3.6.1 [[#282](https://github.com/woodpecker-ci/plugin-git/pull/282)]
 - chore(deps): update pre-commit hook golangci/golangci-lint to v2.6.2 [[#281](https://github.com/woodpecker-ci/plugin-git/pull/281)]
 - fix(deps): update module github.com/urfave/cli/v3 to v3.6.0 [[#280](https://github.com/woodpecker-ci/plugin-git/pull/280)]
