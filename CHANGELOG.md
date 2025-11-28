@@ -4,7 +4,11 @@
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@Javex
+@Javex, @qwerty287
+
+### 🐛 Bug Fixes
+
+- Fix mdlint [[#285](https://github.com/woodpecker-ci/plugin-git/pull/285)]
 
 ### 📚 Documentation
 
