@@ -1,6 +1,14 @@
 # Changelog
 
-## [2.7.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.1) - 2025-11-22
+## [2.7.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.1) - 2025-11-28
+
+### ❤️ Thanks to all contributors! ❤️
+
+@Javex
+
+### 📚 Documentation
+
+- Fix plugin URL [[#284](https://github.com/woodpecker-ci/plugin-git/pull/284)]
 
 ### 📦️ Dependency
 
