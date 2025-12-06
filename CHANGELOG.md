@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.7.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.1) - 2025-12-06
+
+### ❤️ Thanks to all contributors! ❤️
+
+@Javex, @qwerty287
+
+### 🐛 Bug Fixes
+
+- Fix mdlint [[#285](https://github.com/woodpecker-ci/plugin-git/pull/285)]
+
+### 📚 Documentation
+
+- Fix plugin URL [[#284](https://github.com/woodpecker-ci/plugin-git/pull/284)]
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.7.1 [[#288](https://github.com/woodpecker-ci/plugin-git/pull/288)]
+- chore(deps): update dependency go to v1.25.5 [[#286](https://github.com/woodpecker-ci/plugin-git/pull/286)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.46.0 [[#283](https://github.com/woodpecker-ci/plugin-git/pull/283)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.6.1 [[#282](https://github.com/woodpecker-ci/plugin-git/pull/282)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.6.2 [[#281](https://github.com/woodpecker-ci/plugin-git/pull/281)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.6.0 [[#280](https://github.com/woodpecker-ci/plugin-git/pull/280)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.6.1 [[#279](https://github.com/woodpecker-ci/plugin-git/pull/279)]
+- chore(deps): update dependency go to v1.25.4 [[#278](https://github.com/woodpecker-ci/plugin-git/pull/278)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.6.0 [[#277](https://github.com/woodpecker-ci/plugin-git/pull/277)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.5.0 [[#276](https://github.com/woodpecker-ci/plugin-git/pull/276)]
+- chore(deps): update dependency go to v1.25.3 [[#275](https://github.com/woodpecker-ci/plugin-git/pull/275)]
+- chore(deps): update dependency go to v1.25.2 [[#274](https://github.com/woodpecker-ci/plugin-git/pull/274)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.6 [[#272](https://github.com/woodpecker-ci/plugin-git/pull/272)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.3 [[#271](https://github.com/woodpecker-ci/plugin-git/pull/271)]
+
 ## [2.7.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.0) - 2025-10-02
 
 ### ❤️ Thanks to all contributors! ❤️
