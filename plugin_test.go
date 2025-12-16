@@ -9,22 +9,23 @@ import (
 // commits is a list of commits of different types (push, pull request, tag)
 // to help us verify that this clone plugin can handle multiple commit types.
 var commits = []struct {
-	path             string
-	clone            string
-	event            string
-	branch           string
-	commit           string
-	ref              string
-	file             string
-	data             string
-	dataSize         int64
-	recursive        bool
-	lfs              bool
-	targetbranch     string
-	mergepullrequest bool
-	error            bool
-	gitusername      string
-	gituseremail     string
+	path              string
+	clone             string
+	event             string
+	branch            string
+	commit            string
+	ref               string
+	file              string
+	data              string
+	dataSize          int64
+	recursive         bool
+	lfs               bool
+	targetbranch      string
+	mergepullrequest  bool
+	fetchtargetbranch bool
+	error             bool
+	gitusername       string
+	gituseremail      string
 }{
 	// first commit
 	{
@@ -71,6 +72,19 @@ var commits = []struct {
 		data:             "Hello World!\n",
 		targetbranch:     "master",
 		mergepullrequest: true,
+	},
+	// pull request commit with fetch target branch (without merge)
+	{
+		path:              "octocat/Hello-World",
+		clone:             "https://github.com/octocat/Hello-World.git",
+		event:             "pull_request",
+		branch:            "master",
+		commit:            "762941318ee16e59dabbacb1b4049eec22f0d303",
+		ref:               "",
+		file:              "README",
+		data:              "Hello World!\n",
+		targetbranch:      "master",
+		fetchtargetbranch: true,
 	},
 	// branch
 	{
@@ -202,15 +216,16 @@ func TestClone(t *testing.T) {
 				Ref:    c.ref,
 			},
 			Config: Config{
-				Recursive:        c.recursive,
-				Lfs:              c.lfs,
-				Home:             "/tmp",
-				Branch:           c.branch,
-				TargetBranch:     c.targetbranch,
-				MergePullRequest: c.mergepullrequest,
-				Event:            c.event,
-				GitUserName:      c.gitusername,
-				GitUserEmail:     c.gituseremail,
+				Recursive:         c.recursive,
+				Lfs:               c.lfs,
+				Home:              "/tmp",
+				Branch:            c.branch,
+				TargetBranch:      c.targetbranch,
+				MergePullRequest:  c.mergepullrequest,
+				FetchTargetBranch: c.fetchtargetbranch,
+				Event:             c.event,
+				GitUserName:       c.gitusername,
+				GitUserEmail:      c.gituseremail,
 			},
 		}
 		err := plugin.Exec()
@@ -381,6 +396,43 @@ func TestUpdateSubmodules(t *testing.T) {
 	}
 	for _, td := range testdata {
 		c := updateSubmodules(false, td.partial)
+		if len(c.Args) != len(td.exp) {
+			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+		}
+		for i := range c.Args {
+			if c.Args[i] != td.exp[i] {
+				t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+			}
+		}
+	}
+}
+
+func TestFetchBranch(t *testing.T) {
+	testdata := []struct {
+		branch string
+		exp    []string
+	}{
+		{
+			"main",
+			[]string{
+				"git",
+				"fetch",
+				"origin",
+				"main",
+			},
+		},
+		{
+			"develop",
+			[]string{
+				"git",
+				"fetch",
+				"origin",
+				"develop",
+			},
+		},
+	}
+	for _, td := range testdata {
+		c := fetchBranch(td.branch)
 		if len(c.Args) != len(td.exp) {
 			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
 		}
