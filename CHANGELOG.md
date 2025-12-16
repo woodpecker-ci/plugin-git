@@ -1,10 +1,14 @@
 # Changelog
 
-## [2.7.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.1) - 2025-12-16
+## [2.8.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.0) - 2025-12-16
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@Javex, @qwerty287
+@Javex, @MartinSchmidt, @qwerty287
+
+### 📈 Enhancement
+
+- Feature - enable fetch-target-branch on PRs [[#291](https://github.com/woodpecker-ci/plugin-git/pull/291)]
 
 ### 🐛 Bug Fixes
 
