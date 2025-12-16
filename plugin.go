@@ -142,6 +142,9 @@ func (p Plugin) Exec() error {
 	}
 
 	if p.Config.Event == "pull_request" && !p.Config.MergePullRequest && p.Config.FetchTargetBranch {
+		if p.Config.TargetBranch == "" {
+			return fmt.Errorf("fetch_target_branch is enabled but target_branch is not set")
+		}
 		cmds = append(cmds,
 			fetchBranch(p.Config.TargetBranch))
 	}
