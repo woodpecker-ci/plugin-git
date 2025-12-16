@@ -64,7 +64,7 @@ clone:
 | `ssh-key`                 | _none_                              | path to SSH key for SSH clone                                                                                                                                              |
 | `merge-pull-request`      | `false`                             | merge the pull request with the target branch (can fail on merge conflict)                                                                                                 |
 | `fetch-target-branch`     | `false`                             | fetch the target branch without merging (useful for tools like nx affected that need both branches locally)                                                                |
-| `target-branch`           | $CI_COMMIT_TARGET_BRANCH            | Target branch when merging pull request                                                                                                                                    |
+| `target-branch`           | $CI_COMMIT_TARGET_BRANCH            | Target branch used when merging pull requests (`merge-pull-request`) or when fetching the target branch (`fetch-target-branch`)                                            |
 | `git-user-name`           | _none_                              | Git username used when pull requests are used.                                                                                                                             |
 | `git-user-email`          | _none_                              | Git email used when pull requests are used.                                                                                                                                |
 
