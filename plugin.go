@@ -141,6 +141,11 @@ func (p Plugin) Exec() error {
 			mergeBranch(p.Config.TargetBranch))
 	}
 
+	if p.Config.Event == "pull_request" && !p.Config.MergePullRequest && p.Config.FetchTargetBranch {
+		cmds = append(cmds,
+			fetchBranch(p.Config.TargetBranch))
+	}
+
 	if p.Config.Lfs {
 		cmds = append(cmds,
 			fetchLFS(),

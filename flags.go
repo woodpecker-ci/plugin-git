@@ -164,6 +164,11 @@ var globalFlags = []cli.Flag{
 		Usage:   "Target branch when merging pull request",
 		Sources: cli.EnvVars("PLUGIN_TARGET_BRANCH", "CI_COMMIT_TARGET_BRANCH"),
 	},
+	&cli.BoolFlag{
+		Name:    "fetch-target-branch",
+		Usage:   "Fetch target branch without merging (useful for nx affected)",
+		Sources: cli.EnvVars("PLUGIN_FETCH_TARGET_BRANCH"),
+	},
 	&cli.StringFlag{
 		Name:    "git-user-name",
 		Usage:   "Git username when merging pull request",
