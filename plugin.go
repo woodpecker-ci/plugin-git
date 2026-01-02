@@ -79,6 +79,11 @@ func (p Plugin) Exec() error {
 		if p.Config.UseSSH {
 			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
 			cmds = append(cmds, remote(p.Repo.CloneSSH))
+			if p.Config.SSHKeyPrivate != "" {
+				if err := os.WriteFile(p.Config.SSHKey, []byte(p.Config.SSHKeyPrivate), 0x600); err != nil {
+					return fmt.Errorf("could not write private SSH key: %v", err)
+				}
+			}
 			if p.Config.SSHKey != "" {
 				// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
 				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey))

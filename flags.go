@@ -151,7 +151,12 @@ var globalFlags = []cli.Flag{
 	},
 	&cli.StringFlag{
 		Name:    "ssh-key",
-		Usage:   "SSH key for ssh clone",
+		Usage:   "SSH key file for ssh clone",
 		Sources: cli.EnvVars("PLUGIN_SSH_KEY"),
+	},
+	&cli.StringFlag{
+		Name:    "ssh-key-private",
+		Usage:   "private SSH key to store into ssh-key",
+		Sources: cli.EnvVars("PLUGIN_SSH_KEY_PRIVATE"),
 	},
 }

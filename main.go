@@ -64,6 +64,7 @@ func run(ctx context.Context, c *cli.Command) error {
 			SafeDirectory:    c.String("safe-directory"),
 			UseSSH:           c.Bool("use-ssh"),
 			SSHKey:           c.String("ssh-key"),
+			SSHKeyPrivate:    c.String("ssh-key-private"),
 		},
 		Backoff: Backoff{
 			Attempts: c.Int("backoff-attempts"),
