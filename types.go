@@ -27,23 +27,29 @@ type (
 	}
 
 	Config struct {
-		Depth            int
-		Recursive        bool
-		SkipVerify       bool
-		Tags             bool
-		Submodules       map[string]string
-		SubmoduleRemote  bool
-		SubmodulePartial bool
-		CustomCert       string
-		Lfs              bool
-		Branch           string
-		Home             string
-		Partial          bool
-		filter           string
-		SafeDirectory    string
-		UseSSH           bool
-		SSHKey           string
-		SSHKeyPrivate    string
+		Depth             int
+		Recursive         bool
+		SkipVerify        bool
+		Tags              bool
+		Submodules        string
+		SubmoduleRemote   bool
+		SubmodulePartial  bool
+		CustomCert        string
+		Lfs               bool
+		Branch            string
+		Home              string
+		Partial           bool
+		filter            string
+		SafeDirectory     string
+		UseSSH            bool
+		SSHKey            string
+		SSHKeyPrivate     string
+		MergePullRequest  bool
+		TargetBranch      string
+		FetchTargetBranch bool
+		Event             string
+		GitUserName       string
+		GitUserEmail      string
 	}
 
 	Backoff struct {

@@ -89,7 +89,7 @@ var globalFlags = []cli.Flag{
 		Usage:   "update remote submodules",
 		Sources: cli.EnvVars("PLUGIN_SUBMODULES_UPDATE_REMOTE", "PLUGIN_SUBMODULE_UPDATE_REMOTE"),
 	},
-	&cli.StringMapFlag{
+	&cli.StringFlag{
 		Name:    "submodule-override",
 		Usage:   "json map of submodule overrides",
 		Sources: cli.EnvVars("PLUGIN_SUBMODULE_OVERRIDE"),
@@ -158,5 +158,30 @@ var globalFlags = []cli.Flag{
 		Name:    "ssh-key-private",
 		Usage:   "private SSH key to store into ssh-key",
 		Sources: cli.EnvVars("PLUGIN_SSH_KEY_PRIVATE"),
+	},
+	&cli.BoolFlag{
+		Name:    "merge-pull-request",
+		Usage:   "Merge pull reguest with target branch",
+		Sources: cli.EnvVars("PLUGIN_MERGE_PULL_REQUEST"),
+	},
+	&cli.StringFlag{
+		Name:    "target-branch",
+		Usage:   "Target branch when merging pull request",
+		Sources: cli.EnvVars("PLUGIN_TARGET_BRANCH", "CI_COMMIT_TARGET_BRANCH"),
+	},
+	&cli.BoolFlag{
+		Name:    "fetch-target-branch",
+		Usage:   "Fetch target branch without merging (useful for nx affected)",
+		Sources: cli.EnvVars("PLUGIN_FETCH_TARGET_BRANCH"),
+	},
+	&cli.StringFlag{
+		Name:    "git-user-name",
+		Usage:   "Git username when merging pull request",
+		Sources: cli.EnvVars("PLUGIN_GIT_USERNAME"),
+	},
+	&cli.StringFlag{
+		Name:    "git-user-email",
+		Usage:   "Git user email when merging pull request",
+		Sources: cli.EnvVars("PLUGIN_GIT_USEREMAIL"),
 	},
 }
