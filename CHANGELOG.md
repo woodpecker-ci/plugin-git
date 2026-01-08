@@ -1,10 +1,10 @@
 # Changelog
 
-## [2.8.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.0) - 2025-12-16
+## [2.8.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.0) - 2026-01-08
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@Javex, @MartinSchmidt, @qwerty287
+@CosmicHorrorDev, @Javex, @MartinSchmidt, @qwerty287
 
 ### 📈 Enhancement
 
@@ -40,6 +40,7 @@
 
 ### Misc
 
+- docs: fix `recursive` settings docs [[#294](https://github.com/woodpecker-ci/plugin-git/pull/294)]
 - Added support for devcontainers [[#292](https://github.com/woodpecker-ci/plugin-git/pull/292)]
 
 ## [2.7.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.0) - 2025-10-02
