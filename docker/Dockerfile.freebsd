@@ -1,0 +1,23 @@
+FROM --platform=$BUILDPLATFORM quay.io/matiaspizarro/freebsd-base:runtime-14.3 AS build
+ARG TARGETOS TARGETARCH
+
+WORKDIR /src
+COPY . .
+
+RUN pkg install -y -q git go125 ca_root_nss curl git-lfs gmake
+
+RUN go125 version
+RUN ln -s /usr/local/bin/go125 /usr/local/bin/go
+RUN gmake build
+
+FROM quay.io/matiaspizarro/freebsd-base:runtime-14.3
+
+ARG HOME=/app
+
+ENV GODEBUG=netdns=go
+ENV PLUGIN_HOME=$HOME
+
+RUN mkdir -p $HOME /bin
+
+COPY --from=build /src/release/plugin-git /bin/
+ENTRYPOINT ["/bin/plugin-git"]

@@ -54,6 +54,25 @@ docker buildx build \
 This will build the image and load it into docker so the image can be used locally.
 [More information on the output formats can be found in docker buildx doc](https://docs.docker.com/engine/reference/commandline/buildx_build/#output).
 
+
+## Podman on FreeBSD
+
+In order to be able to use podman on FreeBSD to build the image,
+you'll need to install the `podman-suite` package and your FreeBSD
+version must be `14.2` or higher.
+
+To build the image on FreeBSD, use this podman command as root:
+
+```console
+podman build \
+  --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+  --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
+  --platform freebsd/amd64  --file docker/Dockerfile.multiarch \
+  --tag woodpeckerci/plugin-git --network host  .
+```
+
+The image can then be pushed with `podman push` etc.
+
 ## Usage
 
 Clone a commit:
