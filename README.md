@@ -67,7 +67,7 @@ To build the image on FreeBSD, use this podman command as root:
 podman build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
-  --platform freebsd/amd64  --file docker/Dockerfile.multiarch \
+  --platform freebsd/amd64  --file docker/Dockerfile.freebsd \
   --tag woodpeckerci/plugin-git --network host  .
 ```
 
