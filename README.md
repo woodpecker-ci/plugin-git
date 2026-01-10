@@ -54,7 +54,6 @@ docker buildx build \
 This will build the image and load it into docker so the image can be used locally.
 [More information on the output formats can be found in docker buildx doc](https://docs.docker.com/engine/reference/commandline/buildx_build/#output).
 
-
 ## Podman on FreeBSD
 
 In order to be able to use podman on FreeBSD to build the image,
