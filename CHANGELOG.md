@@ -21,6 +21,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.4 [[#298](https://github.com/woodpecker-ci/plugin-git/pull/298)]
 - chore(deps): update pre-commit non-major [[#297](https://github.com/woodpecker-ci/plugin-git/pull/297)]
 - chore(deps): update alpine docker tag to v3.23 [[#287](https://github.com/woodpecker-ci/plugin-git/pull/287)]
 - chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.47.0 [[#290](https://github.com/woodpecker-ci/plugin-git/pull/290)]
