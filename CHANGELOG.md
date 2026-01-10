@@ -21,6 +21,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.4.1 [[#299](https://github.com/woodpecker-ci/plugin-git/pull/299)]
 - chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.4 [[#298](https://github.com/woodpecker-ci/plugin-git/pull/298)]
 - chore(deps): update pre-commit non-major [[#297](https://github.com/woodpecker-ci/plugin-git/pull/297)]
 - chore(deps): update alpine docker tag to v3.23 [[#287](https://github.com/woodpecker-ci/plugin-git/pull/287)]
