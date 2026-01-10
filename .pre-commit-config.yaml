@@ -10,7 +10,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/golangci/golangci-lint
-    rev: v2.7.2
+    rev: v2.8.0
     hooks:
       - id: golangci-lint
   - repo: https://github.com/igorshubovych/markdownlint-cli
@@ -20,7 +20,7 @@ repos:
         exclude: '^CHANGELOG.md$'
         language_version: 22.15.1
   - repo: https://github.com/mrtazz/checkmake
-    rev: 0.2.2
+    rev: v0.3.1
     hooks:
       - id: checkmake
   - repo: https://github.com/hadolint/hadolint
