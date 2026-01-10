@@ -20,7 +20,7 @@ repos:
         exclude: '^CHANGELOG.md$'
         language_version: 22.15.1
   - repo: https://github.com/mrtazz/checkmake
-    rev: v0.3.1
+    rev: v0.3.2
     hooks:
       - id: checkmake
   - repo: https://github.com/hadolint/hadolint
