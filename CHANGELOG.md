@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.8.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.0) - 2026-01-08
+## [2.8.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.0) - 2026-01-10
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -16,10 +16,12 @@
 
 ### 📚 Documentation
 
+- docs: fix `recursive` settings docs [[#294](https://github.com/woodpecker-ci/plugin-git/pull/294)]
 - Fix plugin URL [[#284](https://github.com/woodpecker-ci/plugin-git/pull/284)]
 
 ### 📦️ Dependency
 
+- chore(deps): update pre-commit non-major [[#297](https://github.com/woodpecker-ci/plugin-git/pull/297)]
 - chore(deps): update alpine docker tag to v3.23 [[#287](https://github.com/woodpecker-ci/plugin-git/pull/287)]
 - chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.47.0 [[#290](https://github.com/woodpecker-ci/plugin-git/pull/290)]
 - chore(deps): update pre-commit hook golangci/golangci-lint to v2.7.2 [[#289](https://github.com/woodpecker-ci/plugin-git/pull/289)]
@@ -40,7 +42,6 @@
 
 ### Misc
 
-- docs: fix `recursive` settings docs [[#294](https://github.com/woodpecker-ci/plugin-git/pull/294)]
 - Added support for devcontainers [[#292](https://github.com/woodpecker-ci/plugin-git/pull/292)]
 
 ## [2.7.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.0) - 2025-10-02
