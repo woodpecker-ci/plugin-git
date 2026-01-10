@@ -8,6 +8,7 @@
 
 ### 📈 Enhancement
 
+- Directly set private key [[#293](https://github.com/woodpecker-ci/plugin-git/pull/293)]
 - Feature - enable fetch-target-branch on PRs [[#291](https://github.com/woodpecker-ci/plugin-git/pull/291)]
 
 ### 🐛 Bug Fixes
