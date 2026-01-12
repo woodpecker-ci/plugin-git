@@ -10,7 +10,7 @@ RUN go125 version
 RUN ln -s /usr/local/bin/go125 /usr/local/bin/go
 RUN gmake build
 
-FROM quay.io/matiaspizarro/freebsd-base:runtime-14.3
+FROM docker.io/freebsd/freebsd-base:runtime-14.3
 
 RUN pkg install -y -q git curl git-lfs ca_root_nss
 
