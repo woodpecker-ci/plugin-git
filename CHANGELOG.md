@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-10
+## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-16
 
 ### 📦️ Dependency
 
+- chore(deps): update dependency go to v1.25.6 [[#303](https://github.com/woodpecker-ci/plugin-git/pull/303)]
 - chore(deps): update pre-commit hook mrtazz/checkmake to v0.3.2 [[#301](https://github.com/woodpecker-ci/plugin-git/pull/301)]
 
 ## [2.8.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.0) - 2026-01-10
