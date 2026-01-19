@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-16
+## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-19
 
 ### 📦️ Dependency
 
+- fix(deps): update module github.com/urfave/cli/v3 to v3.6.2 [[#304](https://github.com/woodpecker-ci/plugin-git/pull/304)]
 - chore(deps): update dependency go to v1.25.6 [[#303](https://github.com/woodpecker-ci/plugin-git/pull/303)]
 - chore(deps): update pre-commit hook mrtazz/checkmake to v0.3.2 [[#301](https://github.com/woodpecker-ci/plugin-git/pull/301)]
 
