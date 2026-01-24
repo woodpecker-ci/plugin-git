@@ -306,7 +306,7 @@ func setUserEmail(userEmail string) *exec.Cmd {
 func sshKeyHandler(sshKey string, knownHosts string) *exec.Cmd {
 	hostKeyArg := " -o \"StrictHostKeyChecking no\""
 	if knownHosts != "" {
-		hostKeyArg = " -o UserKnownHostsFile="+knownHosts
+		hostKeyArg = " -o UserKnownHostsFile=" + knownHosts
 	}
 	return appendEnv(exec.Command("git", "config", "core.sshCommand", "ssh -i "+sshKey+hostKeyArg), defaultEnvVars...)
 }
