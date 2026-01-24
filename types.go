@@ -44,6 +44,7 @@ type (
 		UseSSH            bool
 		SSHKey            string
 		SSHKeyPrivate     string
+		SSHHostKey        string
 		MergePullRequest  bool
 		TargetBranch      string
 		FetchTargetBranch bool

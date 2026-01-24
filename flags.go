@@ -159,6 +159,11 @@ var globalFlags = []cli.Flag{
 		Usage:   "private SSH key to store into ssh-key",
 		Sources: cli.EnvVars("PLUGIN_SSH_KEY_PRIVATE"),
 	},
+	&cli.StringFlag{
+		Name:    "ssh-host-key",
+		Usage:   "SSH host key for verification to prevent mitm attacks",
+		Sources: cli.EnvVars("PLUGIN_SSH_HOST_KEY"),
+	},
 	&cli.BoolFlag{
 		Name:    "merge-pull-request",
 		Usage:   "Merge pull reguest with target branch",
