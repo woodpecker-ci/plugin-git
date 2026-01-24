@@ -1,6 +1,14 @@
 # Changelog
 
-## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-19
+## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-24
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🐛 Bug Fixes
+
+- Fix host key verification [[#306](https://github.com/woodpecker-ci/plugin-git/pull/306)]
 
 ### 📦️ Dependency
 
