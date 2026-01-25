@@ -308,7 +308,7 @@ func sshKeyHandler(sshKey string, knownHosts string) *exec.Cmd {
 	if knownHosts != "" {
 		hostKeyArg = " -o UserKnownHostsFile=" + knownHosts
 	}
-	return appendEnv(exec.Command("git", "config", "core.sshCommand", "ssh -i "+sshKey+hostKeyArg), defaultEnvVars...)
+	return appendEnv(exec.Command("git", "config", "--global", "core.sshCommand", "ssh -i "+sshKey+hostKeyArg), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
