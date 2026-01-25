@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-24
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🐛 Bug Fixes
+
+- Fix host key verification [[#306](https://github.com/woodpecker-ci/plugin-git/pull/306)]
+
+### 📦️ Dependency
+
+- fix(deps): update module github.com/urfave/cli/v3 to v3.6.2 [[#304](https://github.com/woodpecker-ci/plugin-git/pull/304)]
+- chore(deps): update dependency go to v1.25.6 [[#303](https://github.com/woodpecker-ci/plugin-git/pull/303)]
+- chore(deps): update pre-commit hook mrtazz/checkmake to v0.3.2 [[#301](https://github.com/woodpecker-ci/plugin-git/pull/301)]
+
 ## [2.8.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.0) - 2026-01-10
 
 ### ❤️ Thanks to all contributors! ❤️
