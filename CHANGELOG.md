@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-01-25
+
+### ❤️ Thanks to all contributors! ❤️
+
+@jrvidal
+
+### 📈 Enhancement
+
+- Make ssh config global so it is not persisted [[#308](https://github.com/woodpecker-ci/plugin-git/pull/308)]
+
 ## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-24
 
 ### ❤️ Thanks to all contributors! ❤️
