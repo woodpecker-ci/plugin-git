@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-02-05
+## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-02-11
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -12,6 +12,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update dependency go to v1.26.0 [[#312](https://github.com/woodpecker-ci/plugin-git/pull/312)]
 - chore(deps): update dependency go to v1.25.7 [[#311](https://github.com/woodpecker-ci/plugin-git/pull/311)]
 
 ## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-24
