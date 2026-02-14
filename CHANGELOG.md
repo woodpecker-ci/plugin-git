@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-02-11
+## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-02-14
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -12,6 +12,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update golang docker tag to v1.26 [[#313](https://github.com/woodpecker-ci/plugin-git/pull/313)]
 - chore(deps): update dependency go to v1.26.0 [[#312](https://github.com/woodpecker-ci/plugin-git/pull/312)]
 - chore(deps): update dependency go to v1.25.7 [[#311](https://github.com/woodpecker-ci/plugin-git/pull/311)]
 
