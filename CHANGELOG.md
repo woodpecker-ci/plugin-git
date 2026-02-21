@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-02-21
+
+### ❤️ Thanks to all contributors! ❤️
+
+@jrvidal
+
+### 📈 Enhancement
+
+- Make ssh config global so it is not persisted [[#308](https://github.com/woodpecker-ci/plugin-git/pull/308)]
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.10.1 [[#315](https://github.com/woodpecker-ci/plugin-git/pull/315)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.9.0 [[#314](https://github.com/woodpecker-ci/plugin-git/pull/314)]
+- chore(deps): update golang docker tag to v1.26 [[#313](https://github.com/woodpecker-ci/plugin-git/pull/313)]
+- chore(deps): update dependency go to v1.26.0 [[#312](https://github.com/woodpecker-ci/plugin-git/pull/312)]
+- chore(deps): update dependency go to v1.25.7 [[#311](https://github.com/woodpecker-ci/plugin-git/pull/311)]
+
 ## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-24
 
 ### ❤️ Thanks to all contributors! ❤️
