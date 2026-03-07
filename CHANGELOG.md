@@ -12,6 +12,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update dependency go to v1.26.1 [[#319](https://github.com/woodpecker-ci/plugin-git/pull/319)]
 - chore(deps): update pre-commit non-major [[#320](https://github.com/woodpecker-ci/plugin-git/pull/320)]
 - fix(deps): update module github.com/urfave/cli/v3 to v3.7.0 [[#317](https://github.com/woodpecker-ci/plugin-git/pull/317)]
 - chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v4 [[#316](https://github.com/woodpecker-ci/plugin-git/pull/316)]
