@@ -53,7 +53,7 @@ steps:
       repo: test/repo
       dockerfile: ./docker/Dockerfile.multiarch
       dry_run: true
-      platforms: *platforms
+      platforms: linux/amd64
       tags: latest
     when:
       - event: pull_request
