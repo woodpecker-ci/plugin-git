@@ -25,6 +25,7 @@
 
 ### Misc
 
+- Only build amd64 when dryrunning [[#325](https://github.com/woodpecker-ci/plugin-git/pull/325)]
 - Update node for mdlint [[#324](https://github.com/woodpecker-ci/plugin-git/pull/324)]
 
 ## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-24
