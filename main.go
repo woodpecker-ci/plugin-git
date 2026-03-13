@@ -50,6 +50,7 @@ func run(ctx context.Context, c *cli.Command) error {
 		},
 		Config: Config{
 			Depth:             c.Int("depth"),
+			Umask:             c.Int("umask"),
 			Tags:              c.Bool("tags"),
 			Recursive:         c.Bool("recursive"),
 			SkipVerify:        c.Bool("skip-verify"),
