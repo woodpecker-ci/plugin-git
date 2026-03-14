@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM docker.io/freebsd/freebsd-runtime:14.3 AS build
+FROM --platform=$BUILDPLATFORM docker.io/freebsd/freebsd-runtime:14.4 AS build
 ARG TARGETOS TARGETARCH
 
 WORKDIR /src
