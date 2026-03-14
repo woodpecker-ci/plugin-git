@@ -1,10 +1,14 @@
 # Changelog
 
-## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-03-13
+## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-03-14
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@jrvidal, @qwerty287
+@jrvidal, @qwerty287, @shuhaowu
+
+### ✨ Features
+
+- Made umask configurable [[#323](https://github.com/woodpecker-ci/plugin-git/pull/323)]
 
 ### 📈 Enhancement
 
