@@ -28,6 +28,7 @@ type (
 
 	Config struct {
 		Depth             int
+		Umask             int
 		Recursive         bool
 		SkipVerify        bool
 		Tags              bool
@@ -43,6 +44,8 @@ type (
 		SafeDirectory     string
 		UseSSH            bool
 		SSHKey            string
+		SSHKeyPrivate     string
+		SSHHostKey        string
 		MergePullRequest  bool
 		TargetBranch      string
 		FetchTargetBranch bool

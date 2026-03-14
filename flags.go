@@ -63,6 +63,12 @@ var globalFlags = []cli.Flag{
 		Usage:   "clone depth",
 		Sources: cli.EnvVars("PLUGIN_DEPTH"),
 	},
+	&cli.IntFlag{
+		Name:    "umask",
+		Usage:   "set umask for cloned files (octal), default is 0",
+		Sources: cli.EnvVars("PLUGIN_UMASK"),
+		Value:   0,
+	},
 	&cli.BoolFlag{
 		Name:    "recursive",
 		Usage:   "clone submodules",
@@ -151,8 +157,18 @@ var globalFlags = []cli.Flag{
 	},
 	&cli.StringFlag{
 		Name:    "ssh-key",
-		Usage:   "SSH key for ssh clone",
+		Usage:   "SSH key file for ssh clone",
 		Sources: cli.EnvVars("PLUGIN_SSH_KEY"),
+	},
+	&cli.StringFlag{
+		Name:    "ssh-key-private",
+		Usage:   "private SSH key to store into ssh-key",
+		Sources: cli.EnvVars("PLUGIN_SSH_KEY_PRIVATE"),
+	},
+	&cli.StringFlag{
+		Name:    "ssh-host-key",
+		Usage:   "SSH host key for verification to prevent mitm attacks",
+		Sources: cli.EnvVars("PLUGIN_SSH_HOST_KEY"),
 	},
 	&cli.BoolFlag{
 		Name:    "merge-pull-request",

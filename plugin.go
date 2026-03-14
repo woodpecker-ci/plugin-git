@@ -30,9 +30,9 @@ var defaultEnvVars = []string{
 }
 
 func (p Plugin) Exec() error {
-	// set umask to 0 so cloned files are
+	// set umask (default 0) so cloned files are
 	// accessible from non-root containers
-	umask()
+	umask(p.Config.Umask)
 
 	if p.Pipeline.Path != "" {
 		err := os.MkdirAll(p.Pipeline.Path, 0o777)
@@ -87,14 +87,35 @@ func (p Plugin) Exec() error {
 		if p.Config.UseSSH {
 			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
 			cmds = append(cmds, remote(p.Repo.CloneSSH))
+			if p.Config.SSHKeyPrivate != "" {
+				if p.Config.SSHKey == "" {
+					p.Config.SSHKey = filepath.Join(p.Config.Home, "/sshkey")
+				}
+				if err := os.WriteFile(p.Config.SSHKey, []byte(p.Config.SSHKeyPrivate), 0x600); err != nil {
+					return fmt.Errorf("could not write private SSH key: %v", err)
+				}
+			}
+			if p.Config.SSHHostKey != "" {
+				if err := os.Mkdir(filepath.Join(p.Config.Home, ".ssh"), 0x600); err != nil {
+					return fmt.Errorf("could not create SSH directory: %v", err)
+				}
+				if err := os.WriteFile(filepath.Join(p.Config.Home, ".ssh/known_hosts"), []byte(p.Config.SSHHostKey), os.ModeAppend); err != nil {
+					return fmt.Errorf("could not write SSH host key: %v", err)
+				}
+			}
+			cmds = append(cmds, exec.Command("cat", filepath.Join(p.Config.Home, ".ssh/known_hosts")))
 			if p.Config.SSHKey != "" {
+				knownHosts := ""
+				if p.Config.SSHHostKey != "" {
+					knownHosts = filepath.Join(p.Config.Home, ".ssh/known_hosts")
+				}
+
 				// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
-				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey))
+				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey, knownHosts))
 			}
 		} else {
 			cmds = append(cmds, remote(p.Repo.Clone))
 		}
-
 	}
 
 	if p.Pipeline.Ref != "" {
@@ -234,7 +255,7 @@ func shouldRetry(s string) bool {
 
 // retryExec is a helper function that retries a command.
 func retryExec(cmd *exec.Cmd, backoff time.Duration, retries int) (err error) {
-	for i := 0; i < retries; i++ {
+	for range retries {
 		// signal intent to retry
 		fmt.Printf("retry in %v\n", backoff)
 
@@ -282,8 +303,12 @@ func setUserEmail(userEmail string) *exec.Cmd {
 }
 
 // Use custom SSH Key thanks to core.sshCommand
-func sshKeyHandler(sshKey string) *exec.Cmd {
-	return appendEnv(exec.Command("git", "config", "core.sshCommand", "ssh -i "+sshKey), defaultEnvVars...)
+func sshKeyHandler(sshKey string, knownHosts string) *exec.Cmd {
+	hostKeyArg := " -o \"StrictHostKeyChecking no\""
+	if knownHosts != "" {
+		hostKeyArg = " -o UserKnownHostsFile=" + knownHosts
+	}
+	return appendEnv(exec.Command("git", "config", "--global", "core.sshCommand", "ssh -i "+sshKey+hostKeyArg), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.

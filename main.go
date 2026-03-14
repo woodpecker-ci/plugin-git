@@ -50,6 +50,7 @@ func run(ctx context.Context, c *cli.Command) error {
 		},
 		Config: Config{
 			Depth:             c.Int("depth"),
+			Umask:             c.Int("umask"),
 			Tags:              c.Bool("tags"),
 			Recursive:         c.Bool("recursive"),
 			SkipVerify:        c.Bool("skip-verify"),
@@ -64,6 +65,8 @@ func run(ctx context.Context, c *cli.Command) error {
 			SafeDirectory:     c.String("safe-directory"),
 			UseSSH:            c.Bool("use-ssh"),
 			SSHKey:            c.String("ssh-key"),
+			SSHKeyPrivate:     c.String("ssh-key-private"),
+			SSHHostKey:        c.String("ssh-host-key"),
 			MergePullRequest:  c.Bool("merge-pull-request"),
 			TargetBranch:      c.String("target-branch"),
 			FetchTargetBranch: c.Bool("fetch-target-branch"),

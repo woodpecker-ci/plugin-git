@@ -4,6 +4,6 @@ package main
 
 import "syscall"
 
-func umask() {
-	syscall.Umask(0)
+func umask(mask int) int {
+	return syscall.Umask(mask)
 }
