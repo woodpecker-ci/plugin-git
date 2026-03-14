@@ -1,5 +1,225 @@
 # Changelog
 
+## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-24
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🐛 Bug Fixes
+
+- Fix host key verification [[#306](https://github.com/woodpecker-ci/plugin-git/pull/306)]
+
+### 📦️ Dependency
+
+- fix(deps): update module github.com/urfave/cli/v3 to v3.6.2 [[#304](https://github.com/woodpecker-ci/plugin-git/pull/304)]
+- chore(deps): update dependency go to v1.25.6 [[#303](https://github.com/woodpecker-ci/plugin-git/pull/303)]
+- chore(deps): update pre-commit hook mrtazz/checkmake to v0.3.2 [[#301](https://github.com/woodpecker-ci/plugin-git/pull/301)]
+
+## [2.8.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.0) - 2026-01-10
+
+### ❤️ Thanks to all contributors! ❤️
+
+@CosmicHorrorDev, @Javex, @MartinSchmidt, @qwerty287
+
+### 📈 Enhancement
+
+- Directly set private key [[#293](https://github.com/woodpecker-ci/plugin-git/pull/293)]
+- Feature - enable fetch-target-branch on PRs [[#291](https://github.com/woodpecker-ci/plugin-git/pull/291)]
+
+### 🐛 Bug Fixes
+
+- Fix mdlint [[#285](https://github.com/woodpecker-ci/plugin-git/pull/285)]
+
+### 📚 Documentation
+
+- docs: fix `recursive` settings docs [[#294](https://github.com/woodpecker-ci/plugin-git/pull/294)]
+- Fix plugin URL [[#284](https://github.com/woodpecker-ci/plugin-git/pull/284)]
+
+### 📦️ Dependency
+
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.4.1 [[#299](https://github.com/woodpecker-ci/plugin-git/pull/299)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.4 [[#298](https://github.com/woodpecker-ci/plugin-git/pull/298)]
+- chore(deps): update pre-commit non-major [[#297](https://github.com/woodpecker-ci/plugin-git/pull/297)]
+- chore(deps): update alpine docker tag to v3.23 [[#287](https://github.com/woodpecker-ci/plugin-git/pull/287)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.47.0 [[#290](https://github.com/woodpecker-ci/plugin-git/pull/290)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.7.2 [[#289](https://github.com/woodpecker-ci/plugin-git/pull/289)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.7.1 [[#288](https://github.com/woodpecker-ci/plugin-git/pull/288)]
+- chore(deps): update dependency go to v1.25.5 [[#286](https://github.com/woodpecker-ci/plugin-git/pull/286)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.46.0 [[#283](https://github.com/woodpecker-ci/plugin-git/pull/283)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.6.1 [[#282](https://github.com/woodpecker-ci/plugin-git/pull/282)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.6.2 [[#281](https://github.com/woodpecker-ci/plugin-git/pull/281)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.6.0 [[#280](https://github.com/woodpecker-ci/plugin-git/pull/280)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.6.1 [[#279](https://github.com/woodpecker-ci/plugin-git/pull/279)]
+- chore(deps): update dependency go to v1.25.4 [[#278](https://github.com/woodpecker-ci/plugin-git/pull/278)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.6.0 [[#277](https://github.com/woodpecker-ci/plugin-git/pull/277)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.5.0 [[#276](https://github.com/woodpecker-ci/plugin-git/pull/276)]
+- chore(deps): update dependency go to v1.25.3 [[#275](https://github.com/woodpecker-ci/plugin-git/pull/275)]
+- chore(deps): update dependency go to v1.25.2 [[#274](https://github.com/woodpecker-ci/plugin-git/pull/274)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.6 [[#272](https://github.com/woodpecker-ci/plugin-git/pull/272)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.3 [[#271](https://github.com/woodpecker-ci/plugin-git/pull/271)]
+
+### Misc
+
+- Added support for devcontainers [[#292](https://github.com/woodpecker-ci/plugin-git/pull/292)]
+
+## [2.7.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.7.0) - 2025-10-02
+
+### ❤️ Thanks to all contributors! ❤️
+
+@johanvdw
+
+### 📈 Enhancement
+
+- Merge pull request: initial implementation [[#253](https://github.com/woodpecker-ci/plugin-git/pull/253)]
+
+### 📚 Documentation
+
+- docs: Fix README env vars [[#252](https://github.com/woodpecker-ci/plugin-git/pull/252)]
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook hadolint/hadolint to v2.14.0 [[#270](https://github.com/woodpecker-ci/plugin-git/pull/270)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.5.0 [[#269](https://github.com/woodpecker-ci/plugin-git/pull/269)]
+- chore(deps): update dependency go to v1.25.1 [[#268](https://github.com/woodpecker-ci/plugin-git/pull/268)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.4.0 [[#267](https://github.com/woodpecker-ci/plugin-git/pull/267)]
+- chore(deps): update golang docker tag to v1.25 [[#266](https://github.com/woodpecker-ci/plugin-git/pull/266)]
+- fix(deps): update golang deps non-major [[#265](https://github.com/woodpecker-ci/plugin-git/pull/265)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.4.0 [[#264](https://github.com/woodpecker-ci/plugin-git/pull/264)]
+- chore(deps): update pre-commit hook pre-commit/pre-commit-hooks to v6 [[#263](https://github.com/woodpecker-ci/plugin-git/pull/263)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.4.0 [[#262](https://github.com/woodpecker-ci/plugin-git/pull/262)]
+- chore(deps): update dependency go to v1.24.6 [[#261](https://github.com/woodpecker-ci/plugin-git/pull/261)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.3.1 [[#260](https://github.com/woodpecker-ci/plugin-git/pull/260)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.3.0 [[#259](https://github.com/woodpecker-ci/plugin-git/pull/259)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.2.2 [[#258](https://github.com/woodpecker-ci/plugin-git/pull/258)]
+- chore(deps): update dependency go to v1.24.5 [[#257](https://github.com/woodpecker-ci/plugin-git/pull/257)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.3.0 [[#256](https://github.com/woodpecker-ci/plugin-git/pull/256)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.2 [[#255](https://github.com/woodpecker-ci/plugin-git/pull/255)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.2.1 [[#254](https://github.com/woodpecker-ci/plugin-git/pull/254)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.2.0 [[#250](https://github.com/woodpecker-ci/plugin-git/pull/250)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.3.8 [[#249](https://github.com/woodpecker-ci/plugin-git/pull/249)]
+- chore(deps): update dependency go to v1.24.4 [[#246](https://github.com/woodpecker-ci/plugin-git/pull/246)]
+
+## [2.6.5](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.5) - 2025-05-31
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🐛 Bug Fixes
+
+- Always chmod workspace [[#240](https://github.com/woodpecker-ci/plugin-git/pull/240)]
+- Fix submodule override flag [[#241](https://github.com/woodpecker-ci/plugin-git/pull/241)]
+- Fix windows build [[#239](https://github.com/woodpecker-ci/plugin-git/pull/239)]
+
+### 📦️ Dependency
+
+- chore(deps): update alpine docker tag to v3.22 [[#244](https://github.com/woodpecker-ci/plugin-git/pull/244)]
+
+## [2.6.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.4) - 2025-05-27
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287, @xoxys
+
+### 🐛 Bug Fixes
+
+- Set umask to 0 before cloning [[#236](https://github.com/woodpecker-ci/plugin-git/pull/236)]
+
+### 📚 Documentation
+
+- Clarify SSH key docs [[#235](https://github.com/woodpecker-ci/plugin-git/pull/235)]
+- Explain usage of chmod more detailed [[#216](https://github.com/woodpecker-ci/plugin-git/pull/216)]
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.45.0 [[#234](https://github.com/woodpecker-ci/plugin-git/pull/234)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.3.3 [[#233](https://github.com/woodpecker-ci/plugin-git/pull/233)]
+- chore(deps): update dependency go to v1.24.3 [[#232](https://github.com/woodpecker-ci/plugin-git/pull/232)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.1.6 [[#230](https://github.com/woodpecker-ci/plugin-git/pull/230)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.0.1 [[#229](https://github.com/woodpecker-ci/plugin-git/pull/229)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6 [[#228](https://github.com/woodpecker-ci/plugin-git/pull/228)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.3.2 [[#227](https://github.com/woodpecker-ci/plugin-git/pull/227)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.3.1 [[#226](https://github.com/woodpecker-ci/plugin-git/pull/226)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.1.5 [[#225](https://github.com/woodpecker-ci/plugin-git/pull/225)]
+- fix(deps): update module github.com/urfave/cli/v2 to v3 [[#220](https://github.com/woodpecker-ci/plugin-git/pull/220)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.2.0 [[#223](https://github.com/woodpecker-ci/plugin-git/pull/223)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.1.2 [[#222](https://github.com/woodpecker-ci/plugin-git/pull/222)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.1.1 [[#221](https://github.com/woodpecker-ci/plugin-git/pull/221)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2 [[#219](https://github.com/woodpecker-ci/plugin-git/pull/219)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.1.4 [[#218](https://github.com/woodpecker-ci/plugin-git/pull/218)]
+
+## [2.6.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.3) - 2025-03-27
+
+### ❤️ Thanks to all contributors! ❤️
+
+@xoxys
+
+### 🐛 Bug Fixes
+
+- Ensure fs mode for path is set correctly [[#215](https://github.com/woodpecker-ci/plugin-git/pull/215)]
+
+### 📦️ Dependency
+
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v5.2.2 [[#214](https://github.com/woodpecker-ci/plugin-git/pull/214)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.5 [[#213](https://github.com/woodpecker-ci/plugin-git/pull/213)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.64.8 [[#212](https://github.com/woodpecker-ci/plugin-git/pull/212)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.64.7 [[#211](https://github.com/woodpecker-ci/plugin-git/pull/211)]
+- fix(deps): update module github.com/urfave/cli/v2 to v2.27.6 [[#210](https://github.com/woodpecker-ci/plugin-git/pull/210)]
+
+### Misc
+
+- [pre-commit.ci] pre-commit autoupdate [[#208](https://github.com/woodpecker-ci/plugin-git/pull/208)]
+
+## [2.6.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.2) - 2025-02-26
+
+### ❤️ Thanks to all contributors! ❤️
+
+@pat-s
+
+### Misc
+
+- Use alpine release to fix tag fetching [[#206](https://github.com/woodpecker-ci/plugin-git/pull/206)]
+
+## [2.6.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.1) - 2025-02-21
+
+### ❤️ Thanks to all contributors! ❤️
+
+@miry
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.64.5 [[#204](https://github.com/woodpecker-ci/plugin-git/pull/204)]
+- chore(deps): update golang docker tag to v1.24 [[#203](https://github.com/woodpecker-ci/plugin-git/pull/203)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.4 [[#202](https://github.com/woodpecker-ci/plugin-git/pull/202)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v5.2.1 [[#201](https://github.com/woodpecker-ci/plugin-git/pull/201)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v5.2.0 [[#200](https://github.com/woodpecker-ci/plugin-git/pull/200)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.1.3 [[#198](https://github.com/woodpecker-ci/plugin-git/pull/198)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.44.0 [[#199](https://github.com/woodpecker-ci/plugin-git/pull/199)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.3 [[#196](https://github.com/woodpecker-ci/plugin-git/pull/196)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.63.4 [[#195](https://github.com/woodpecker-ci/plugin-git/pull/195)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.1.1 [[#194](https://github.com/woodpecker-ci/plugin-git/pull/194)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3.1.0 [[#192](https://github.com/woodpecker-ci/plugin-git/pull/192)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v5.1.0 [[#191](https://github.com/woodpecker-ci/plugin-git/pull/191)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v3 [[#190](https://github.com/woodpecker-ci/plugin-git/pull/190)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.2.2 [[#189](https://github.com/woodpecker-ci/plugin-git/pull/189)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.62.2 [[#188](https://github.com/woodpecker-ci/plugin-git/pull/188)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.43.0 [[#186](https://github.com/woodpecker-ci/plugin-git/pull/186)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v1.62.0 [[#184](https://github.com/woodpecker-ci/plugin-git/pull/184)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v2.1.1 [[#183](https://github.com/woodpecker-ci/plugin-git/pull/183)]
+- fix(deps): update module github.com/adrg/xdg to v0.5.3 [[#182](https://github.com/woodpecker-ci/plugin-git/pull/182)]
+- fix(deps): update module github.com/adrg/xdg to v0.5.2 [[#181](https://github.com/woodpecker-ci/plugin-git/pull/181)]
+- fix(deps): update module github.com/urfave/cli/v2 to v2.27.5 [[#180](https://github.com/woodpecker-ci/plugin-git/pull/180)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v5 [[#179](https://github.com/woodpecker-ci/plugin-git/pull/179)]
+- chore(deps): update pre-commit hook pre-commit/pre-commit-hooks to v5 [[#177](https://github.com/woodpecker-ci/plugin-git/pull/177)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.42.0 [[#176](https://github.com/woodpecker-ci/plugin-git/pull/176)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v2 [[#174](https://github.com/woodpecker-ci/plugin-git/pull/174)]
+
+### Misc
+
+- Add docs about object-format option [[#185](https://github.com/woodpecker-ci/plugin-git/pull/185)]
+- [pre-commit.ci] pre-commit autoupdate [[#178](https://github.com/woodpecker-ci/plugin-git/pull/178)]
+
 ## [2.6.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.6.0) - 2024-09-20
 
 ### ❤️ Thanks to all contributors! ❤️

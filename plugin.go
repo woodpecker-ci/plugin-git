@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -29,12 +30,19 @@ var defaultEnvVars = []string{
 }
 
 func (p Plugin) Exec() error {
+	// set umask (default 0) so cloned files are
+	// accessible from non-root containers
+	umask(p.Config.Umask)
+
 	if p.Pipeline.Path != "" {
 		err := os.MkdirAll(p.Pipeline.Path, 0o777)
 		if err != nil {
 			return err
 		}
 	}
+
+	// make sure pipeline workspace is always writable for anyone
+	os.Chmod(p.Pipeline.Path, 0o777)
 
 	err := writeNetrc(p.Config.Home, p.Netrc.Machine, p.Netrc.Login, p.Netrc.Password)
 	if err != nil {
@@ -68,20 +76,46 @@ func (p Plugin) Exec() error {
 		}
 	}
 
+	// depth should be set to 0 if merge pull request is enabled
+	if p.Config.MergePullRequest && p.Config.Depth != 0 {
+		p.Config.Depth = 0
+	}
+
 	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
 		cmds = append(cmds, initGit(p.Config.Branch, p.Repo.ObjectFormat))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
 		if p.Config.UseSSH {
 			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
 			cmds = append(cmds, remote(p.Repo.CloneSSH))
+			if p.Config.SSHKeyPrivate != "" {
+				if p.Config.SSHKey == "" {
+					p.Config.SSHKey = filepath.Join(p.Config.Home, "/sshkey")
+				}
+				if err := os.WriteFile(p.Config.SSHKey, []byte(p.Config.SSHKeyPrivate), 0x600); err != nil {
+					return fmt.Errorf("could not write private SSH key: %v", err)
+				}
+			}
+			if p.Config.SSHHostKey != "" {
+				if err := os.Mkdir(filepath.Join(p.Config.Home, ".ssh"), 0x600); err != nil {
+					return fmt.Errorf("could not create SSH directory: %v", err)
+				}
+				if err := os.WriteFile(filepath.Join(p.Config.Home, ".ssh/known_hosts"), []byte(p.Config.SSHHostKey), os.ModeAppend); err != nil {
+					return fmt.Errorf("could not write SSH host key: %v", err)
+				}
+			}
+			cmds = append(cmds, exec.Command("cat", filepath.Join(p.Config.Home, ".ssh/known_hosts")))
 			if p.Config.SSHKey != "" {
+				knownHosts := ""
+				if p.Config.SSHHostKey != "" {
+					knownHosts = filepath.Join(p.Config.Home, ".ssh/known_hosts")
+				}
+
 				// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
-				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey))
+				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey, knownHosts))
 			}
 		} else {
 			cmds = append(cmds, remote(p.Repo.Clone))
 		}
-
 	}
 
 	if p.Pipeline.Ref != "" {
@@ -104,12 +138,36 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
 	}
 
-	for name, submoduleUrl := range p.Config.Submodules {
-		cmds = append(cmds, remapSubmodule(name, submoduleUrl))
+	if p.Config.Submodules != "" {
+		var submoduleOverrides map[string]string
+		err = json.Unmarshal([]byte(p.Config.Submodules), &submoduleOverrides)
+		if err != nil {
+			return fmt.Errorf("could not parse submodule_override map: %v", err)
+		}
+		for name, submoduleUrl := range submoduleOverrides {
+			cmds = append(cmds, remapSubmodule(name, submoduleUrl))
+		}
 	}
 
 	if p.Config.Recursive {
 		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote, p.Config.SubmodulePartial))
+	}
+
+	if p.Config.Event == "pull_request" && p.Config.MergePullRequest {
+		cmds = append(cmds, setUserName(p.Config.GitUserName))
+		cmds = append(cmds, setUserEmail(p.Config.GitUserEmail))
+		cmds = append(cmds,
+			fetchBranch(p.Config.TargetBranch))
+		cmds = append(cmds,
+			mergeBranch(p.Config.TargetBranch))
+	}
+
+	if p.Config.Event == "pull_request" && !p.Config.MergePullRequest && p.Config.FetchTargetBranch {
+		if p.Config.TargetBranch == "" {
+			return fmt.Errorf("fetch_target_branch is enabled but target_branch is not set")
+		}
+		cmds = append(cmds,
+			fetchBranch(p.Config.TargetBranch))
 	}
 
 	if p.Config.Lfs {
@@ -197,7 +255,7 @@ func shouldRetry(s string) bool {
 
 // retryExec is a helper function that retries a command.
 func retryExec(cmd *exec.Cmd, backoff time.Duration, retries int) (err error) {
-	for i := 0; i < retries; i++ {
+	for range retries {
 		// signal intent to retry
 		fmt.Printf("retry in %v\n", backoff)
 
@@ -236,9 +294,21 @@ func safeDirectory(safeDirectory string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "--global", "--replace-all", "safe.directory", safeDirectory), defaultEnvVars...)
 }
 
+func setUserName(userName string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "--global", "user.name", userName), defaultEnvVars...)
+}
+
+func setUserEmail(userEmail string) *exec.Cmd {
+	return appendEnv(exec.Command("git", "config", "--global", "user.email", userEmail), defaultEnvVars...)
+}
+
 // Use custom SSH Key thanks to core.sshCommand
-func sshKeyHandler(sshKey string) *exec.Cmd {
-	return appendEnv(exec.Command("git", "config", "core.sshCommand", "ssh -i "+sshKey), defaultEnvVars...)
+func sshKeyHandler(sshKey string, knownHosts string) *exec.Cmd {
+	hostKeyArg := " -o \"StrictHostKeyChecking no\""
+	if knownHosts != "" {
+		hostKeyArg = " -o UserKnownHostsFile=" + knownHosts
+	}
+	return appendEnv(exec.Command("git", "config", "--global", "core.sshCommand", "ssh -i "+sshKey+hostKeyArg), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
@@ -270,6 +340,25 @@ func checkoutSha(commit string) *exec.Cmd {
 		"--hard",
 		"-q",
 		commit,
+	), defaultEnvVars...)
+}
+
+// Fetch a branch
+func fetchBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"fetch",
+		"origin",
+		branch,
+	), defaultEnvVars...)
+}
+
+// Merge a branch
+func mergeBranch(branch string) *exec.Cmd {
+	return appendEnv(exec.Command(
+		"git",
+		"merge",
+		"origin/"+branch,
 	), defaultEnvVars...)
 }
 
