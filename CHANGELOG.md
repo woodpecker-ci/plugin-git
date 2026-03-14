@@ -1,5 +1,41 @@
 # Changelog
 
+## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-03-14
+
+### ❤️ Thanks to all contributors! ❤️
+
+@TLINDEN, @jrvidal, @qwerty287, @shuhaowu
+
+### ✨ Features
+
+- Made umask configurable [[#323](https://github.com/woodpecker-ci/plugin-git/pull/323)]
+
+### 📈 Enhancement
+
+- Make ssh config global so it is not persisted [[#308](https://github.com/woodpecker-ci/plugin-git/pull/308)]
+
+### 📦️ Dependency
+
+- chore(deps): update docker.io/freebsd/freebsd-runtime docker tag to v14.4 [[#329](https://github.com/woodpecker-ci/plugin-git/pull/329)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.11.3 [[#326](https://github.com/woodpecker-ci/plugin-git/pull/326)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.11.2 [[#321](https://github.com/woodpecker-ci/plugin-git/pull/321)]
+- chore(deps): update dependency go to v1.26.1 [[#319](https://github.com/woodpecker-ci/plugin-git/pull/319)]
+- chore(deps): update pre-commit non-major [[#320](https://github.com/woodpecker-ci/plugin-git/pull/320)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.7.0 [[#317](https://github.com/woodpecker-ci/plugin-git/pull/317)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v4 [[#316](https://github.com/woodpecker-ci/plugin-git/pull/316)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.10.1 [[#315](https://github.com/woodpecker-ci/plugin-git/pull/315)]
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.9.0 [[#314](https://github.com/woodpecker-ci/plugin-git/pull/314)]
+- chore(deps): update golang docker tag to v1.26 [[#313](https://github.com/woodpecker-ci/plugin-git/pull/313)]
+- chore(deps): update dependency go to v1.26.0 [[#312](https://github.com/woodpecker-ci/plugin-git/pull/312)]
+- chore(deps): update dependency go to v1.25.7 [[#311](https://github.com/woodpecker-ci/plugin-git/pull/311)]
+
+### Misc
+
+- Add freebsd dockerfile to be used with podman [[#296](https://github.com/woodpecker-ci/plugin-git/pull/296)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.3.0 [[#327](https://github.com/woodpecker-ci/plugin-git/pull/327)]
+- Only build amd64 when dryrunning [[#325](https://github.com/woodpecker-ci/plugin-git/pull/325)]
+- Update node for mdlint [[#324](https://github.com/woodpecker-ci/plugin-git/pull/324)]
+
 ## [2.8.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.8.1) - 2026-01-24
 
 ### ❤️ Thanks to all contributors! ❤️
