@@ -4,7 +4,7 @@
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@jrvidal, @qwerty287, @shuhaowu
+@TLINDEN, @jrvidal, @qwerty287, @shuhaowu
 
 ### ✨ Features
 
@@ -30,6 +30,7 @@
 
 ### Misc
 
+- Add freebsd dockerfile to be used with podman [[#296](https://github.com/woodpecker-ci/plugin-git/pull/296)]
 - chore(deps): update woodpeckerci/plugin-release docker tag to v0.3.0 [[#327](https://github.com/woodpecker-ci/plugin-git/pull/327)]
 - Only build amd64 when dryrunning [[#325](https://github.com/woodpecker-ci/plugin-git/pull/325)]
 - Update node for mdlint [[#324](https://github.com/woodpecker-ci/plugin-git/pull/324)]
