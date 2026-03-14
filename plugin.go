@@ -30,9 +30,9 @@ var defaultEnvVars = []string{
 }
 
 func (p Plugin) Exec() error {
-	// set umask to 0 so cloned files are
+	// set umask (default 0) so cloned files are
 	// accessible from non-root containers
-	umask()
+	umask(p.Config.Umask)
 
 	if p.Pipeline.Path != "" {
 		err := os.MkdirAll(p.Pipeline.Path, 0o777)

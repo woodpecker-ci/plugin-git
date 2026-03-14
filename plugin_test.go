@@ -304,6 +304,82 @@ func TestCloneNonEmpty(t *testing.T) {
 	}
 }
 
+func TestUmaskApplied(t *testing.T) {
+	// set a zero umask to make sure the cloned files are created with the
+	// permissions we specify in the plugin config.
+	oldUmask := umask(0)
+	defer umask(oldUmask)
+
+	dir := setup()
+	defer teardown(dir)
+
+	plugin := Plugin{
+		Repo: Repo{
+			Clone: "https://github.com/octocat/Hello-World.git",
+		},
+		Pipeline: Pipeline{
+			Path:   filepath.Join(dir, "octocat/Hello-World"),
+			Commit: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+			Event:  "push",
+		},
+		Config: Config{
+			Umask:  0o22,
+			Home:   "/tmp",
+			Branch: "master",
+		},
+	}
+
+	if err := plugin.Exec(); err != nil {
+		t.Fatalf("Expected successful clone. Got error. %s.", err)
+	}
+
+	fi, err := os.Stat(filepath.Join(plugin.Pipeline.Path, "README"))
+	if err != nil {
+		t.Fatalf("Expected file to exist. Got error: %s.", err)
+	}
+
+	if fi.Mode().Perm() != 0o644 {
+		t.Fatalf("Expected file mode 0644 with umask 022. Got %04o.", fi.Mode().Perm())
+	}
+}
+
+func TestUmaskZero(t *testing.T) {
+	oldUmask := umask(0o22) // set a non-zero umask before the test
+	defer umask(oldUmask)
+
+	dir := setup()
+	defer teardown(dir)
+
+	plugin := Plugin{
+		Repo: Repo{
+			Clone: "https://github.com/octocat/Hello-World.git",
+		},
+		Pipeline: Pipeline{
+			Path:   filepath.Join(dir, "octocat/Hello-World"),
+			Commit: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+			Event:  "push",
+		},
+		Config: Config{
+			Umask:  0,
+			Home:   "/tmp",
+			Branch: "master",
+		},
+	}
+
+	if err := plugin.Exec(); err != nil {
+		t.Fatalf("Expected successful clone. Got error. %s.", err)
+	}
+
+	fi, err := os.Stat(filepath.Join(plugin.Pipeline.Path, "README"))
+	if err != nil {
+		t.Fatalf("Expected file to exist. Got error: %s.", err)
+	}
+
+	if fi.Mode().Perm() != 0o666 {
+		t.Fatalf("Expected file mode 0666 with umask 0. Got %04o.", fi.Mode().Perm())
+	}
+}
+
 // TestFetch tests if the arguments to `git fetch` are constructed properly.
 func TestFetch(t *testing.T) {
 	testdata := []struct {
