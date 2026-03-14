@@ -16,6 +16,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update pre-commit hook golangci/golangci-lint to v2.11.3 [[#326](https://github.com/woodpecker-ci/plugin-git/pull/326)]
 - chore(deps): update pre-commit hook golangci/golangci-lint to v2.11.2 [[#321](https://github.com/woodpecker-ci/plugin-git/pull/321)]
 - chore(deps): update dependency go to v1.26.1 [[#319](https://github.com/woodpecker-ci/plugin-git/pull/319)]
 - chore(deps): update pre-commit non-major [[#320](https://github.com/woodpecker-ci/plugin-git/pull/320)]
