@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-03-22
+## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-03-26
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -33,6 +33,7 @@
 
 ### Misc
 
+- fix(deps): update module github.com/urfave/cli/v3 to v3.8.0 [[#332](https://github.com/woodpecker-ci/plugin-git/pull/332)]
 - Add freebsd dockerfile to be used with podman [[#296](https://github.com/woodpecker-ci/plugin-git/pull/296)]
 - chore(deps): update woodpeckerci/plugin-release docker tag to v0.3.0 [[#327](https://github.com/woodpecker-ci/plugin-git/pull/327)]
 - Only build amd64 when dryrunning [[#325](https://github.com/woodpecker-ci/plugin-git/pull/325)]
