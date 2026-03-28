@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-03-26
+## [2.9.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.0) - 2026-03-28
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -16,6 +16,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v4.1.0 [[#333](https://github.com/woodpecker-ci/plugin-git/pull/333)]
 - chore(deps): update pre-commit hook golangci/golangci-lint to v2.11.4 [[#331](https://github.com/woodpecker-ci/plugin-git/pull/331)]
 - chore(deps): update docker.io/freebsd/freebsd-runtime docker tag to v15 [[#330](https://github.com/woodpecker-ci/plugin-git/pull/330)]
 - chore(deps): update docker.io/freebsd/freebsd-runtime docker tag to v14.4 [[#329](https://github.com/woodpecker-ci/plugin-git/pull/329)]
