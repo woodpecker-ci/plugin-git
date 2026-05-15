@@ -91,15 +91,15 @@ func (p Plugin) Exec() error {
 				if p.Config.SSHKey == "" {
 					p.Config.SSHKey = filepath.Join(p.Config.Home, "/sshkey")
 				}
-				if err := os.WriteFile(p.Config.SSHKey, []byte(p.Config.SSHKeyPrivate), 0x600); err != nil {
+				if err := os.WriteFile(p.Config.SSHKey, []byte(p.Config.SSHKeyPrivate), 0o600); err != nil {
 					return fmt.Errorf("could not write private SSH key: %v", err)
 				}
 			}
 			if p.Config.SSHHostKey != "" {
-				if err := os.Mkdir(filepath.Join(p.Config.Home, ".ssh"), 0x600); err != nil {
+				if err := os.Mkdir(filepath.Join(p.Config.Home, ".ssh"), 0o700); err != nil {
 					return fmt.Errorf("could not create SSH directory: %v", err)
 				}
-				if err := os.WriteFile(filepath.Join(p.Config.Home, ".ssh/known_hosts"), []byte(p.Config.SSHHostKey), os.ModeAppend); err != nil {
+				if err := os.WriteFile(filepath.Join(p.Config.Home, ".ssh/known_hosts"), []byte(p.Config.SSHHostKey), 0o600); err != nil {
 					return fmt.Errorf("could not write SSH host key: %v", err)
 				}
 			}
