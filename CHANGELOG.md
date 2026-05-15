@@ -1,6 +1,14 @@
 # Changelog
 
-## [2.9.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.1) - 2026-05-13
+## [2.9.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.1) - 2026-05-15
+
+### ❤️ Thanks to all contributors! ❤️
+
+@h3kker
+
+### 🐛 Bug Fixes
+
+- hex permissions should be octal [[#348](https://github.com/woodpecker-ci/plugin-git/pull/348)]
 
 ### 📦️ Dependency
 
