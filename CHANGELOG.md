@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.9.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.2) - 2026-05-28
+
+### ❤️ Thanks to all contributors! ❤️
+
+@6543
+
+### Misc
+
+- Build release binaries for FreeBSD and OpenBSD [[#349](https://github.com/woodpecker-ci/plugin-git/pull/349)]
+
 ## [2.9.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.1) - 2026-05-15
 
 ### ❤️ Thanks to all contributors! ❤️
