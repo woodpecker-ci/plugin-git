@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-06-03
+
+### 📦️ Dependency
+
+- chore(deps): update golang deps non-major to v1.26.4 [[#351](https://github.com/woodpecker-ci/plugin-git/pull/351)]
+
 ## [2.9.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.2) - 2026-05-28
 
 ### ❤️ Thanks to all contributors! ❤️
