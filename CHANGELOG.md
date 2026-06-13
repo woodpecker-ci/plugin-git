@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-06-11
+## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-06-13
 
 ### 📦️ Dependency
 
+- chore(deps): update docker.io/freebsd/freebsd-runtime docker tag to v15.1 [[#355](https://github.com/woodpecker-ci/plugin-git/pull/355)]
 - fix(deps): update golang deps non-major to v3.9.1 [[#353](https://github.com/woodpecker-ci/plugin-git/pull/353)]
 - chore(deps): update golang deps non-major to v1.26.4 [[#351](https://github.com/woodpecker-ci/plugin-git/pull/351)]
 
