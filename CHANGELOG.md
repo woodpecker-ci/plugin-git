@@ -4,6 +4,7 @@
 
 ### 📦️ Dependency
 
+- chore(deps): update alpine docker tag to v3.24 [[#354](https://github.com/woodpecker-ci/plugin-git/pull/354)]
 - chore(deps): update docker.io/freebsd/freebsd-runtime docker tag to v15.1 [[#355](https://github.com/woodpecker-ci/plugin-git/pull/355)]
 - fix(deps): update golang deps non-major to v3.9.1 [[#353](https://github.com/woodpecker-ci/plugin-git/pull/353)]
 - chore(deps): update golang deps non-major to v1.26.4 [[#351](https://github.com/woodpecker-ci/plugin-git/pull/351)]
