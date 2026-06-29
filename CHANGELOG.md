@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-06-20
+## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-06-29
 
 ### 📦️ Dependency
 
+- fix(deps): update module github.com/urfave/cli/v3 to v3.10.1 [[#358](https://github.com/woodpecker-ci/plugin-git/pull/358)]
 - chore(deps): update pre-commit non-major to v0.49.0 [[#357](https://github.com/woodpecker-ci/plugin-git/pull/357)]
 - fix(deps): update golang deps non-major to v3.10.0 [[#356](https://github.com/woodpecker-ci/plugin-git/pull/356)]
 - chore(deps): update alpine docker tag to v3.24 [[#354](https://github.com/woodpecker-ci/plugin-git/pull/354)]
