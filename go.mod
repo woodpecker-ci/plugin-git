@@ -2,7 +2,7 @@ module github.com/woodpecker-ci/plugin-git
 
 go 1.22
 
-toolchain go1.26.4
+toolchain go1.26.5
 
 require (
 	github.com/adrg/xdg v0.5.3
