@@ -7,9 +7,6 @@
   <a href="https://discord.gg/fcMQqSMXJy" title="Discord chat">
     <img src="https://img.shields.io/discord/838698813463724034.svg" alt="Discord chat">
   </a>
-  <a href="https://goreportcard.com/report/github.com/woodpecker-ci/plugin-git" title="Go Report Card">
-    <img src="https://goreportcard.com/badge/github.com/woodpecker-ci/plugin-git" alt="Go Report Card">
-  </a>
   <a href="https://godoc.org/github.com/woodpecker-ci/plugin-git" title="GoDoc">
     <img src="https://godoc.org/github.com/woodpecker-ci/plugin-git?status.svg" alt="GoDoc">
   </a>
