@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-07-26
+## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-08-01
 
 ### 📦️ Dependency
 
+- chore(deps): update pre-commit hook hadolint/hadolint to v2.15.1 [[#366](https://github.com/woodpecker-ci/plugin-git/pull/366)]
 - chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v4.1.2 [[#363](https://github.com/woodpecker-ci/plugin-git/pull/363)]
 - chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.49.1 [[#362](https://github.com/woodpecker-ci/plugin-git/pull/362)]
 - chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.1.1 [[#361](https://github.com/woodpecker-ci/plugin-git/pull/361)]
