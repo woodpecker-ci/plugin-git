@@ -302,7 +302,7 @@ func setUserEmail(userEmail string) *exec.Cmd {
 }
 
 // Use custom SSH Key thanks to core.sshCommand
-func sshKeyHandler(sshKey, knownHosts string) *exec.Cmd {
+func sshKeyHandler(sshKey string, knownHosts string) *exec.Cmd {
 	hostKeyArg := " -o \"StrictHostKeyChecking no\""
 	if knownHosts != "" {
 		hostKeyArg = " -o UserKnownHostsFile=" + knownHosts
