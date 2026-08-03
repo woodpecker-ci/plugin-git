@@ -103,7 +103,6 @@ func (p Plugin) Exec() error {
 					return fmt.Errorf("could not write SSH host key: %v", err)
 				}
 			}
-			cmds = append(cmds, exec.Command("cat", filepath.Join(p.Config.Home, ".ssh/known_hosts")))
 			if p.Config.SSHKey != "" {
 				knownHosts := ""
 				if p.Config.SSHHostKey != "" {
@@ -303,7 +302,7 @@ func setUserEmail(userEmail string) *exec.Cmd {
 }
 
 // Use custom SSH Key thanks to core.sshCommand
-func sshKeyHandler(sshKey string, knownHosts string) *exec.Cmd {
+func sshKeyHandler(sshKey, knownHosts string) *exec.Cmd {
 	hostKeyArg := " -o \"StrictHostKeyChecking no\""
 	if knownHosts != "" {
 		hostKeyArg = " -o UserKnownHostsFile=" + knownHosts
