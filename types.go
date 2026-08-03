@@ -28,6 +28,7 @@ type (
 
 	Config struct {
 		Depth             int
+		Umask             int
 		Recursive         bool
 		SkipVerify        bool
 		Tags              bool

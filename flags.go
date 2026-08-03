@@ -63,6 +63,12 @@ var globalFlags = []cli.Flag{
 		Usage:   "clone depth",
 		Sources: cli.EnvVars("PLUGIN_DEPTH"),
 	},
+	&cli.IntFlag{
+		Name:    "umask",
+		Usage:   "set umask for cloned files (octal), default is 0",
+		Sources: cli.EnvVars("PLUGIN_UMASK"),
+		Value:   0,
+	},
 	&cli.BoolFlag{
 		Name:    "recursive",
 		Usage:   "clone submodules",

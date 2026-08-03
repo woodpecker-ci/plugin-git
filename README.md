@@ -7,9 +7,6 @@
   <a href="https://discord.gg/fcMQqSMXJy" title="Discord chat">
     <img src="https://img.shields.io/discord/838698813463724034.svg" alt="Discord chat">
   </a>
-  <a href="https://goreportcard.com/report/github.com/woodpecker-ci/plugin-git" title="Go Report Card">
-    <img src="https://goreportcard.com/badge/github.com/woodpecker-ci/plugin-git" alt="Go Report Card">
-  </a>
   <a href="https://godoc.org/github.com/woodpecker-ci/plugin-git" title="GoDoc">
     <img src="https://godoc.org/github.com/woodpecker-ci/plugin-git?status.svg" alt="GoDoc">
   </a>
@@ -53,6 +50,24 @@ docker buildx build \
 
 This will build the image and load it into docker so the image can be used locally.
 [More information on the output formats can be found in docker buildx doc](https://docs.docker.com/engine/reference/commandline/buildx_build/#output).
+
+## Podman on FreeBSD
+
+In order to be able to use podman on FreeBSD to build the image,
+you'll need to install the `podman-suite` package and your FreeBSD
+version must be `14.2` or higher.
+
+To build the image on FreeBSD, use this podman command as root:
+
+```console
+podman build \
+  --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+  --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
+  --platform freebsd/amd64  --file docker/Dockerfile.freebsd \
+  --tag woodpeckerci/plugin-git --network host  .
+```
+
+The image can then be pushed with `podman push` etc.
 
 ## Usage
 

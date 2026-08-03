@@ -2,5 +2,6 @@
 
 package main
 
-func umask() {
+func umask(mask int) int {
+	return 0
 }
