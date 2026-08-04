@@ -1,6 +1,14 @@
 # Changelog
 
-## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-08-01
+## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-08-04
+
+### ❤️ Thanks to all contributors! ❤️
+
+@kastl-ars
+
+### 🐛 Bug Fixes
+
+- allow running as unprivileged user [[#370](https://github.com/woodpecker-ci/plugin-git/pull/370)]
 
 ### 📦️ Dependency
 
