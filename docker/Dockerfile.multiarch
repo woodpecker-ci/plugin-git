@@ -13,7 +13,9 @@ ARG HOME=/app
 ENV GODEBUG=netdns=go
 ENV PLUGIN_HOME=$HOME
 
-RUN mkdir -p $HOME && apk add --no-cache ca-certificates git openssh curl git-lfs
+RUN mkdir -p $HOME && \
+    chmod 777 $HOME && \
+    apk add --no-cache ca-certificates git openssh curl git-lfs
 
 COPY --from=build src/release/plugin-git /bin/
 ENTRYPOINT ["/bin/plugin-git"]
