@@ -103,7 +103,6 @@ func (p Plugin) Exec() error {
 					return fmt.Errorf("could not write SSH host key: %v", err)
 				}
 			}
-			cmds = append(cmds, exec.Command("cat", filepath.Join(p.Config.Home, ".ssh/known_hosts")))
 			if p.Config.SSHKey != "" {
 				knownHosts := ""
 				if p.Config.SSHHostKey != "" {
