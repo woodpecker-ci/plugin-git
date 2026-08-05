@@ -1,13 +1,14 @@
 # Changelog
 
-## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-08-04
+## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-08-05
 
 ### ❤️ Thanks to all contributors! ❤️
 
-@kastl-ars
+@kastl-ars, @qwerty287
 
 ### 🐛 Bug Fixes
 
+- Remove cat command [[#368](https://github.com/woodpecker-ci/plugin-git/pull/368)]
 - allow running as unprivileged user [[#370](https://github.com/woodpecker-ci/plugin-git/pull/370)]
 
 ### 📦️ Dependency
