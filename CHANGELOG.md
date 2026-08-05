@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-08-05
+
+### ❤️ Thanks to all contributors! ❤️
+
+@kastl-ars, @qwerty287
+
+### 🐛 Bug Fixes
+
+- Remove cat command [[#368](https://github.com/woodpecker-ci/plugin-git/pull/368)]
+- allow running as unprivileged user [[#370](https://github.com/woodpecker-ci/plugin-git/pull/370)]
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook hadolint/hadolint to v2.15.1 [[#366](https://github.com/woodpecker-ci/plugin-git/pull/366)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v4.1.2 [[#363](https://github.com/woodpecker-ci/plugin-git/pull/363)]
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.49.1 [[#362](https://github.com/woodpecker-ci/plugin-git/pull/362)]
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.1.1 [[#361](https://github.com/woodpecker-ci/plugin-git/pull/361)]
+- chore(deps): update go toolchain directive to v1.26.5 [[#360](https://github.com/woodpecker-ci/plugin-git/pull/360)]
+- fix(deps): update module github.com/urfave/cli/v3 to v3.10.1 [[#358](https://github.com/woodpecker-ci/plugin-git/pull/358)]
+- chore(deps): update pre-commit non-major to v0.49.0 [[#357](https://github.com/woodpecker-ci/plugin-git/pull/357)]
+- fix(deps): update golang deps non-major to v3.10.0 [[#356](https://github.com/woodpecker-ci/plugin-git/pull/356)]
+- chore(deps): update alpine docker tag to v3.24 [[#354](https://github.com/woodpecker-ci/plugin-git/pull/354)]
+- chore(deps): update docker.io/freebsd/freebsd-runtime docker tag to v15.1 [[#355](https://github.com/woodpecker-ci/plugin-git/pull/355)]
+- fix(deps): update golang deps non-major to v3.9.1 [[#353](https://github.com/woodpecker-ci/plugin-git/pull/353)]
+- chore(deps): update golang deps non-major to v1.26.4 [[#351](https://github.com/woodpecker-ci/plugin-git/pull/351)]
+
 ## [2.9.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.2) - 2026-05-28
 
 ### ❤️ Thanks to all contributors! ❤️
