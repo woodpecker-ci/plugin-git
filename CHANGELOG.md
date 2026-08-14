@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.9.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.4) - 2026-08-14
+
+### 📦️ Dependency
+
+- chore(deps): update go toolchain directive to v1.26.6 [[#372](https://github.com/woodpecker-ci/plugin-git/pull/372)]
+
 ## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-08-05
 
 ### ❤️ Thanks to all contributors! ❤️
