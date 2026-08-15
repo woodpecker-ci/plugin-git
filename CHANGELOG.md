@@ -1,6 +1,14 @@
 # Changelog
 
-## [2.9.4](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.4) - 2026-08-14
+## [2.10.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.0) - 2026-08-15
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🔒 Security
+
+- Separate command argument with `--` [[#371](https://github.com/woodpecker-ci/plugin-git/pull/371)]
 
 ### 📦️ Dependency
 
