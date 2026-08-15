@@ -348,6 +348,7 @@ func fetchBranch(branch string) *exec.Cmd {
 		"git",
 		"fetch",
 		"origin",
+		"--",
 		branch,
 	), defaultEnvVars...)
 }
