@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.10.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.0) - 2026-08-17
+
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🔒 Security
+
+- Separate command argument with `--` [[#371](https://github.com/woodpecker-ci/plugin-git/pull/371)]
+
+### 📦️ Dependency
+
+- fix(deps): update module github.com/urfave/cli/v3 to v3.11.0 [[#374](https://github.com/woodpecker-ci/plugin-git/pull/374)]
+- chore(deps): update go toolchain directive to v1.26.6 [[#372](https://github.com/woodpecker-ci/plugin-git/pull/372)]
+
 ## [2.9.3](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.9.3) - 2026-08-05
 
 ### ❤️ Thanks to all contributors! ❤️
