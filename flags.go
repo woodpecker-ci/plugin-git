@@ -188,11 +188,11 @@ var globalFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:    "git-user-name",
 		Usage:   "Git username when merging pull request",
-		Sources: cli.EnvVars("PLUGIN_GIT_USERNAME"),
+		Sources: cli.EnvVars("PLUGIN_GIT_USER_NAME"),
 	},
 	&cli.StringFlag{
 		Name:    "git-user-email",
 		Usage:   "Git user email when merging pull request",
-		Sources: cli.EnvVars("PLUGIN_GIT_USEREMAIL"),
+		Sources: cli.EnvVars("PLUGIN_GIT_USER_EMAIL"),
 	},
 }
