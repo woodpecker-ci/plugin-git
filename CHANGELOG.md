@@ -2,6 +2,14 @@
 
 ## [2.10.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.1) - 2026-08-20
 
+### ❤️ Thanks to all contributors! ❤️
+
+@qwerty287
+
+### 🐛 Bug Fixes
+
+- Fix git flag names [[#378](https://github.com/woodpecker-ci/plugin-git/pull/378)]
+
 ### 📦️ Dependency
 
 - chore(deps): update go toolchain directive to v1.27.0 [[#376](https://github.com/woodpecker-ci/plugin-git/pull/376)]
