@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
@@ -200,6 +201,8 @@ var commits = []struct {
 // TestClone tests the ability to clone a specific commit into
 // a fresh, empty directory every time.
 func TestClone(t *testing.T) {
+	disableAutoCRLF(t)
+
 	for _, c := range commits {
 
 		dir := setup()
@@ -218,7 +221,7 @@ func TestClone(t *testing.T) {
 			Config: Config{
 				Recursive:         c.recursive,
 				Lfs:               c.lfs,
-				Home:              "/tmp",
+				Home:              os.TempDir(),
 				Branch:            c.branch,
 				TargetBranch:      c.targetbranch,
 				MergePullRequest:  c.mergepullrequest,
@@ -260,6 +263,8 @@ func TestClone(t *testing.T) {
 // a non-empty directory. This is useful if the git workspace is cached
 // and re-stored for every workflow.
 func TestCloneNonEmpty(t *testing.T) {
+	disableAutoCRLF(t)
+
 	dir := setup()
 	defer teardown(dir)
 
@@ -278,7 +283,7 @@ func TestCloneNonEmpty(t *testing.T) {
 			Config: Config{
 				Recursive: c.recursive,
 				Lfs:       c.lfs,
-				Home:      "/tmp",
+				Home:      os.TempDir(),
 				Branch:    c.branch,
 			},
 		}
@@ -305,6 +310,10 @@ func TestCloneNonEmpty(t *testing.T) {
 }
 
 func TestUmaskApplied(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("umask is a no-op on Windows")
+	}
+
 	// set a zero umask to make sure the cloned files are created with the
 	// permissions we specify in the plugin config.
 	oldUmask := umask(0)
@@ -324,7 +333,7 @@ func TestUmaskApplied(t *testing.T) {
 		},
 		Config: Config{
 			Umask:  0o22,
-			Home:   "/tmp",
+			Home:   os.TempDir(),
 			Branch: "master",
 		},
 	}
@@ -344,6 +353,10 @@ func TestUmaskApplied(t *testing.T) {
 }
 
 func TestUmaskZero(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("umask is a no-op on Windows")
+	}
+
 	oldUmask := umask(0o22) // set a non-zero umask before the test
 	defer umask(oldUmask)
 
@@ -361,7 +374,7 @@ func TestUmaskZero(t *testing.T) {
 		},
 		Config: Config{
 			Umask:  0,
-			Home:   "/tmp",
+			Home:   os.TempDir(),
 			Branch: "master",
 		},
 	}
@@ -647,7 +660,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 // helper function that will setup a temporary workspace.
 // to which we can clone the repositroy
 func setup() string {
-	dir, _ := os.MkdirTemp("/tmp", "plugin_git_test_")
+	dir, _ := os.MkdirTemp("", "plugin_git_test_")
 	os.Mkdir(dir, 0o777)
 	return dir
 }
@@ -655,6 +668,13 @@ func setup() string {
 // helper function to delete the temporary workspace.
 func teardown(dir string) {
 	os.RemoveAll(dir)
+}
+
+func disableAutoCRLF(t *testing.T) {
+	t.Helper()
+	t.Setenv("GIT_CONFIG_COUNT", "1")
+	t.Setenv("GIT_CONFIG_KEY_0", "core.autocrlf")
+	t.Setenv("GIT_CONFIG_VALUE_0", "false")
 }
 
 // helper function to read a file in the temporary worskapce.
