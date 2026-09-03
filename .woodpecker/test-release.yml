@@ -14,7 +14,10 @@ variables:
         password:
           from_secret: QUAY_IO_TOKEN
   - &publish_repos 'woodpeckerci/plugin-git,quay.io/woodpeckerci/plugin-git'
-
+matrix:
+  DOCKERFILE:
+    - multiarch
+    - debian
 steps:
   vendor:
     image: *golang
@@ -51,7 +54,7 @@ steps:
       - test
     settings:
       repo: test/repo
-      dockerfile: ./docker/Dockerfile.multiarch
+      dockerfile: ./docker/Dockerfile.${DOCKERFILE}
       dry_run: true
       platforms: linux/amd64
       tags: latest
@@ -65,7 +68,7 @@ steps:
     depends_on: vendor
     settings:
       repo: *publish_repos
-      dockerfile: ./docker/Dockerfile.multiarch
+      dockerfile: ./docker/Dockerfile.${DOCKERFILE}
       platforms: *platforms
       tags: next
       logins: *publish_logins
@@ -78,7 +81,7 @@ steps:
     depends_on: vendor
     settings:
       repo: *publish_repos
-      dockerfile: ./docker/Dockerfile.multiarch
+      dockerfile: ./docker/Dockerfile.${DOCKERFILE}
       platforms: *platforms
       auto_tag: true
       # remove line below if you can read it on a release branch and it's not the latest release branch
