@@ -22,7 +22,7 @@ type Plugin struct {
 	Backoff  Backoff
 }
 
-const customCertTmpPath = "/tmp/customCert.pem"
+var customCertTmpPath = filepath.Join(os.TempDir(), "customCert.pem")
 
 var defaultEnvVars = []string{
 	// do not set GIT_TERMINAL_PROMPT=0, otherwise git won't load credentials from ".netrc"
