@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.10.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.2) - 2026-09-15
+
+### 📦️ Dependency
+
+- fix(deps): update module github.com/urfave/cli/v3 to v3.12.0 [[#386](https://github.com/woodpecker-ci/plugin-git/pull/386)]
+
 ## [2.10.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.1) - 2026-09-08
 
 ### ❤️ Thanks to all contributors! ❤️
