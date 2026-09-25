@@ -246,10 +246,33 @@ func downloadCert(url string) (retStatus bool) {
 	return true
 }
 
-// shouldRetry returns true if the command should be re-executed. Currently
-// this only returns true if the remote ref does not exist.
+// shouldRetry reports whether a failed git command should be run again.
+// A missing remote ref is retried because a just-pushed commit may not be
+// visible yet. Transient HTTP and transport errors are retried because a
+// partial clone fetches trees later, during checkout, and one 502 there
+// fails the clone even after the commit object was fetched.
 func shouldRetry(s string) bool {
-	return strings.Contains(s, "find remote ref")
+	if strings.Contains(s, "find remote ref") {
+		return true
+	}
+	for _, code := range []string{"429", "500", "502", "503", "504"} {
+		if strings.Contains(s, "The requested URL returned error: "+code) {
+			return true
+		}
+	}
+	for _, msg := range []string{
+		"Could not resolve host",
+		"Connection timed out",
+		"Connection reset by peer",
+		"early EOF",
+		"the remote end hung up unexpectedly",
+		"SSL connection timeout",
+	} {
+		if strings.Contains(s, msg) {
+			return true
+		}
+	}
+	return false
 }
 
 // retryExec is a helper function that retries a command.

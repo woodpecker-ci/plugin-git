@@ -657,6 +657,37 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 	}
 }
 
+func TestShouldRetry(t *testing.T) {
+	promisor502 := "fatal: unable to access 'https://github.com/example/repo.git/': The requested URL returned error: 502\n" +
+		"fatal: could not fetch abcdef from promisor remote\n"
+	cases := []struct {
+		name string
+		log  string
+		want bool
+	}{
+		{name: "missing ref", log: "fatal: couldn't find remote ref refs/heads/main", want: true},
+		{name: "http 502 promisor", log: promisor502, want: true},
+		{name: "http 503", log: "The requested URL returned error: 503", want: true},
+		{name: "http 504", log: "The requested URL returned error: 504", want: true},
+		{name: "http 500", log: "The requested URL returned error: 500", want: true},
+		{name: "http 429", log: "The requested URL returned error: 429", want: true},
+		{name: "resolve host", log: "fatal: unable to access 'https://example.com/': Could not resolve host: example.com", want: true},
+		{name: "connection reset", log: "fatal: unable to access 'https://example.com/': Connection reset by peer", want: true},
+		{name: "auth", log: "The requested URL returned error: 401", want: false},
+		{name: "forbidden", log: "The requested URL returned error: 403", want: false},
+		{name: "not found", log: "The requested URL returned error: 404", want: false},
+		{name: "promisor without http error", log: "fatal: could not fetch abcdef from promisor remote", want: false},
+		{name: "empty", log: "", want: false},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := shouldRetry(tc.log); got != tc.want {
+				t.Fatalf("shouldRetry() = %v, want %v", got, tc.want)
+			}
+		})
+	}
+}
+
 // helper function that will setup a temporary workspace.
 // to which we can clone the repositroy
 func setup() string {
