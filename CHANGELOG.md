@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.10.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.2) - 2026-09-21
+## [2.10.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.2) - 2026-09-26
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-docker-buildx docker tag to v6.1.2 [[#390](https://github.com/woodpecker-ci/plugin-git/pull/390)]
 - fix(deps): update module github.com/urfave/cli/v3 to v3.13.0 [[#388](https://github.com/woodpecker-ci/plugin-git/pull/388)]
 - fix(deps): update module github.com/urfave/cli/v3 to v3.12.0 [[#386](https://github.com/woodpecker-ci/plugin-git/pull/386)]
 
