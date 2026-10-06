@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/go:2-1.25-trixie
+FROM mcr.microsoft.com/devcontainers/go:2-1.27-trixie
 
 # Install git-lfs
 RUN apt update && \
