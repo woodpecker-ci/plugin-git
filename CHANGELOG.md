@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.10.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.2) - 2026-10-03
+## [2.10.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.10.2) - 2026-10-06
 
 ### 📦️ Dependency
 
