@@ -12,14 +12,14 @@ url: https://github.com/woodpecker-ci/plugin-git
 # plugin-git
 
 This plugin is automatically introduced into your pipeline as the first step.
-Its purpose is to clone your Git repository.
+Its purpose is to clone your Git repository. It requires Git 2.35 or newer.
 
 ## Features
 
 - Git LFS support is enabled by default.
 - Fetch tags when needed.
 - Adjust submodules.
-- Sparse checkout for monorepos.
+- Sparse checkout and partial clone.
 
 ## Overriding Settings
 
@@ -34,6 +34,9 @@ clone:
     settings:
       depth: 50
       lfs: false
+      sparse:
+        - src/backend
+        - shared
 ```
 
 ## Settings
@@ -71,31 +74,5 @@ clone:
 | `target-branch`           | $CI_COMMIT_TARGET_BRANCH            | Target branch used when merging pull requests (`merge-pull-request`) or when fetching the target branch (`fetch-target-branch`)                                            |
 | `git-user-name`           | _none_                              | Git username used when pull requests are used.                                                                                                                             |
 | `git-user-email`          | _none_                              | Git email used when pull requests are used.                                                                                                                                |
-
-## Sparse checkout
-
-Sparse checkout limits which tracked paths Git materializes in the working tree. It is independent of partial clone: `partial` controls which Git objects are fetched in advance, while `sparse` controls which files appear in the workspace. The two settings can be used together or independently.
-
-Sparse checkout uses Git cone mode and accepts repository-relative directories:
-
-```yaml
-clone:
-  git:
-    image: woodpeckerci/plugin-git
-    settings:
-      sparse:
-        - src/backend
-        - shared
-```
-
-Cone mode includes files directly in the repository root, such as `README.md`, and files directly in ancestor directories. Exact file and gitignore-style pattern selection are not supported.
-
-The plugin requires Git 2.35 or newer. Cached workspaces are safe to reuse: every run replaces the previous sparse selection, and removing `sparse` disables a previously active sparse checkout and restores a full working tree.
-
-`partial: true` remains the default and provides the largest network saving when combined with sparse checkout. With `partial: false`, the working tree is still sparse but Git may fetch all repository objects. Fetching tags disables partial clone as before, but does not disable sparse checkout.
-
-When LFS is enabled, sparse checkout downloads LFS content while materializing selected files instead of performing a repository-wide LFS fetch. With `lfs: false`, selected LFS files remain pointer files. Submodule behavior is unchanged: the default `recursive: true` can initialize submodules outside the sparse selection. Use `recursive: false` when minimizing materialized content is more important than automatic submodule initialization.
-
-Woodpecker transports primitive list settings as comma-separated environment values. Consequently, a sparse path or pattern containing a comma cannot be represented unambiguously through YAML settings.
 
 [workflowClone]: https://woodpecker-ci.org/docs/usage/workflow-syntax#clone
