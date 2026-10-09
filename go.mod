@@ -2,7 +2,7 @@ module github.com/woodpecker-ci/plugin-git
 
 go 1.22
 
-toolchain go1.27.1
+toolchain go1.27.2
 
 require (
 	github.com/joho/godotenv v1.5.1
