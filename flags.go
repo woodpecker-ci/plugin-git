@@ -139,6 +139,11 @@ var globalFlags = []cli.Flag{
 		Sources: cli.EnvVars("PLUGIN_PARTIAL"),
 		Value:   true,
 	},
+	&cli.StringSliceFlag{
+		Name:    "sparse",
+		Usage:   "materialize only selected paths using git sparse-checkout",
+		Sources: cli.EnvVars("PLUGIN_SPARSE"),
+	},
 	&cli.StringFlag{
 		Name:    "home",
 		Usage:   "Change home directory",

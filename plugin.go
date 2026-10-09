@@ -30,6 +30,14 @@ var defaultEnvVars = []string{
 }
 
 func (p Plugin) Exec() error {
+	p.Config.Sparse = normalizeSparseEntries(p.Config.Sparse)
+	sparseEnabled := len(p.Config.Sparse) > 0
+
+	var sparseCmd *exec.Cmd
+	if sparseEnabled {
+		sparseCmd = sparseCheckout(p.Config.Sparse)
+	}
+
 	// set umask (default 0) so cloned files are
 	// accessible from non-root containers
 	umask(p.Config.Umask)
@@ -49,15 +57,24 @@ func (p Plugin) Exec() error {
 		return err
 	}
 
-	// set vars from exec environment
-	defaultEnvVars = append(os.Environ(), defaultEnvVars...)
-
-	// alter home var for all commands exec afterwards
 	if err := setHome(p.Config.Home); err != nil {
 		return err
 	}
+	baseEnv := append(os.Environ(), "HOME="+p.Config.Home)
+	skipSmudgeEnv := append(append([]string{}, baseEnv...), defaultEnvVars...)
+
+	newRepository := isDirEmpty(filepath.Join(p.Pipeline.Path, ".git"))
+	sparsePreviouslyEnabled := false
+	if !newRepository && !sparseEnabled {
+		var err error
+		sparsePreviouslyEnabled, err = isSparseCheckoutEnabled(p.Pipeline.Path, skipSmudgeEnv)
+		if err != nil {
+			return err
+		}
+	}
 
 	var cmds []*exec.Cmd
+	var checkoutCommands []*exec.Cmd
 
 	if p.Config.SkipVerify {
 		cmds = append(cmds, skipVerify())
@@ -81,7 +98,7 @@ func (p Plugin) Exec() error {
 		p.Config.Depth = 0
 	}
 
-	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
+	if newRepository {
 		cmds = append(cmds, initGit(p.Config.Branch, p.Repo.ObjectFormat))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
 		if p.Config.UseSSH {
@@ -121,7 +138,7 @@ func (p Plugin) Exec() error {
 		// fetch and checkout by ref
 		fmt.Println("using head checkout")
 		cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		cmds = append(cmds, checkoutHead())
+		checkoutCommands = append(checkoutCommands, checkoutHead())
 	} else if len(p.Pipeline.Commit) != 40 && len(p.Pipeline.Commit) != 64 {
 		// fetch requires full SHA1 (40 chars) or SHA256 (64 chars) commits (unambiguous reference)
 		// for short SHA1 or SHA256, fetch and switch the branch before commit reset
@@ -129,13 +146,32 @@ func (p Plugin) Exec() error {
 			return fmt.Errorf("short commit SHA1 checkout requires a branch")
 		}
 		cmds = append(cmds, fetch(p.Config.Branch, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		cmds = append(cmds, switchBranch(p.Config.Branch))
-		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
+		checkoutCommands = append(checkoutCommands, switchBranch(p.Config.Branch))
+		checkoutCommands = append(checkoutCommands, checkoutSha(p.Pipeline.Commit))
 	} else {
 		// fetch and checkout by commit sha
 		cmds = append(cmds, fetch(p.Pipeline.Commit, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
+		checkoutCommands = append(checkoutCommands, checkoutSha(p.Pipeline.Commit))
 	}
+
+	if sparseEnabled {
+		if p.Config.Lfs {
+			cmds = append(cmds, installLFS())
+		}
+		fmt.Printf("configuring sparse checkout (%d directories)\n", len(p.Config.Sparse))
+		cmds = append(cmds, sparseCmd)
+	} else if sparsePreviouslyEnabled {
+		cmds = append(cmds, disableSparseCheckout())
+	}
+
+	smudgeCommands := map[*exec.Cmd]bool{}
+	if sparseEnabled && p.Config.Lfs {
+		smudgeCommands[sparseCmd] = true
+		for _, cmd := range checkoutCommands {
+			smudgeCommands[cmd] = true
+		}
+	}
+	cmds = append(cmds, checkoutCommands...)
 
 	if p.Config.Submodules != "" {
 		var submoduleOverrides map[string]string
@@ -169,15 +205,20 @@ func (p Plugin) Exec() error {
 			fetchBranch(p.Config.TargetBranch))
 	}
 
-	if p.Config.Lfs {
+	if p.Config.Lfs && !sparseEnabled {
 		cmds = append(cmds,
 			fetchLFS(),
 			checkoutLFS())
 	}
 
 	for _, cmd := range cmds {
-		buf := new(bytes.Buffer)
+		if smudgeCommands[cmd] {
+			cmd.Env = baseEnv
+		} else {
+			cmd.Env = skipSmudgeEnv
+		}
 		cmd.Dir = p.Pipeline.Path
+		buf := new(bytes.Buffer)
 		cmd.Stdout = io.MultiWriter(os.Stdout, buf)
 		cmd.Stderr = io.MultiWriter(os.Stderr, buf)
 		trace(cmd)
@@ -274,6 +315,49 @@ func retryExec(cmd *exec.Cmd, backoff time.Duration, retries int) (err error) {
 		}
 	}
 	return
+}
+
+func normalizeSparseEntries(entries []string) []string {
+	if len(entries) == 0 {
+		return nil
+	}
+	normalized := make([]string, 0, len(entries))
+	for _, entry := range entries {
+		if entry != "" {
+			normalized = append(normalized, entry)
+		}
+	}
+	if len(normalized) == 0 {
+		return nil
+	}
+	return normalized
+}
+
+func sparseCheckout(paths []string) *exec.Cmd {
+	args := append([]string{"sparse-checkout", "set", "--cone", "--"}, paths...)
+	return exec.Command("git", args...)
+}
+
+func disableSparseCheckout() *exec.Cmd {
+	return exec.Command("git", "sparse-checkout", "disable")
+}
+
+func installLFS() *exec.Cmd {
+	return exec.Command("git", "lfs", "install", "--local")
+}
+
+func isSparseCheckoutEnabled(dir string, env []string) (bool, error) {
+	cmd := exec.Command("git", "config", "--bool", "--get", "core.sparseCheckout")
+	cmd.Dir = dir
+	cmd.Env = env
+	output, err := cmd.Output()
+	if err != nil {
+		if cmd.ProcessState != nil && cmd.ProcessState.ExitCode() == 1 {
+			return false, nil
+		}
+		return false, fmt.Errorf("could not inspect cached sparse checkout state: %w", err)
+	}
+	return strings.TrimSpace(string(output)) == "true", nil
 }
 
 func appendEnv(cmd *exec.Cmd, env ...string) *exec.Cmd {
@@ -469,7 +553,5 @@ func setHome(home string) error {
 	if !homeExist {
 		return fmt.Errorf("home directory '%s' do not exist", home)
 	}
-	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
-
 	return nil
 }
