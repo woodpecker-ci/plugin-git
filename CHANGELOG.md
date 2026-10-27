@@ -1,6 +1,14 @@
 # Changelog
 
-## [2.11.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.11.1) - 2026-10-25
+## [2.12.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.0) - 2026-10-27
+
+### ❤️ Thanks to all contributors! ❤️
+
+@JohnKiller
+
+### ✨ Features
+
+- Add sparse checkout option [[#396](https://github.com/woodpecker-ci/plugin-git/pull/396)]
 
 ### 📦️ Dependency
 
