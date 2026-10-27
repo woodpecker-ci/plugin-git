@@ -193,8 +193,13 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, setUserEmail(p.Config.GitUserEmail))
 		cmds = append(cmds,
 			fetchBranch(p.Config.TargetBranch))
-		cmds = append(cmds,
-			mergeBranch(p.Config.TargetBranch))
+		mergeCmd := mergeBranch(p.Config.TargetBranch)
+		if sparseEnabled && p.Config.Lfs {
+			// files brought in by the merge must be smudged as well,
+			// as the final LFS fetch/checkout is skipped in sparse mode
+			smudgeCommands[mergeCmd] = true
+		}
+		cmds = append(cmds, mergeCmd)
 	}
 
 	if p.Config.Event == "pull_request" && !p.Config.MergePullRequest && p.Config.FetchTargetBranch {
