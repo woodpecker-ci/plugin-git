@@ -41,6 +41,7 @@ type (
 		Home              string
 		Partial           bool
 		filter            string
+		Sparse            []string
 		SafeDirectory     string
 		UseSSH            bool
 		SSHKey            string

@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 )
@@ -30,6 +31,12 @@ var defaultEnvVars = []string{
 }
 
 func (p Plugin) Exec() error {
+	p.Config.Sparse = normalizeSparseEntries(p.Config.Sparse)
+	sparseEnabled := len(p.Config.Sparse) > 0
+	// in sparse mode LFS files are smudged while they are checked out, so only
+	// the LFS objects inside the sparse cone are downloaded
+	sparseLFS := sparseEnabled && p.Config.Lfs
+
 	// set umask (default 0) so cloned files are
 	// accessible from non-root containers
 	umask(p.Config.Umask)
@@ -49,15 +56,15 @@ func (p Plugin) Exec() error {
 		return err
 	}
 
-	// set vars from exec environment
-	defaultEnvVars = append(os.Environ(), defaultEnvVars...)
-
-	// alter home var for all commands exec afterwards
 	if err := setHome(p.Config.Home); err != nil {
 		return err
 	}
+	baseEnv := append(os.Environ(), "HOME="+p.Config.Home)
+
+	newRepository := isDirEmpty(filepath.Join(p.Pipeline.Path, ".git"))
 
 	var cmds []*exec.Cmd
+	var checkoutCommands []*exec.Cmd
 
 	if p.Config.SkipVerify {
 		cmds = append(cmds, skipVerify())
@@ -81,7 +88,7 @@ func (p Plugin) Exec() error {
 		p.Config.Depth = 0
 	}
 
-	if isDirEmpty(filepath.Join(p.Pipeline.Path, ".git")) {
+	if newRepository {
 		cmds = append(cmds, initGit(p.Config.Branch, p.Repo.ObjectFormat))
 		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
 		if p.Config.UseSSH {
@@ -121,7 +128,7 @@ func (p Plugin) Exec() error {
 		// fetch and checkout by ref
 		fmt.Println("using head checkout")
 		cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		cmds = append(cmds, checkoutHead())
+		checkoutCommands = append(checkoutCommands, checkoutHead())
 	} else if len(p.Pipeline.Commit) != 40 && len(p.Pipeline.Commit) != 64 {
 		// fetch requires full SHA1 (40 chars) or SHA256 (64 chars) commits (unambiguous reference)
 		// for short SHA1 or SHA256, fetch and switch the branch before commit reset
@@ -129,12 +136,22 @@ func (p Plugin) Exec() error {
 			return fmt.Errorf("short commit SHA1 checkout requires a branch")
 		}
 		cmds = append(cmds, fetch(p.Config.Branch, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		cmds = append(cmds, switchBranch(p.Config.Branch))
-		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
+		checkoutCommands = append(checkoutCommands, switchBranch(p.Config.Branch))
+		checkoutCommands = append(checkoutCommands, checkoutSha(p.Pipeline.Commit))
 	} else {
 		// fetch and checkout by commit sha
 		cmds = append(cmds, fetch(p.Pipeline.Commit, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		cmds = append(cmds, checkoutSha(p.Pipeline.Commit))
+		checkoutCommands = append(checkoutCommands, checkoutSha(p.Pipeline.Commit))
+	}
+
+	sparseCmds, err := p.sparseCommands(newRepository, baseEnv)
+	if err != nil {
+		return err
+	}
+	cmds = append(cmds, sparseCmds...)
+
+	for _, cmd := range checkoutCommands {
+		cmds = append(cmds, withLFSSmudge(cmd, sparseLFS))
 	}
 
 	if p.Config.Submodules != "" {
@@ -158,7 +175,7 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds,
 			fetchBranch(p.Config.TargetBranch))
 		cmds = append(cmds,
-			mergeBranch(p.Config.TargetBranch))
+			withLFSSmudge(mergeBranch(p.Config.TargetBranch), sparseLFS))
 	}
 
 	if p.Config.Event == "pull_request" && !p.Config.MergePullRequest && p.Config.FetchTargetBranch {
@@ -169,15 +186,16 @@ func (p Plugin) Exec() error {
 			fetchBranch(p.Config.TargetBranch))
 	}
 
-	if p.Config.Lfs {
+	if p.Config.Lfs && !sparseEnabled {
 		cmds = append(cmds,
 			fetchLFS(),
 			checkoutLFS())
 	}
 
 	for _, cmd := range cmds {
-		buf := new(bytes.Buffer)
+		cmd.Env = slices.Concat(baseEnv, cmd.Env)
 		cmd.Dir = p.Pipeline.Path
+		buf := new(bytes.Buffer)
 		cmd.Stdout = io.MultiWriter(os.Stdout, buf)
 		cmd.Stderr = io.MultiWriter(os.Stderr, buf)
 		trace(cmd)
@@ -274,6 +292,82 @@ func retryExec(cmd *exec.Cmd, backoff time.Duration, retries int) (err error) {
 		}
 	}
 	return
+}
+
+func normalizeSparseEntries(entries []string) []string {
+	if len(entries) == 0 {
+		return nil
+	}
+	normalized := make([]string, 0, len(entries))
+	for _, entry := range entries {
+		if entry != "" {
+			normalized = append(normalized, entry)
+		}
+	}
+	if len(normalized) == 0 {
+		return nil
+	}
+	return normalized
+}
+
+// sparseCommands returns the commands that configure the sparse checkout of
+// the workspace, or that restore a full checkout of a cached sparse workspace.
+func (p Plugin) sparseCommands(newRepository bool, env []string) ([]*exec.Cmd, error) {
+	if len(p.Config.Sparse) == 0 {
+		if newRepository {
+			return nil, nil
+		}
+		enabled, err := isSparseCheckoutEnabled(p.Pipeline.Path, slices.Concat(env, defaultEnvVars))
+		if err != nil || !enabled {
+			return nil, err
+		}
+		return []*exec.Cmd{disableSparseCheckout()}, nil
+	}
+
+	var cmds []*exec.Cmd
+	if p.Config.Lfs {
+		cmds = append(cmds, installLFS())
+	}
+	fmt.Printf("configuring sparse checkout (%d directories)\n", len(p.Config.Sparse))
+	return append(cmds, withLFSSmudge(sparseCheckout(p.Config.Sparse), p.Config.Lfs)), nil
+}
+
+// withLFSSmudge lets git-lfs download and materialize the LFS files written
+// by cmd, instead of leaving pointer files behind.
+func withLFSSmudge(cmd *exec.Cmd, enabled bool) *exec.Cmd {
+	if enabled {
+		cmd.Env = slices.DeleteFunc(cmd.Env, func(env string) bool {
+			return slices.Contains(defaultEnvVars, env)
+		})
+	}
+	return cmd
+}
+
+func sparseCheckout(paths []string) *exec.Cmd {
+	args := append([]string{"sparse-checkout", "set", "--cone", "--"}, paths...)
+	return appendEnv(exec.Command("git", args...), defaultEnvVars...)
+}
+
+func disableSparseCheckout() *exec.Cmd {
+	return appendEnv(exec.Command("git", "sparse-checkout", "disable"), defaultEnvVars...)
+}
+
+func installLFS() *exec.Cmd {
+	return appendEnv(exec.Command("git", "lfs", "install", "--local"), defaultEnvVars...)
+}
+
+func isSparseCheckoutEnabled(dir string, env []string) (bool, error) {
+	cmd := exec.Command("git", "config", "--bool", "--get", "core.sparseCheckout")
+	cmd.Dir = dir
+	cmd.Env = env
+	output, err := cmd.Output()
+	if err != nil {
+		if cmd.ProcessState != nil && cmd.ProcessState.ExitCode() == 1 {
+			return false, nil
+		}
+		return false, fmt.Errorf("could not inspect cached sparse checkout state: %w", err)
+	}
+	return strings.TrimSpace(string(output)) == "true", nil
 }
 
 func appendEnv(cmd *exec.Cmd, env ...string) *exec.Cmd {
@@ -469,7 +563,5 @@ func setHome(home string) error {
 	if !homeExist {
 		return fmt.Errorf("home directory '%s' do not exist", home)
 	}
-	defaultEnvVars = append(defaultEnvVars, "HOME="+home)
-
 	return nil
 }
