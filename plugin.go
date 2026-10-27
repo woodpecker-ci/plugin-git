@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 )
@@ -32,11 +33,9 @@ var defaultEnvVars = []string{
 func (p Plugin) Exec() error {
 	p.Config.Sparse = normalizeSparseEntries(p.Config.Sparse)
 	sparseEnabled := len(p.Config.Sparse) > 0
-
-	var sparseCmd *exec.Cmd
-	if sparseEnabled {
-		sparseCmd = sparseCheckout(p.Config.Sparse)
-	}
+	// in sparse mode LFS files are smudged while they are checked out, so only
+	// the LFS objects inside the sparse cone are downloaded
+	sparseLFS := sparseEnabled && p.Config.Lfs
 
 	// set umask (default 0) so cloned files are
 	// accessible from non-root containers
@@ -61,17 +60,8 @@ func (p Plugin) Exec() error {
 		return err
 	}
 	baseEnv := append(os.Environ(), "HOME="+p.Config.Home)
-	skipSmudgeEnv := append(append([]string{}, baseEnv...), defaultEnvVars...)
 
 	newRepository := isDirEmpty(filepath.Join(p.Pipeline.Path, ".git"))
-	sparsePreviouslyEnabled := false
-	if !newRepository && !sparseEnabled {
-		var err error
-		sparsePreviouslyEnabled, err = isSparseCheckoutEnabled(p.Pipeline.Path, skipSmudgeEnv)
-		if err != nil {
-			return err
-		}
-	}
 
 	var cmds []*exec.Cmd
 	var checkoutCommands []*exec.Cmd
@@ -154,24 +144,15 @@ func (p Plugin) Exec() error {
 		checkoutCommands = append(checkoutCommands, checkoutSha(p.Pipeline.Commit))
 	}
 
-	if sparseEnabled {
-		if p.Config.Lfs {
-			cmds = append(cmds, installLFS())
-		}
-		fmt.Printf("configuring sparse checkout (%d directories)\n", len(p.Config.Sparse))
-		cmds = append(cmds, sparseCmd)
-	} else if sparsePreviouslyEnabled {
-		cmds = append(cmds, disableSparseCheckout())
+	sparseCmds, err := p.sparseCommands(newRepository, baseEnv)
+	if err != nil {
+		return err
 	}
+	cmds = append(cmds, sparseCmds...)
 
-	smudgeCommands := map[*exec.Cmd]bool{}
-	if sparseEnabled && p.Config.Lfs {
-		smudgeCommands[sparseCmd] = true
-		for _, cmd := range checkoutCommands {
-			smudgeCommands[cmd] = true
-		}
+	for _, cmd := range checkoutCommands {
+		cmds = append(cmds, withLFSSmudge(cmd, sparseLFS))
 	}
-	cmds = append(cmds, checkoutCommands...)
 
 	if p.Config.Submodules != "" {
 		var submoduleOverrides map[string]string
@@ -193,13 +174,8 @@ func (p Plugin) Exec() error {
 		cmds = append(cmds, setUserEmail(p.Config.GitUserEmail))
 		cmds = append(cmds,
 			fetchBranch(p.Config.TargetBranch))
-		mergeCmd := mergeBranch(p.Config.TargetBranch)
-		if sparseEnabled && p.Config.Lfs {
-			// files brought in by the merge must be smudged as well,
-			// as the final LFS fetch/checkout is skipped in sparse mode
-			smudgeCommands[mergeCmd] = true
-		}
-		cmds = append(cmds, mergeCmd)
+		cmds = append(cmds,
+			withLFSSmudge(mergeBranch(p.Config.TargetBranch), sparseLFS))
 	}
 
 	if p.Config.Event == "pull_request" && !p.Config.MergePullRequest && p.Config.FetchTargetBranch {
@@ -217,11 +193,7 @@ func (p Plugin) Exec() error {
 	}
 
 	for _, cmd := range cmds {
-		if smudgeCommands[cmd] {
-			cmd.Env = baseEnv
-		} else {
-			cmd.Env = skipSmudgeEnv
-		}
+		cmd.Env = slices.Concat(baseEnv, cmd.Env)
 		cmd.Dir = p.Pipeline.Path
 		buf := new(bytes.Buffer)
 		cmd.Stdout = io.MultiWriter(os.Stdout, buf)
@@ -338,17 +310,50 @@ func normalizeSparseEntries(entries []string) []string {
 	return normalized
 }
 
+// sparseCommands returns the commands that configure the sparse checkout of
+// the workspace, or that restore a full checkout of a cached sparse workspace.
+func (p Plugin) sparseCommands(newRepository bool, env []string) ([]*exec.Cmd, error) {
+	if len(p.Config.Sparse) == 0 {
+		if newRepository {
+			return nil, nil
+		}
+		enabled, err := isSparseCheckoutEnabled(p.Pipeline.Path, slices.Concat(env, defaultEnvVars))
+		if err != nil || !enabled {
+			return nil, err
+		}
+		return []*exec.Cmd{disableSparseCheckout()}, nil
+	}
+
+	var cmds []*exec.Cmd
+	if p.Config.Lfs {
+		cmds = append(cmds, installLFS())
+	}
+	fmt.Printf("configuring sparse checkout (%d directories)\n", len(p.Config.Sparse))
+	return append(cmds, withLFSSmudge(sparseCheckout(p.Config.Sparse), p.Config.Lfs)), nil
+}
+
+// withLFSSmudge lets git-lfs download and materialize the LFS files written
+// by cmd, instead of leaving pointer files behind.
+func withLFSSmudge(cmd *exec.Cmd, enabled bool) *exec.Cmd {
+	if enabled {
+		cmd.Env = slices.DeleteFunc(cmd.Env, func(env string) bool {
+			return slices.Contains(defaultEnvVars, env)
+		})
+	}
+	return cmd
+}
+
 func sparseCheckout(paths []string) *exec.Cmd {
 	args := append([]string{"sparse-checkout", "set", "--cone", "--"}, paths...)
-	return exec.Command("git", args...)
+	return appendEnv(exec.Command("git", args...), defaultEnvVars...)
 }
 
 func disableSparseCheckout() *exec.Cmd {
-	return exec.Command("git", "sparse-checkout", "disable")
+	return appendEnv(exec.Command("git", "sparse-checkout", "disable"), defaultEnvVars...)
 }
 
 func installLFS() *exec.Cmd {
-	return exec.Command("git", "lfs", "install", "--local")
+	return appendEnv(exec.Command("git", "lfs", "install", "--local"), defaultEnvVars...)
 }
 
 func isSparseCheckoutEnabled(dir string, env []string) (bool, error) {
