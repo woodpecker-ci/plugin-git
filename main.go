@@ -61,6 +61,7 @@ func run(ctx context.Context, c *cli.Command) error {
 			Lfs:               c.Bool("lfs"),
 			Branch:            c.String("branch"),
 			Partial:           c.Bool("partial"),
+			Sparse:            c.StringSlice("sparse"),
 			Home:              c.String("home"),
 			SafeDirectory:     c.String("safe-directory"),
 			UseSSH:            c.Bool("use-ssh"),

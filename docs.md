@@ -12,13 +12,14 @@ url: https://github.com/woodpecker-ci/plugin-git
 # plugin-git
 
 This plugin is automatically introduced into your pipeline as the first step.
-Its purpose is to clone your Git repository.
+Its purpose is to clone your Git repository. It requires Git 2.35 or newer.
 
 ## Features
 
 - Git LFS support is enabled by default.
 - Fetch tags when needed.
 - Adjust submodules.
+- Sparse checkout and partial clone.
 
 ## Overriding Settings
 
@@ -33,6 +34,9 @@ clone:
     settings:
       depth: 50
       lfs: false
+      sparse:
+        - src/backend
+        - shared
 ```
 
 ## Settings
@@ -53,6 +57,7 @@ clone:
 | `attempts`                | `5`                                 | Change backoff attempts                                                                                                                                                    |
 | `branch`                  | $CI_COMMIT_BRANCH                   | Change branch name to checkout to                                                                                                                                          |
 | `partial`                 | `true` (except if tags are fetched) | Only fetch the one commit and it's blob objects to resolve all files, overwrite depth with 1                                                                               |
+| `sparse`                  | _none_                              | Materialize only selected directories using Git sparse checkout                                                                                                            |
 | `home`                    |                                     | Change HOME var for commands executed, fail if it does not exist                                                                                                           |
 | `remote`                  | $CI_REPO_CLONE_URL                  | Set the git remote url                                                                                                                                                     |
 | `remote-ssh`              | $CI_REPO_CLONE_SSH_URL              | Set the git SSH remote url                                                                                                                                                 |
