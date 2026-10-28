@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.12.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.0) - 2026-10-27
+## [2.12.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.0) - 2026-10-28
 
 ### ❤️ Thanks to all contributors! ❤️
 
@@ -9,6 +9,10 @@
 ### ✨ Features
 
 - Add sparse checkout option [[#396](https://github.com/woodpecker-ci/plugin-git/pull/396)]
+
+### 📈 Enhancement
+
+- Refactor: split Plugin.Exec into smaller functions [[#405](https://github.com/woodpecker-ci/plugin-git/pull/405)]
 
 ### 📦️ Dependency
 
