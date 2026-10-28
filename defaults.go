@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
 
-	"github.com/adrg/xdg"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
-func SetDefaults(c *cli.Context, p *Plugin) {
+func SetDefaults(c *cli.Command, p *Plugin) {
 	if p.Pipeline.Event == "tag" && !c.IsSet("tags") {
 		// tags clone not explicit set but pipeline is triggered by a tag
 		// auto set tags cloning to true
@@ -29,7 +29,10 @@ func SetDefaults(c *cli.Context, p *Plugin) {
 	}
 
 	if len(p.Config.Home) == 0 {
-		// fallback to system home
-		p.Config.Home = xdg.Home
+		if home := os.Getenv("HOME"); home != "" {
+			p.Config.Home = home
+		} else if home, err := os.UserHomeDir(); err == nil {
+			p.Config.Home = home
+		}
 	}
 }

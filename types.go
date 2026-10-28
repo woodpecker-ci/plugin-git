@@ -7,8 +7,9 @@ import (
 
 type (
 	Repo struct {
-		Clone    string
-		CloneSSH string
+		Clone        string
+		CloneSSH     string
+		ObjectFormat string
 	}
 
 	Pipeline struct {
@@ -26,22 +27,32 @@ type (
 	}
 
 	Config struct {
-		Depth            int
-		Recursive        bool
-		SkipVerify       bool
-		Tags             bool
-		Submodules       map[string]string
-		SubmoduleRemote  bool
-		SubmodulePartial bool
-		CustomCert       string
-		Lfs              bool
-		Branch           string
-		Home             string
-		Partial          bool
-		filter           string
-		SafeDirectory    string
-		UseSSH           bool
-		SSHKey           string
+		Depth             int
+		Umask             int
+		Recursive         bool
+		SkipVerify        bool
+		Tags              bool
+		Submodules        string
+		SubmoduleRemote   bool
+		SubmodulePartial  bool
+		CustomCert        string
+		Lfs               bool
+		Branch            string
+		Home              string
+		Partial           bool
+		filter            string
+		Sparse            []string
+		SafeDirectory     string
+		UseSSH            bool
+		SSHKey            string
+		SSHKeyPrivate     string
+		SSHHostKey        string
+		MergePullRequest  bool
+		TargetBranch      string
+		FetchTargetBranch bool
+		Event             string
+		GitUserName       string
+		GitUserEmail      string
 	}
 
 	Backoff struct {

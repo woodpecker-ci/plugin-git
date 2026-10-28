@@ -3,23 +3,30 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
 // commits is a list of commits of different types (push, pull request, tag)
 // to help us verify that this clone plugin can handle multiple commit types.
 var commits = []struct {
-	path      string
-	clone     string
-	event     string
-	branch    string
-	commit    string
-	ref       string
-	file      string
-	data      string
-	dataSize  int64
-	recursive bool
-	lfs       bool
+	path              string
+	clone             string
+	event             string
+	branch            string
+	commit            string
+	ref               string
+	file              string
+	data              string
+	dataSize          int64
+	recursive         bool
+	lfs               bool
+	targetbranch      string
+	mergepullrequest  bool
+	fetchtargetbranch bool
+	error             bool
+	gitusername       string
+	gituseremail      string
 }{
 	// first commit
 	{
@@ -28,7 +35,7 @@ var commits = []struct {
 		event:  "push",
 		branch: "master",
 		commit: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e",
-		ref:    "refs/heads/master",
+		ref:    "",
 		file:   "README",
 		data:   "Hello World!",
 	},
@@ -39,7 +46,7 @@ var commits = []struct {
 		event:  "push",
 		branch: "master",
 		commit: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
-		ref:    "refs/heads/master",
+		ref:    "",
 		file:   "README",
 		data:   "Hello World!\n",
 	},
@@ -50,9 +57,35 @@ var commits = []struct {
 		event:  "pull_request",
 		branch: "master",
 		commit: "762941318ee16e59dabbacb1b4049eec22f0d303",
-		ref:    "refs/pull/6/merge",
+		ref:    "",
 		file:   "README",
 		data:   "Hello World!\n",
+	},
+	// pull request commit with merge
+	{
+		path:             "octocat/Hello-World",
+		clone:            "https://github.com/octocat/Hello-World.git",
+		event:            "pull_request",
+		branch:           "master",
+		commit:           "762941318ee16e59dabbacb1b4049eec22f0d303",
+		ref:              "",
+		file:             "README",
+		data:             "Hello World!\n",
+		targetbranch:     "master",
+		mergepullrequest: true,
+	},
+	// pull request commit with fetch target branch (without merge)
+	{
+		path:              "octocat/Hello-World",
+		clone:             "https://github.com/octocat/Hello-World.git",
+		event:             "pull_request",
+		branch:            "master",
+		commit:            "762941318ee16e59dabbacb1b4049eec22f0d303",
+		ref:               "",
+		file:              "README",
+		data:              "Hello World!\n",
+		targetbranch:      "master",
+		fetchtargetbranch: true,
 	},
 	// branch
 	{
@@ -61,7 +94,7 @@ var commits = []struct {
 		event:  "push",
 		branch: "test",
 		commit: "b3cbd5bbd7e81436d2eee04537ea2b4c0cad4cdf",
-		ref:    "refs/heads/test",
+		ref:    "",
 		file:   "CONTRIBUTING.md",
 		data:   "## Contributing\n",
 	},
@@ -72,7 +105,7 @@ var commits = []struct {
 		event:  "tag",
 		branch: "master",
 		commit: "bf68d60215a167c935bc5976b7d06a7ffb290926",
-		ref:    "refs/tags/v1.17",
+		ref:    "",
 		file:   ".gitignore",
 		data:   "*.swp\n*~\n.rake_tasks~\nhtml\ndoc\npkg\npublish\ncoverage\n",
 	},
@@ -83,7 +116,7 @@ var commits = []struct {
 		event:     "push",
 		branch:    "main",
 		commit:    "cc020eb6aaa601c13ca7b0d5db9d1ca694e7a003",
-		ref:       "refs/heads/main",
+		ref:       "",
 		file:      "Hello-World/README",
 		data:      "Hello World!\n",
 		recursive: true,
@@ -98,6 +131,17 @@ var commits = []struct {
 		file: "README",
 		data: "Hello World!\n\nsomething is changed!\n",
 	},
+	// checkout with short SHA!
+	{
+		path:   "octocat/Hello-World",
+		clone:  "https://github.com/octocat/Hello-World.git",
+		event:  "pull_request",
+		branch: "test",
+		commit: "7629413",
+		ref:    "",
+		file:   "README",
+		data:   "Hello World!\n",
+	},
 	// ### test lfs, please do not change order, otherwise TestCloneNonEmpty will fail ###
 	// checkout with lfs skip
 	{
@@ -105,7 +149,7 @@ var commits = []struct {
 		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
 		event:    "push",
 		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
-		ref:      "refs/heads/main",
+		ref:      "",
 		file:     "4M.bin",
 		dataSize: 132,
 	},
@@ -115,17 +159,52 @@ var commits = []struct {
 		clone:    "https://github.com/test-assets/woodpecker-git-test-lfs.git",
 		event:    "push",
 		commit:   "69d4dadb4c2899efb73c0095bb58a6454d133cef",
-		ref:      "refs/heads/main",
+		ref:      "",
 		file:     "4M.bin",
 		dataSize: 4194304,
 		lfs:      true,
+	},
+	// pull request with merge that does not conflict:
+	// PLUGIN_REF=refs/pull/1/head PLUGIN_MERGE_PULL_REQUEST=true release/plugin-git
+
+	{
+		path:             "johanvdw/test-git-plugin",
+		clone:            "https://codeberg.org/johanvdw/test-git-plugin.git",
+		event:            "pull_request",
+		branch:           "newfile",
+		commit:           "d02eaf69b920b19fd7b14ad3aee622dd97413fbc",
+		ref:              "refs/pull/1/head",
+		targetbranch:     "main",
+		mergepullrequest: true,
+		gitusername:      "woodpecker git plugin ci tests",
+		gituseremail:     "git-plugin@woodpecker.test",
+	},
+
+	// pull request with merge that does conflict:
+	// CI_COMMIT_SHA=1f6c559c9ffcd65093d5ea71fb85330c7dcc3ff6 CI_COMMIT_TARGET_BRANCH=main PLUGIN_REF=refs/pull/2/head PLUGIN_MERGE_PULL_REQUEST=true release/plugin-git
+
+	{
+		path:             "johanvdw/test-git-plugin",
+		clone:            "https://codeberg.org/johanvdw/test-git-plugin.git",
+		event:            "pull_request",
+		branch:           "new3",
+		commit:           "1f6c559c9ffcd65093d5ea71fb85330c7dcc3ff6",
+		targetbranch:     "main",
+		mergepullrequest: true,
+		ref:              "refs/pull/2/head",
+		error:            true,
+		gitusername:      "woodpecker git plugin ci tests",
+		gituseremail:     "git-plugin@woodpecker.test",
 	},
 }
 
 // TestClone tests the ability to clone a specific commit into
 // a fresh, empty directory every time.
 func TestClone(t *testing.T) {
+	disableAutoCRLF(t)
+
 	for _, c := range commits {
+
 		dir := setup()
 		defer teardown(dir)
 
@@ -140,13 +219,26 @@ func TestClone(t *testing.T) {
 				Ref:    c.ref,
 			},
 			Config: Config{
-				Recursive: c.recursive,
-				Lfs:       c.lfs,
-				Home:      "/tmp",
+				Recursive:         c.recursive,
+				Lfs:               c.lfs,
+				Home:              os.TempDir(),
+				Branch:            c.branch,
+				TargetBranch:      c.targetbranch,
+				MergePullRequest:  c.mergepullrequest,
+				FetchTargetBranch: c.fetchtargetbranch,
+				Event:             c.event,
+				GitUserName:       c.gitusername,
+				GitUserEmail:      c.gituseremail,
 			},
 		}
-
-		if err := plugin.Exec(); err != nil {
+		err := plugin.Exec()
+		if c.error {
+			if err == nil {
+				t.Error("Expected error. Got nil.")
+			}
+			continue
+		}
+		if err != nil {
 			t.Errorf("Expected successful clone. Got error. %s.", err)
 		}
 
@@ -171,6 +263,8 @@ func TestClone(t *testing.T) {
 // a non-empty directory. This is useful if the git workspace is cached
 // and re-stored for every workflow.
 func TestCloneNonEmpty(t *testing.T) {
+	disableAutoCRLF(t)
+
 	dir := setup()
 	defer teardown(dir)
 
@@ -189,7 +283,8 @@ func TestCloneNonEmpty(t *testing.T) {
 			Config: Config{
 				Recursive: c.recursive,
 				Lfs:       c.lfs,
-				Home:      "/tmp",
+				Home:      os.TempDir(),
+				Branch:    c.branch,
 			},
 		}
 
@@ -211,6 +306,90 @@ func TestCloneNonEmpty(t *testing.T) {
 				t.Errorf("Expected %s size to be [%d]. Got [%d].", c.file, c.dataSize, size)
 			}
 		}
+	}
+}
+
+func TestUmaskApplied(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("umask is a no-op on Windows")
+	}
+
+	// set a zero umask to make sure the cloned files are created with the
+	// permissions we specify in the plugin config.
+	oldUmask := umask(0)
+	defer umask(oldUmask)
+
+	dir := setup()
+	defer teardown(dir)
+
+	plugin := Plugin{
+		Repo: Repo{
+			Clone: "https://github.com/octocat/Hello-World.git",
+		},
+		Pipeline: Pipeline{
+			Path:   filepath.Join(dir, "octocat/Hello-World"),
+			Commit: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+			Event:  "push",
+		},
+		Config: Config{
+			Umask:  0o22,
+			Home:   os.TempDir(),
+			Branch: "master",
+		},
+	}
+
+	if err := plugin.Exec(); err != nil {
+		t.Fatalf("Expected successful clone. Got error. %s.", err)
+	}
+
+	fi, err := os.Stat(filepath.Join(plugin.Pipeline.Path, "README"))
+	if err != nil {
+		t.Fatalf("Expected file to exist. Got error: %s.", err)
+	}
+
+	if fi.Mode().Perm() != 0o644 {
+		t.Fatalf("Expected file mode 0644 with umask 022. Got %04o.", fi.Mode().Perm())
+	}
+}
+
+func TestUmaskZero(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("umask is a no-op on Windows")
+	}
+
+	oldUmask := umask(0o22) // set a non-zero umask before the test
+	defer umask(oldUmask)
+
+	dir := setup()
+	defer teardown(dir)
+
+	plugin := Plugin{
+		Repo: Repo{
+			Clone: "https://github.com/octocat/Hello-World.git",
+		},
+		Pipeline: Pipeline{
+			Path:   filepath.Join(dir, "octocat/Hello-World"),
+			Commit: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+			Event:  "push",
+		},
+		Config: Config{
+			Umask:  0,
+			Home:   os.TempDir(),
+			Branch: "master",
+		},
+	}
+
+	if err := plugin.Exec(); err != nil {
+		t.Fatalf("Expected successful clone. Got error. %s.", err)
+	}
+
+	fi, err := os.Stat(filepath.Join(plugin.Pipeline.Path, "README"))
+	if err != nil {
+		t.Fatalf("Expected file to exist. Got error: %s.", err)
+	}
+
+	if fi.Mode().Perm() != 0o666 {
+		t.Fatalf("Expected file mode 0666 with umask 0. Got %04o.", fi.Mode().Perm())
 	}
 }
 
@@ -317,6 +496,45 @@ func TestUpdateSubmodules(t *testing.T) {
 	}
 }
 
+func TestFetchBranch(t *testing.T) {
+	testdata := []struct {
+		branch string
+		exp    []string
+	}{
+		{
+			"main",
+			[]string{
+				"git",
+				"fetch",
+				"origin",
+				"--",
+				"main",
+			},
+		},
+		{
+			"develop",
+			[]string{
+				"git",
+				"fetch",
+				"origin",
+				"--",
+				"develop",
+			},
+		},
+	}
+	for _, td := range testdata {
+		c := fetchBranch(td.branch)
+		if len(c.Args) != len(td.exp) {
+			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+		}
+		for i := range c.Args {
+			if c.Args[i] != td.exp[i] {
+				t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+			}
+		}
+	}
+}
+
 func TestCustomCertUrl(t *testing.T) {
 	testdata := []struct {
 		exp []string
@@ -372,6 +590,33 @@ func TestCustomCertFile(t *testing.T) {
 	}
 }
 
+func TestSwitchBranch(t *testing.T) {
+	testdata := []struct {
+		exp []string
+	}{
+		{
+			[]string{
+				"git",
+				"switch",
+				"-q",
+				"test",
+			},
+		},
+	}
+
+	for _, td := range testdata {
+		c := switchBranch("test")
+		if len(c.Args) != len(td.exp) {
+			t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+		}
+		for i := range c.Args {
+			if c.Args[i] != td.exp[i] {
+				t.Errorf("Expected: %s, got %s", td.exp, c.Args)
+			}
+		}
+	}
+}
+
 // TestUpdateSubmodules tests if the arguments to `git submodule update`
 // are constructed properly.
 func TestUpdateSubmodulesRemote(t *testing.T) {
@@ -415,7 +660,7 @@ func TestUpdateSubmodulesRemote(t *testing.T) {
 // helper function that will setup a temporary workspace.
 // to which we can clone the repositroy
 func setup() string {
-	dir, _ := os.MkdirTemp("/tmp", "plugin_git_test_")
+	dir, _ := os.MkdirTemp("", "plugin_git_test_")
 	os.Mkdir(dir, 0o777)
 	return dir
 }
@@ -423,6 +668,13 @@ func setup() string {
 // helper function to delete the temporary workspace.
 func teardown(dir string) {
 	os.RemoveAll(dir)
+}
+
+func disableAutoCRLF(t *testing.T) {
+	t.Helper()
+	t.Setenv("GIT_CONFIG_COUNT", "1")
+	t.Setenv("GIT_CONFIG_KEY_0", "core.autocrlf")
+	t.Setenv("GIT_CONFIG_VALUE_0", "false")
 }
 
 // helper function to read a file in the temporary worskapce.

@@ -1,12 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
 
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 
 	"github.com/woodpecker-ci/plugin-git/netrc"
 )
@@ -17,12 +18,12 @@ var netrcCommand = &cli.Command{
 	Flags: []cli.Flag{&cli.StringFlag{
 		Name:    "home",
 		Usage:   "Change home directory",
-		EnvVars: []string{"PLUGIN_HOME"},
+		Sources: cli.EnvVars("PLUGIN_HOME"),
 	}},
 	Action: netrcGet,
 }
 
-func netrcGet(c *cli.Context) error {
+func netrcGet(_ context.Context, c *cli.Command) error {
 	if c.Args().Len() == 0 {
 		curExec, err := os.Executable()
 		if err != nil {

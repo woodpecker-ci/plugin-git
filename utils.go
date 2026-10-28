@@ -9,10 +9,14 @@ import (
 	"strings"
 )
 
-// trace writes the command in the programs stdout for debug purposes.
-// the command is wrapped in xml tags for easy parsing.
+// logGroupMarker starts a collapsible output group in the Woodpecker web UI
+// when printed at the beginning of a line followed by a title.
+const logGroupMarker = "▶  "
+
+// trace writes the command to stdout as an output group heading, so the
+// web UI groups the command's output under it.
 func trace(cmd *exec.Cmd) {
-	fmt.Printf("+ %s\n", strings.Join(cmd.Args, " "))
+	fmt.Printf("%s%s\n", logGroupMarker, strings.Join(cmd.Args, " "))
 }
 
 // pathExists returns whether the given file or directory exists or not
