@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"strings"
 
 	"github.com/urfave/cli/v3"
 
@@ -25,7 +27,7 @@ func netrcGet(_ context.Context, c *cli.Command) error {
 			return err
 		}
 		fmt.Printf("built-in credentials helper to read netrc\n"+
-			"exec \"git config --global credential.helper '%s netrc'\" to use it\n", curExec)
+			"run in a POSIX shell: git config --global credential.helper %s\n", quoteShellArg(netrcHelperCommand(curExec)))
 		return nil
 	}
 
@@ -67,7 +69,16 @@ func setNetRCHelper() *exec.Cmd {
 		log.Fatal(err)
 	}
 
-	credHelper := fmt.Sprintf("%s netrc", curExec)
+	credHelper := netrcHelperCommand(curExec)
 
 	return appendEnv(exec.Command("git", "config", "--global", "credential.helper", credHelper), defaultEnvVars...)
+}
+
+func netrcHelperCommand(executable string) string {
+	// Git executes helpers through a shell, including on Windows.
+	return "!" + quoteShellArg(filepath.ToSlash(executable)) + " netrc"
+}
+
+func quoteShellArg(value string) string {
+	return "'" + strings.ReplaceAll(value, "'", "'\\''") + "'"
 }

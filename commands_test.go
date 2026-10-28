@@ -29,7 +29,7 @@ func TestCommands(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		credentialCmds = []string{"git config --global credential.helper " + executable + " netrc"}
+		credentialCmds = []string{"git config --global credential.helper !" + quoteShellArg(filepath.ToSlash(executable)) + " netrc"}
 	}
 
 	testdata := []struct {
