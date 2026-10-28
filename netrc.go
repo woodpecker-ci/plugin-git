@@ -13,13 +13,8 @@ import (
 )
 
 var netrcCommand = &cli.Command{
-	Name:  "netrc",
-	Usage: "built-in credentials helper to read netrc",
-	Flags: []cli.Flag{&cli.StringFlag{
-		Name:    "home",
-		Usage:   "Change home directory",
-		Sources: cli.EnvVars("PLUGIN_HOME"),
-	}},
+	Name:   "netrc",
+	Usage:  "built-in credentials helper to read netrc",
 	Action: netrcGet,
 }
 
