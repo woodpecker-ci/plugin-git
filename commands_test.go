@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"runtime"
 	"slices"
 	"strings"
 	"testing"
@@ -115,7 +116,8 @@ func TestCommands(t *testing.T) {
 			},
 			want: slices.Concat(initCmds[:2], []string{
 				"git remote add origin git@example.com:repo.git",
-				"git config --global core.sshCommand ssh -i $HOME/sshkey -o UserKnownHostsFile=$HOME/.ssh/known_hosts",
+				"git config --global core.sshCommand ssh -i " + filepath.Join("$HOME", "sshkey") +
+					" -o UserKnownHostsFile=" + filepath.Join("$HOME", ".ssh", "known_hosts"),
 				fetchCommit,
 				checkoutCommit,
 			}),
@@ -292,7 +294,7 @@ func TestSSHSetupWritesKeys(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if info.Mode().Perm() != 0o600 {
+		if runtime.GOOS != "windows" && info.Mode().Perm() != 0o600 {
 			t.Errorf("%s mode = %v, want 0600", path, info.Mode().Perm())
 		}
 	}
