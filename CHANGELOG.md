@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.12.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.0) - 2026-10-28
+
+### ❤️ Thanks to all contributors! ❤️
+
+@JohnKiller
+
+### ✨ Features
+
+- Add sparse checkout option [[#396](https://github.com/woodpecker-ci/plugin-git/pull/396)]
+
+### 📈 Enhancement
+
+- Refactor: split Plugin.Exec into smaller functions [[#405](https://github.com/woodpecker-ci/plugin-git/pull/405)]
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.50.0 [[#404](https://github.com/woodpecker-ci/plugin-git/pull/404)]
+- chore(deps): update woodpeckerci/plugin-release docker tag to v0.3.3 [[#403](https://github.com/woodpecker-ci/plugin-git/pull/403)]
+- chore(deps): update go toolchain directive to v1.27.3 [[#401](https://github.com/woodpecker-ci/plugin-git/pull/401)]
+
 ## [2.11.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.11.0) - 2026-10-17
 
 ### ❤️ Thanks to all contributors! ❤️
