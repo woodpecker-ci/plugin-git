@@ -31,12 +31,41 @@ var defaultEnvVars = []string{
 }
 
 func (p Plugin) Exec() error {
-	p.Config.Sparse = normalizeSparseEntries(p.Config.Sparse)
-	sparseEnabled := len(p.Config.Sparse) > 0
-	// in sparse mode LFS files are smudged while they are checked out, so only
-	// the LFS objects inside the sparse cone are downloaded
-	sparseLFS := sparseEnabled && p.Config.Lfs
+	p.normalizeConfig()
 
+	if err := p.prepareWorkspace(); err != nil {
+		return err
+	}
+	baseEnv := append(os.Environ(), "HOME="+p.Config.Home)
+
+	cmds, err := p.commands(baseEnv)
+	if err != nil {
+		return err
+	}
+	return p.run(cmds, baseEnv)
+}
+
+// normalizeConfig fills in derived settings and resolves conflicting ones.
+func (p *Plugin) normalizeConfig() {
+	p.Config.Sparse = normalizeSparseEntries(p.Config.Sparse)
+
+	// autodetect object-format if not set
+	if p.Repo.ObjectFormat == "" {
+		p.Repo.ObjectFormat = "sha1"
+		if len(p.Pipeline.Commit) == 64 {
+			p.Repo.ObjectFormat = "sha256"
+		}
+	}
+
+	// depth should be set to 0 if merge pull request is enabled
+	if p.Config.MergePullRequest && p.Config.Depth != 0 {
+		p.Config.Depth = 0
+	}
+}
+
+// prepareWorkspace creates the workspace and sets up the home directory used
+// by git.
+func (p Plugin) prepareWorkspace() error {
 	// set umask (default 0) so cloned files are
 	// accessible from non-root containers
 	umask(p.Config.Umask)
@@ -56,109 +85,165 @@ func (p Plugin) Exec() error {
 		return err
 	}
 
-	if err := setHome(p.Config.Home); err != nil {
-		return err
-	}
-	baseEnv := append(os.Environ(), "HOME="+p.Config.Home)
+	return setHome(p.Config.Home)
+}
+
+// commands returns all git commands needed to clone the repository, in the
+// order they have to be executed.
+func (p Plugin) commands(baseEnv []string) ([]*exec.Cmd, error) {
+	sparseEnabled := len(p.Config.Sparse) > 0
+	// in sparse mode LFS files are smudged while they are checked out, so only
+	// the LFS objects inside the sparse cone are downloaded
+	sparseLFS := sparseEnabled && p.Config.Lfs
 
 	newRepository := isDirEmpty(filepath.Join(p.Pipeline.Path, ".git"))
 
-	var cmds []*exec.Cmd
-	var checkoutCommands []*exec.Cmd
-
-	if p.Config.SkipVerify {
-		cmds = append(cmds, skipVerify())
-	} else if p.Config.CustomCert != "" {
-		certCmd := customCertHandler(p.Config.CustomCert)
-		if certCmd != nil {
-			cmds = append(cmds, certCmd)
-		}
-	}
-
-	// autodetect object-format if not set
-	if p.Repo.ObjectFormat == "" {
-		p.Repo.ObjectFormat = "sha1"
-		if len(p.Pipeline.Commit) == 64 {
-			p.Repo.ObjectFormat = "sha256"
-		}
-	}
-
-	// depth should be set to 0 if merge pull request is enabled
-	if p.Config.MergePullRequest && p.Config.Depth != 0 {
-		p.Config.Depth = 0
-	}
+	cmds := p.sslCommands()
 
 	if newRepository {
-		cmds = append(cmds, initGit(p.Config.Branch, p.Repo.ObjectFormat))
-		cmds = append(cmds, safeDirectory(p.Config.SafeDirectory))
-		if p.Config.UseSSH {
-			// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
-			cmds = append(cmds, remote(p.Repo.CloneSSH))
-			if p.Config.SSHKeyPrivate != "" {
-				if p.Config.SSHKey == "" {
-					p.Config.SSHKey = filepath.Join(p.Config.Home, "/sshkey")
-				}
-				if err := os.WriteFile(p.Config.SSHKey, []byte(p.Config.SSHKeyPrivate), 0o600); err != nil {
-					return fmt.Errorf("could not write private SSH key: %v", err)
-				}
-			}
-			if p.Config.SSHHostKey != "" {
-				if err := os.Mkdir(filepath.Join(p.Config.Home, ".ssh"), 0o700); err != nil {
-					return fmt.Errorf("could not create SSH directory: %v", err)
-				}
-				if err := os.WriteFile(filepath.Join(p.Config.Home, ".ssh/known_hosts"), []byte(p.Config.SSHHostKey), 0o600); err != nil {
-					return fmt.Errorf("could not write SSH host key: %v", err)
-				}
-			}
-			if p.Config.SSHKey != "" {
-				knownHosts := ""
-				if p.Config.SSHHostKey != "" {
-					knownHosts = filepath.Join(p.Config.Home, ".ssh/known_hosts")
-				}
-
-				// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
-				cmds = append(cmds, sshKeyHandler(p.Config.SSHKey, knownHosts))
-			}
-		} else {
-			cmds = append(cmds, remote(p.Repo.Clone))
+		initCmds, err := p.initCommands()
+		if err != nil {
+			return nil, err
 		}
+		cmds = append(cmds, initCmds...)
 	}
 
-	if p.Pipeline.Ref != "" {
-		// fetch and checkout by ref
-		fmt.Println("using head checkout")
-		cmds = append(cmds, fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		checkoutCommands = append(checkoutCommands, checkoutHead())
-	} else if len(p.Pipeline.Commit) != 40 && len(p.Pipeline.Commit) != 64 {
-		// fetch requires full SHA1 (40 chars) or SHA256 (64 chars) commits (unambiguous reference)
-		// for short SHA1 or SHA256, fetch and switch the branch before commit reset
-		if p.Config.Branch == "" {
-			return fmt.Errorf("short commit SHA1 checkout requires a branch")
-		}
-		cmds = append(cmds, fetch(p.Config.Branch, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		checkoutCommands = append(checkoutCommands, switchBranch(p.Config.Branch))
-		checkoutCommands = append(checkoutCommands, checkoutSha(p.Pipeline.Commit))
-	} else {
-		// fetch and checkout by commit sha
-		cmds = append(cmds, fetch(p.Pipeline.Commit, p.Config.Tags, p.Config.Depth, p.Config.filter))
-		checkoutCommands = append(checkoutCommands, checkoutSha(p.Pipeline.Commit))
+	fetchCmd, checkoutCmds, err := p.fetchCommands()
+	if err != nil {
+		return nil, err
 	}
+	cmds = append(cmds, fetchCmd)
 
 	sparseCmds, err := p.sparseCommands(newRepository, baseEnv)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	cmds = append(cmds, sparseCmds...)
 
-	for _, cmd := range checkoutCommands {
+	for _, cmd := range checkoutCmds {
 		cmds = append(cmds, withLFSSmudge(cmd, sparseLFS))
 	}
 
+	submoduleCmds, err := p.submoduleCommands()
+	if err != nil {
+		return nil, err
+	}
+	cmds = append(cmds, submoduleCmds...)
+
+	pullRequestCmds, err := p.pullRequestCommands(sparseLFS)
+	if err != nil {
+		return nil, err
+	}
+	cmds = append(cmds, pullRequestCmds...)
+
+	if p.Config.Lfs && !sparseEnabled {
+		cmds = append(cmds,
+			fetchLFS(),
+			checkoutLFS())
+	}
+
+	return cmds, nil
+}
+
+// sslCommands configures how the TLS certificate of the remote is verified.
+func (p Plugin) sslCommands() []*exec.Cmd {
+	if p.Config.SkipVerify {
+		return []*exec.Cmd{skipVerify()}
+	}
+	if p.Config.CustomCert != "" {
+		if certCmd := customCertHandler(p.Config.CustomCert); certCmd != nil {
+			return []*exec.Cmd{certCmd}
+		}
+	}
+	return nil
+}
+
+// initCommands initializes a new repository and configures its remote.
+func (p Plugin) initCommands() ([]*exec.Cmd, error) {
+	cmds := []*exec.Cmd{
+		initGit(p.Config.Branch, p.Repo.ObjectFormat),
+		safeDirectory(p.Config.SafeDirectory),
+	}
+	if !p.Config.UseSSH {
+		return append(cmds, remote(p.Repo.Clone)), nil
+	}
+
+	// If env var PLUGIN_USE_SSH is set to true, use SSH instead of HTTPS
+	cmds = append(cmds, remote(p.Repo.CloneSSH))
+	sshCmd, err := p.sshSetup()
+	if err != nil {
+		return nil, err
+	}
+	if sshCmd != nil {
+		cmds = append(cmds, sshCmd)
+	}
+	return cmds, nil
+}
+
+// sshSetup writes the configured SSH key and host key to the home directory
+// and returns the command configuring git to use them, if any.
+func (p Plugin) sshSetup() (*exec.Cmd, error) {
+	sshKey := p.Config.SSHKey
+	if p.Config.SSHKeyPrivate != "" {
+		if sshKey == "" {
+			sshKey = filepath.Join(p.Config.Home, "/sshkey")
+		}
+		if err := os.WriteFile(sshKey, []byte(p.Config.SSHKeyPrivate), 0o600); err != nil {
+			return nil, fmt.Errorf("could not write private SSH key: %v", err)
+		}
+	}
+
+	knownHosts := ""
+	if p.Config.SSHHostKey != "" {
+		if err := os.Mkdir(filepath.Join(p.Config.Home, ".ssh"), 0o700); err != nil {
+			return nil, fmt.Errorf("could not create SSH directory: %v", err)
+		}
+		knownHosts = filepath.Join(p.Config.Home, ".ssh/known_hosts")
+		if err := os.WriteFile(knownHosts, []byte(p.Config.SSHHostKey), 0o600); err != nil {
+			return nil, fmt.Errorf("could not write SSH host key: %v", err)
+		}
+	}
+
+	if sshKey == "" {
+		return nil, nil
+	}
+	// If env var PLUGIN_SSH_KEY is set, use it as the SSH key
+	return sshKeyHandler(sshKey, knownHosts), nil
+}
+
+// fetchCommands returns the command fetching the commit to build and the
+// commands checking it out.
+func (p Plugin) fetchCommands() (*exec.Cmd, []*exec.Cmd, error) {
+	if p.Pipeline.Ref != "" {
+		// fetch and checkout by ref
+		fmt.Println("using head checkout")
+		return fetch(p.Pipeline.Ref, p.Config.Tags, p.Config.Depth, p.Config.filter),
+			[]*exec.Cmd{checkoutHead()}, nil
+	}
+
+	if len(p.Pipeline.Commit) != 40 && len(p.Pipeline.Commit) != 64 {
+		// fetch requires full SHA1 (40 chars) or SHA256 (64 chars) commits (unambiguous reference)
+		// for short SHA1 or SHA256, fetch and switch the branch before commit reset
+		if p.Config.Branch == "" {
+			return nil, nil, fmt.Errorf("short commit SHA1 checkout requires a branch")
+		}
+		return fetch(p.Config.Branch, p.Config.Tags, p.Config.Depth, p.Config.filter),
+			[]*exec.Cmd{switchBranch(p.Config.Branch), checkoutSha(p.Pipeline.Commit)}, nil
+	}
+
+	// fetch and checkout by commit sha
+	return fetch(p.Pipeline.Commit, p.Config.Tags, p.Config.Depth, p.Config.filter),
+		[]*exec.Cmd{checkoutSha(p.Pipeline.Commit)}, nil
+}
+
+// submoduleCommands remaps submodule urls and updates submodules.
+func (p Plugin) submoduleCommands() ([]*exec.Cmd, error) {
+	var cmds []*exec.Cmd
 	if p.Config.Submodules != "" {
 		var submoduleOverrides map[string]string
-		err = json.Unmarshal([]byte(p.Config.Submodules), &submoduleOverrides)
+		err := json.Unmarshal([]byte(p.Config.Submodules), &submoduleOverrides)
 		if err != nil {
-			return fmt.Errorf("could not parse submodule_override map: %v", err)
+			return nil, fmt.Errorf("could not parse submodule_override map: %v", err)
 		}
 		for name, submoduleUrl := range submoduleOverrides {
 			cmds = append(cmds, remapSubmodule(name, submoduleUrl))
@@ -168,30 +253,36 @@ func (p Plugin) Exec() error {
 	if p.Config.Recursive {
 		cmds = append(cmds, updateSubmodules(p.Config.SubmoduleRemote, p.Config.SubmodulePartial))
 	}
+	return cmds, nil
+}
 
-	if p.Config.Event == "pull_request" && p.Config.MergePullRequest {
-		cmds = append(cmds, setUserName(p.Config.GitUserName))
-		cmds = append(cmds, setUserEmail(p.Config.GitUserEmail))
-		cmds = append(cmds,
-			fetchBranch(p.Config.TargetBranch))
-		cmds = append(cmds,
-			withLFSSmudge(mergeBranch(p.Config.TargetBranch), sparseLFS))
+// pullRequestCommands merges or fetches the target branch of pull requests.
+func (p Plugin) pullRequestCommands(lfsSmudge bool) ([]*exec.Cmd, error) {
+	if p.Config.Event != "pull_request" {
+		return nil, nil
 	}
 
-	if p.Config.Event == "pull_request" && !p.Config.MergePullRequest && p.Config.FetchTargetBranch {
+	if p.Config.MergePullRequest {
+		return []*exec.Cmd{
+			setUserName(p.Config.GitUserName),
+			setUserEmail(p.Config.GitUserEmail),
+			fetchBranch(p.Config.TargetBranch),
+			withLFSSmudge(mergeBranch(p.Config.TargetBranch), lfsSmudge),
+		}, nil
+	}
+
+	if p.Config.FetchTargetBranch {
 		if p.Config.TargetBranch == "" {
-			return fmt.Errorf("fetch_target_branch is enabled but target_branch is not set")
+			return nil, fmt.Errorf("fetch_target_branch is enabled but target_branch is not set")
 		}
-		cmds = append(cmds,
-			fetchBranch(p.Config.TargetBranch))
+		return []*exec.Cmd{fetchBranch(p.Config.TargetBranch)}, nil
 	}
+	return nil, nil
+}
 
-	if p.Config.Lfs && !sparseEnabled {
-		cmds = append(cmds,
-			fetchLFS(),
-			checkoutLFS())
-	}
-
+// run executes the commands in the workspace, retrying them when the remote
+// ref is not available yet.
+func (p Plugin) run(cmds []*exec.Cmd, baseEnv []string) error {
 	for _, cmd := range cmds {
 		cmd.Env = slices.Concat(baseEnv, cmd.Env)
 		cmd.Dir = p.Pipeline.Path
