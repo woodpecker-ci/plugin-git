@@ -105,6 +105,7 @@ func (p Plugin) commands(baseEnv []string) ([]*exec.Cmd, error) {
 	if runtime.GOOS == "windows" {
 		cmds = append(cmds, setNetRCHelper())
 	}
+
 	cmds = append(cmds, p.sslCommands()...)
 
 	if newRepository {
