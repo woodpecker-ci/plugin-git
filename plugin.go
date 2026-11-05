@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"slices"
 	"strings"
 	"time"
@@ -98,7 +99,14 @@ func (p Plugin) commands(baseEnv []string) ([]*exec.Cmd, error) {
 
 	newRepository := isDirEmpty(filepath.Join(p.Pipeline.Path, ".git"))
 
-	cmds := p.sslCommands()
+	var cmds []*exec.Cmd
+
+	// windows doesn't understand netrc, so we use our build-in helper
+	if runtime.GOOS == "windows" {
+		cmds = append(cmds, setNetRCHelper())
+	}
+
+	cmds = append(cmds, p.sslCommands()...)
 
 	if newRepository {
 		initCmds, err := p.initCommands()

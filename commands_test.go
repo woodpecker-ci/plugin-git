@@ -23,6 +23,14 @@ func TestCommands(t *testing.T) {
 	}
 	fetchCommit := "git fetch --no-tags origin +" + testCommit + ":"
 	checkoutCommit := "git reset --hard -q " + testCommit
+	var credentialCmds []string
+	if runtime.GOOS == "windows" {
+		executable, err := os.Executable()
+		if err != nil {
+			t.Fatal(err)
+		}
+		credentialCmds = []string{"git config --global credential.helper !" + quoteShellArg(filepath.ToSlash(executable)) + " netrc"}
+	}
 
 	testdata := []struct {
 		name   string
@@ -261,8 +269,9 @@ func TestCommands(t *testing.T) {
 				}
 				got = append(got, line)
 			}
-			if !reflect.DeepEqual(got, td.want) {
-				t.Errorf("commands:\n%s\nwant:\n%s", strings.Join(got, "\n"), strings.Join(td.want, "\n"))
+			want := slices.Concat(credentialCmds, td.want)
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("commands:\n%s\nwant:\n%s", strings.Join(got, "\n"), strings.Join(want, "\n"))
 			}
 		})
 	}
