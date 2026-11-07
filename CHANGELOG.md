@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.12.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.1) - 2026-11-07
+
+### ❤️ Thanks to all contributors! ❤️
+
+@6543
+
+### 🔒 Security
+
+- Quote SSH key paths in core.sshCommand [[#408](https://github.com/woodpecker-ci/plugin-git/pull/408)]
+
 ## [2.12.0](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.0) - 2026-11-04
 
 ### ❤️ Thanks to all contributors! ❤️
