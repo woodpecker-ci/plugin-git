@@ -486,13 +486,14 @@ func setUserEmail(userEmail string) *exec.Cmd {
 	return appendEnv(exec.Command("git", "config", "--global", "user.email", userEmail), defaultEnvVars...)
 }
 
-// Use custom SSH Key thanks to core.sshCommand
+// Use custom SSH Key thanks to core.sshCommand. Git runs it with a shell,
+// so the paths are quoted to keep settings from running commands.
 func sshKeyHandler(sshKey string, knownHosts string) *exec.Cmd {
 	hostKeyArg := " -o \"StrictHostKeyChecking no\""
 	if knownHosts != "" {
-		hostKeyArg = " -o UserKnownHostsFile=" + knownHosts
+		hostKeyArg = " -o " + shellQuote("UserKnownHostsFile="+knownHosts)
 	}
-	return appendEnv(exec.Command("git", "config", "--global", "core.sshCommand", "ssh -i "+sshKey+hostKeyArg), defaultEnvVars...)
+	return appendEnv(exec.Command("git", "config", "--global", "core.sshCommand", "ssh -i "+shellQuote(sshKey)+hostKeyArg), defaultEnvVars...)
 }
 
 // Sets the remote origin for the repository.
