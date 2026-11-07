@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"reflect"
 	"runtime"
@@ -102,7 +103,7 @@ func TestCommands(t *testing.T) {
 			},
 			want: slices.Concat(initCmds[:2], []string{
 				"git remote add origin git@example.com:repo.git",
-				`git config --global core.sshCommand ssh -i /sshkey -o "StrictHostKeyChecking no"`,
+				`git config --global core.sshCommand ssh -i '/sshkey' -o "StrictHostKeyChecking no"`,
 				fetchCommit,
 				checkoutCommit,
 			}),
@@ -116,8 +117,8 @@ func TestCommands(t *testing.T) {
 			},
 			want: slices.Concat(initCmds[:2], []string{
 				"git remote add origin git@example.com:repo.git",
-				"git config --global core.sshCommand ssh -i " + filepath.Join("$HOME", "sshkey") +
-					" -o UserKnownHostsFile=" + filepath.Join("$HOME", ".ssh", "known_hosts"),
+				"git config --global core.sshCommand ssh -i '" + filepath.Join("$HOME", "sshkey") +
+					"' -o 'UserKnownHostsFile=" + filepath.Join("$HOME", ".ssh", "known_hosts") + "'",
 				fetchCommit,
 				checkoutCommit,
 			}),
@@ -263,6 +264,42 @@ func TestCommands(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, td.want) {
 				t.Errorf("commands:\n%s\nwant:\n%s", strings.Join(got, "\n"), strings.Join(td.want, "\n"))
+			}
+		})
+	}
+}
+
+// TestSSHCommandQuoting runs the core.sshCommand value through sh, like git
+// does, and checks that the key and known hosts paths stay single arguments.
+func TestSSHCommandQuoting(t *testing.T) {
+	sh, err := exec.LookPath("sh")
+	if err != nil {
+		t.Skip("sh not found")
+	}
+	marker := filepath.Join(t.TempDir(), "injected")
+	for _, path := range []string{
+		"/key with spaces",
+		"/key;touch " + marker,
+		"/key'quote';touch " + marker + ";'",
+		"/key$(touch " + marker + ")",
+		"/key`touch " + marker + "`",
+		"/key\ntouch " + marker,
+	} {
+		t.Run(path, func(t *testing.T) {
+			cmd := sshKeyHandler(path, path+"/known_hosts")
+			sshCommand := cmd.Args[len(cmd.Args)-1]
+			// printf replaces ssh, so the output shows how sh splits the arguments.
+			out, err := exec.Command(sh, "-c", `printf '%s\0' `+sshCommand).Output()
+			if err != nil {
+				t.Fatalf("%q: %v", sshCommand, err)
+			}
+			got := strings.Split(strings.TrimSuffix(string(out), "\x00"), "\x00")
+			want := []string{"ssh", "-i", path, "-o", "UserKnownHostsFile=" + path + "/known_hosts"}
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("%q splits into %q, want %q", sshCommand, got, want)
+			}
+			if _, err := os.Stat(marker); err == nil {
+				t.Fatalf("%q ran an injected command", sshCommand)
 			}
 		})
 	}

@@ -19,6 +19,11 @@ func trace(cmd *exec.Cmd) {
 	fmt.Printf("%s%s\n", logGroupMarker, strings.Join(cmd.Args, " "))
 }
 
+// shellQuote quotes s as one argument for a POSIX shell.
+func shellQuote(s string) string {
+	return "'" + strings.ReplaceAll(s, "'", `'\''`) + "'"
+}
+
 // pathExists returns whether the given file or directory exists or not
 func pathExists(path string) (bool, error) {
 	_, err := os.Stat(path)
