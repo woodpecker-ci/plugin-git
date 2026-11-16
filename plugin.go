@@ -280,8 +280,7 @@ func (p Plugin) pullRequestCommands(lfsSmudge bool) ([]*exec.Cmd, error) {
 	return nil, nil
 }
 
-// run executes the commands in the workspace, retrying them when the remote
-// ref is not available yet.
+// run executes the commands in the workspace, retrying transient failures.
 func (p Plugin) run(cmds []*exec.Cmd, baseEnv []string) error {
 	for _, cmd := range cmds {
 		cmd.Env = slices.Concat(baseEnv, cmd.Env)
@@ -355,10 +354,33 @@ func downloadCert(url string) (retStatus bool) {
 	return true
 }
 
-// shouldRetry returns true if the command should be re-executed. Currently
-// this only returns true if the remote ref does not exist.
+// shouldRetry returns true for a missing remote ref or a transient Git transport error.
 func shouldRetry(s string) bool {
-	return strings.Contains(s, "find remote ref")
+	s = strings.ToLower(s)
+	for _, line := range strings.Split(s, "\n") {
+		if _, status, ok := strings.Cut(line, "requested url returned error: "); ok {
+			fields := strings.Fields(status)
+			if len(fields) > 0 && slices.Contains([]string{"429", "500", "502", "503", "504"}, fields[0]) {
+				return true
+			}
+		}
+	}
+	for _, message := range []string{
+		"find remote ref",
+		"could not resolve host",
+		"failed to connect",
+		"connection refused",
+		"connection reset",
+		"connection timed out",
+		"operation timed out",
+		"remote end hung up unexpectedly",
+		"tls connection was non-properly terminated",
+	} {
+		if strings.Contains(s, message) {
+			return true
+		}
+	}
+	return false
 }
 
 // retryExec is a helper function that retries a command.
@@ -374,11 +396,13 @@ func retryExec(cmd *exec.Cmd, backoff time.Duration, retries int) (err error) {
 		retry := exec.Command(cmd.Args[0], cmd.Args[1:]...)
 		retry.Dir = cmd.Dir
 		retry.Env = cmd.Env
-		retry.Stdout = os.Stdout
-		retry.Stderr = os.Stderr
+		stdout := new(bytes.Buffer)
+		stderr := new(bytes.Buffer)
+		retry.Stdout = io.MultiWriter(os.Stdout, stdout)
+		retry.Stderr = io.MultiWriter(os.Stderr, stderr)
 		trace(retry)
 		err = retry.Run()
-		if err == nil {
+		if err == nil || !shouldRetry(stdout.String()+"\n"+stderr.String()) {
 			return
 		}
 	}
