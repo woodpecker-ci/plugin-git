@@ -1,9 +1,10 @@
 # Changelog
 
-## [2.12.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.2) - 2026-11-11
+## [2.12.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.2) - 2026-11-21
 
 ### 📦️ Dependency
 
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v4.1.4 [[#413](https://github.com/woodpecker-ci/plugin-git/pull/413)]
 - chore(deps): update go toolchain directive to v1.27.4 [[#410](https://github.com/woodpecker-ci/plugin-git/pull/410)]
 
 ## [2.12.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.1) - 2026-11-07
