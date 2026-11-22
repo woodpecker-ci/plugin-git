@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.12.2](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.2) - 2026-11-22
+
+### 📦️ Dependency
+
+- chore(deps): update pre-commit hook igorshubovych/markdownlint-cli to v0.50.1 [[#414](https://github.com/woodpecker-ci/plugin-git/pull/414)]
+- chore(deps): update woodpeckerci/plugin-ready-release-go docker tag to v4.1.4 [[#413](https://github.com/woodpecker-ci/plugin-git/pull/413)]
+- chore(deps): update go toolchain directive to v1.27.4 [[#410](https://github.com/woodpecker-ci/plugin-git/pull/410)]
+
 ## [2.12.1](https://github.com/woodpecker-ci/plugin-git/releases/tag/2.12.1) - 2026-11-07
 
 ### ❤️ Thanks to all contributors! ❤️
